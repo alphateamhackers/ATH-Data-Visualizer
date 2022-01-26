@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component, useCallback} from 'react';
+import React, {Component} from 'react';
 
 import PropTypes from 'prop-types';
 import {injectIntl} from 'react-intl';
@@ -32,10 +32,7 @@ import PanelTitleFactory from './panel-title';
 import DatasetSectionFactory from './layer-panel/dataset-section';
 import AddLayerButtonFactory from './layer-panel/add-layer-button';
 
-import ItemSelector from 'components/common/item-selector/item-selector';
-import {PanelLabel, SidePanelDivider, SidePanelSection} from 'components/common/styled-components';
-
-import {LAYER_BLENDINGS} from 'constants/default-settings';
+import {SidePanelDivider, SidePanelSection} from 'components/common/styled-components';
 
 const LayerHeader = styled.div.attrs({
   className: 'layer-manager-header'
@@ -45,36 +42,6 @@ const LayerHeader = styled.div.attrs({
   align-items: flex-start;
   margin-top: 16px;
 `;
-
-const LayerBlendingSelector = ({layerBlending, updateLayerBlending, intl}) => {
-  const labeledLayerBlendings = Object.keys(LAYER_BLENDINGS).reduce(
-    (acc, current) => ({
-      ...acc,
-      [intl.formatMessage({id: LAYER_BLENDINGS[current].label})]: current
-    }),
-    {}
-  );
-
-  const onChange = useCallback(blending => updateLayerBlending(labeledLayerBlendings[blending]), [
-    updateLayerBlending,
-    labeledLayerBlendings
-  ]);
-
-  return (
-    <SidePanelSection>
-      <PanelLabel>
-        <FormattedMessage id="layerBlending.title" />
-      </PanelLabel>
-      <ItemSelector
-        selectedItems={intl.formatMessage({id: LAYER_BLENDINGS[layerBlending].label})}
-        options={Object.keys(labeledLayerBlendings)}
-        multiSelect={false}
-        searchable={false}
-        onChange={onChange}
-      />
-    </SidePanelSection>
-  );
-};
 
 LayerManagerFactory.deps = [
   LayerListFactory,
@@ -120,6 +87,7 @@ function LayerManagerFactory(
       const {
         layers,
         datasets,
+        intl,
         layerOrder,
         showAddDataModal,
         updateTableColor,
