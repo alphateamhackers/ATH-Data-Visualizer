@@ -1,0 +1,62 @@
+{
+  "id": "railway",
+  "name": "Railway System",
+  "zoom": 13,
+  "pitch": 0,
+  "center": [
+    0,
+    0
+  ],
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#ededed",
+        "background-opacity": 1
+      },
+      "layout": {
+        "visibility": "visible"
+      }
+    },
+    {
+      "id": "osm_mapnik",
+      "type": "raster",
+      "source": "osm_mapnik",
+      "paint": {
+        "raster-saturation": -1
+      }
+    },
+    {
+      "id": "orm",
+      "type": "raster",
+      "source": "orm_tiles"
+    }
+  ],
+  "bearing": 0,
+  "sources": {
+    "osm_mapnik": {
+      "type": "raster",
+      "tiles": [
+        "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      ],
+      "maxzoom": 19,
+      "tileSize": 256
+    },
+    "orm_tiles": {
+      "type": "raster",
+      "tiles": [
+        "https://a.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
+        "https://b.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
+        "https://c.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"
+      ],
+      "maxzoom": 19,
+      "tileSize": 256,
+      "attribution": "<a href=\"https://www.openstreetmap.org/copyright\">© OpenStreetMap contributors</a>, Style: <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA 2.0</a> <a href=\"http://www.openrailwaymap.org/\">OpenRailwayMap</a> and OpenStreetMap"
+    }
+  },
+  "version": 8,
+  "metadata": {}
+}
