@@ -33,7 +33,7 @@ import {
 import {
   Layers,
   FilterFunnel,
-  // Settings,
+  Settings,
   // CursorClick,
   Pin,
   ArrowDown,
@@ -178,19 +178,19 @@ export const SIDEBAR_PANELS = [
     label: 'sidebar.panels.filter',
     iconComponent: FilterFunnel,
     onClick: null
-  }
+  },
   // {
   //   id: 'interaction',
   //   label: 'sidebar.panels.interaction',
   //   iconComponent: CursorClick,
   //   onClick: null
   // },
-  // {
-  //   id: 'map',
-  //   label: 'sidebar.panels.basemap',
-  //   iconComponent: Settings,
-  //   onClick: null
-  // }
+  {
+    id: 'map',
+    label: 'sidebar.panels.basemap',
+    iconComponent: Settings,
+    onClick: null
+  }
 ];
 
 // backward compatibility

@@ -22,46 +22,38 @@ import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import keplerGlReducer from 'kepler.gl/reducers';
 import {enhanceReduxMiddleware} from 'kepler.gl/middleware';
 
+const defaultIcon = 'https://api.maptiler.com/maps/voyager/256/0/0/0.png?key=ySQ0fIYn7eSl3ppOeEJd';
+
 const mapStyles = {
-  voyager: {
-    id: 'voyager',
-    label: 'Voyager',
+  infra: {
+    id: 'infra',
+    label: 'Infrastructure',
+    icon: defaultIcon,
+    url: './map-styles/orm-infra.json'
+  },
+  max_speeds: {
+    id: 'max_speeds',
+    label: 'Max Speeds',
     url: 'https://api.maptiler.com/maps/voyager/style.json?key=ySQ0fIYn7eSl3ppOeEJd',
     icon: 'https://api.maptiler.com/maps/voyager/256/0/0/0.png?key=ySQ0fIYn7eSl3ppOeEJd'
   },
-  terrain: {
-    id: 'terrain',
-    label: 'Outdoor',
-    url: 'https://api.maptiler.com/maps/outdoor/style.json?key=ySQ0fIYn7eSl3ppOeEJd',
-    icon: 'https://openmaptiles.org/img/styles/terrain.jpg',
-    layerGroups: [
-      {
-        slug: 'label',
-        filter: ({id}) => id.match(/(?=(label|place-|poi-))/),
-        defaultVisibility: true
-      },
-      {
-        slug: 'road',
-        filter: ({id}) => id.match(/(?=(road|railway|tunnel|street|bridge))(?!.*label)/),
-        defaultVisibility: true
-      },
-      {
-        slug: 'terrain',
-        filter: ({id}) => id.match(/(?=(hillshade))/),
-        defaultVisibility: true
-      },
-      {
-        slug: 'building',
-        filter: ({id}) => id.match(/building/),
-        defaultVisibility: true
-      }
-    ]
+  elect: {
+    id: 'elect',
+    label: 'Electrification',
+    url: 'https://api.maptiler.com/maps/voyager/style.json?key=ySQ0fIYn7eSl3ppOeEJd',
+    icon: 'https://api.maptiler.com/maps/voyager/256/0/0/0.png?key=ySQ0fIYn7eSl3ppOeEJd'
+  },
+  signalling: {
+    id: 'signalling',
+    label: 'Signalling',
+    url: 'https://api.maptiler.com/maps/voyager/style.json?key=ySQ0fIYn7eSl3ppOeEJd',
+    icon: 'https://api.maptiler.com/maps/voyager/256/0/0/0.png?key=ySQ0fIYn7eSl3ppOeEJd'
   }
 };
 const customizedKeplerGlReducer = keplerGlReducer.initialState({
   mapStyle: {
     mapStyles,
-    styleType: 'voyager'
+    styleType: 'infra'
   }
 });
 

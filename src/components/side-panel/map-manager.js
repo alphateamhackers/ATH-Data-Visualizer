@@ -21,19 +21,19 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {Button, SidePanelSection} from 'components/common/styled-components';
-import MapStyleSelectorFactory from 'components/side-panel/map-style-panel/map-style-selector';
-import LayerGroupSelectorFactory from 'components/side-panel/map-style-panel/map-layer-selector';
-
-import {Add} from 'components/common/icons';
-import ColorSelector from './layer-panel/color-selector';
-import {createSelector} from 'reselect';
+// import {Button, SidePanelSection} from 'components/common/styled-components';
+// import {FormattedMessage} from 'localization';
+// import {Add} from 'components/common/icons';
+// import ColorSelector from './layer-panel/color-selector';
+// import {createSelector} from 'reselect';
 import {injectIntl} from 'react-intl';
-import {FormattedMessage} from 'localization';
+import MapStyleSelectorFactory from 'components/side-panel/map-style-panel/map-style-selector';
+import MapLayerLegendFactory from './map-style-panel/map-layer-legend';
+// import LayerGroupSelectorFactory from 'components/side-panel/map-style-panel/map-layer-selector';
 
-MapManagerFactory.deps = [MapStyleSelectorFactory, LayerGroupSelectorFactory];
+MapManagerFactory.deps = [MapStyleSelectorFactory, MapLayerLegendFactory];
 
-function MapManagerFactory(MapStyleSelector, LayerGroupSelector) {
+function MapManagerFactory(MapStyleSelector, MapLayerLegend) {
   class MapManager extends Component {
     static propTypes = {
       mapStyle: PropTypes.object.isRequired,
@@ -45,8 +45,8 @@ function MapManagerFactory(MapStyleSelector, LayerGroupSelector) {
       isSelecting: false
     };
 
-    buildingColorSelector = props => props.mapStyle.threeDBuildingColor;
-    setColorSelector = props => props.mapStyleActions.set3dBuildingColor;
+    // buildingColorSelector = props => props.mapStyle.threeDBuildingColor;
+    // setColorSelector = props => props.mapStyleActions.set3dBuildingColor;
 
     _toggleSelecting = () => {
       this.setState({isSelecting: !this.state.isSelecting});
@@ -60,34 +60,38 @@ function MapManagerFactory(MapStyleSelector, LayerGroupSelector) {
     };
 
     render() {
-      const {mapStyle, intl, mapStyleActions, showAddMapStyleModal} = this.props;
-      const currentStyle = mapStyle.mapStyles[mapStyle.styleType] || {};
-      const editableLayers = (currentStyle.layerGroups || []).map(lg => lg.slug);
-      const hasBuildingLayer = mapStyle.visibleLayerGroups['3d building'];
-      const colorSetSelector = createSelector(
-        this.buildingColorSelector,
-        this.setColorSelector,
-        (selectedColor, setColor) => [
-          {
-            selectedColor,
-            setColor,
-            isRange: false,
-            label: intl.formatMessage({id: 'mapManager.3dBuildingColor'})
-          }
-        ]
-      );
+      const {mapStyles, styleType} = this.props.mapStyle;
+      const mapLegends = mapStyles[styleType].legends || [];
+      // const {mapStyle, mapStyleActions} = this.props;
+      // const currentStyle = mapStyle.mapStyles[mapStyle.styleType] || {};
+      // const editableLayers = (currentStyle.layerGroups || []).map(lg => lg.slug);
+      // const hasBuildingLayer = mapStyle.visibleLayerGroups['3d building'];
+      // const colorSetSelector = createSelector(
+      //   this.buildingColorSelector,
+      //   this.setColorSelector,
+      //   (selectedColor, setColor) => [
+      //     {
+      //       selectedColor,
+      //       setColor,
+      //       isRange: false,
+      //       label: intl.formatMessage({id: 'mapManager.3dBuildingColor'})
+      //     }
+      //   ]
+      // );
 
-      const colorSets = colorSetSelector(this.props);
+      // const colorSets = colorSetSelector(this.props);
 
       return (
         <div className="map-style-panel">
           <div>
             <MapStyleSelector
-              mapStyle={mapStyle}
+              mapStyle={this.props.mapStyle}
               isSelecting={this.state.isSelecting}
               onChange={this._selectStyle}
               toggleActive={this._toggleSelecting}
             />
+            {mapLegends.length > 0 && <MapLayerLegend legendList={mapLegends} />}
+            {/* Enable Custom Map Manager
             {editableLayers.length ? (
               <LayerGroupSelector
                 layers={mapStyle.visibleLayerGroups}
@@ -103,6 +107,7 @@ function MapManagerFactory(MapStyleSelector, LayerGroupSelector) {
               <Add height="12px" />
               <FormattedMessage id={'mapManager.addMapStyle'} />
             </Button>
+            */}
           </div>
         </div>
       );
