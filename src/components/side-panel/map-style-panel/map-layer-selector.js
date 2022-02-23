@@ -25,7 +25,6 @@ import {EyeSeen, EyeUnseen, Upload} from 'components/common/icons';
 
 import {
   PanelLabel,
-  PanelContent,
   PanelLabelBold,
   PanelLabelWrapper,
   CenterFlexbox
@@ -35,6 +34,11 @@ import {camelize} from 'utils/utils';
 
 const StyledInteractionPanel = styled.div`
   padding-bottom: 12px;
+`;
+
+const StyledLayerPanel = styled.div`
+  padding: 12px;
+  background-color: ${props => props.theme.panelBackground};
 `;
 
 const StyledLayerGroupItem = styled.div`
@@ -75,7 +79,7 @@ function LayerGroupSelectorFactory(PanelHeaderAction) {
           <FormattedMessage id={'mapLayers.title'} />
         </PanelLabel>
       </div>
-      <PanelContent className="map-style__layer-group">
+      <StyledLayerPanel className="map-style__layer-group">
         {editableLayers.map(slug => (
           <StyledLayerGroupItem className="layer-group__select" key={slug}>
             <PanelLabelWrapper>
@@ -96,7 +100,7 @@ function LayerGroupSelectorFactory(PanelHeaderAction) {
                 flush
               />
               <LayerLabel active={layers[slug]}>
-                <FormattedMessage id={`mapLayers.${camelize(slug)}`} />
+                <FormattedMessage id={`mapLayers.${camelize(slug)}`} defaultMessage={slug} />
               </LayerLabel>
             </PanelLabelWrapper>
             <CenterFlexbox className="layer-group__bring-top">
@@ -118,7 +122,7 @@ function LayerGroupSelectorFactory(PanelHeaderAction) {
             </CenterFlexbox>
           </StyledLayerGroupItem>
         ))}
-      </PanelContent>
+      </StyledLayerPanel>
     </StyledInteractionPanel>
   );
 
