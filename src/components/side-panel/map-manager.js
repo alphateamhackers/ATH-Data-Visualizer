@@ -29,11 +29,15 @@ import PropTypes from 'prop-types';
 import {injectIntl} from 'react-intl';
 import MapStyleSelectorFactory from 'components/side-panel/map-style-panel/map-style-selector';
 import MapLayerLegendFactory from './map-style-panel/map-layer-legend';
-// import LayerGroupSelectorFactory from 'components/side-panel/map-style-panel/map-layer-selector';
+import LayerGroupSelectorFactory from 'components/side-panel/map-style-panel/map-layer-selector';
 
-MapManagerFactory.deps = [MapStyleSelectorFactory, MapLayerLegendFactory];
+MapManagerFactory.deps = [
+  MapStyleSelectorFactory,
+  MapLayerLegendFactory,
+  LayerGroupSelectorFactory
+];
 
-function MapManagerFactory(MapStyleSelector, MapLayerLegend) {
+function MapManagerFactory(MapStyleSelector, MapLayerLegend, LayerGroupSelector) {
   class MapManager extends Component {
     static propTypes = {
       mapStyle: PropTypes.object.isRequired,
@@ -60,11 +64,11 @@ function MapManagerFactory(MapStyleSelector, MapLayerLegend) {
     };
 
     render() {
-      const {mapStyles, styleType} = this.props.mapStyle;
+      const {mapStyle, mapStyleActions} = this.props;
+      const {mapStyles, styleType} = mapStyle;
       const mapLegends = mapStyles[styleType].legends || [];
-      // const {mapStyle, mapStyleActions} = this.props;
-      // const currentStyle = mapStyle.mapStyles[mapStyle.styleType] || {};
-      // const editableLayers = (currentStyle.layerGroups || []).map(lg => lg.slug);
+      const currentStyle = mapStyles[mapStyle.styleType] || {};
+      const editableLayers = (currentStyle.layerGroups || []).map(lg => lg.slug);
       // const hasBuildingLayer = mapStyle.visibleLayerGroups['3d building'];
       // const colorSetSelector = createSelector(
       //   this.buildingColorSelector,
@@ -90,8 +94,6 @@ function MapManagerFactory(MapStyleSelector, MapLayerLegend) {
               onChange={this._selectStyle}
               toggleActive={this._toggleSelecting}
             />
-            {mapLegends.length > 0 && <MapLayerLegend legendList={mapLegends} />}
-            {/* Enable Custom Map Manager
             {editableLayers.length ? (
               <LayerGroupSelector
                 layers={mapStyle.visibleLayerGroups}
@@ -100,6 +102,8 @@ function MapManagerFactory(MapStyleSelector, MapLayerLegend) {
                 onChange={mapStyleActions.mapConfigChange}
               />
             ) : null}
+            {mapLegends.length > 0 && <MapLayerLegend legendList={mapLegends} />}
+            {/* Enable Custom Map Manager
             <SidePanelSection>
               <ColorSelector colorSets={colorSets} disabled={!hasBuildingLayer} />
             </SidePanelSection>
