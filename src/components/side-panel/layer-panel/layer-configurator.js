@@ -149,6 +149,7 @@ export default function LayerConfiguratorFactory(
             <ConfigGroupCollapsibleContent>
               <ChannelByValueSelector
                 channel={layer.visualChannels.color}
+                description="layerConfiguration.color"
                 {...layerChannelConfigProps}
               />
               <VisConfigSlider {...layer.visConfigSettings.opacity} {...visConfiguratorProps} />
