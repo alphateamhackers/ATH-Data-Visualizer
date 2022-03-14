@@ -332,6 +332,7 @@ class KeplerTable {
     switch (scaleType) {
       case SCALE_TYPES.ordinal:
       case SCALE_TYPES.point:
+      case SCALE_TYPES.hexcolor:
         // do not recalculate ordinal domain based on filtered data
         // don't need to update ordinal domain every time
         return getOrdinalDomain(dataContainer, valueAccessor);

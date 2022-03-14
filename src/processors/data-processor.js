@@ -291,7 +291,8 @@ export function getFieldsFromData(data, fieldOrder) {
     data,
     [
       {regex: /.*geojson|all_points/g, dataType: 'GEOMETRY'},
-      {regex: /.*census/g, dataType: 'STRING'}
+      {regex: /.*census/g, dataType: 'STRING'},
+      {regex: /hex_*|color|colour/g, dataType: 'HEXSTRING'}
     ],
     {ignoredDataTypes: IGNORE_DATA_TYPES}
   );
@@ -404,6 +405,8 @@ export function analyzerTypeToFieldType(aType) {
     case STRING:
     case ZIPCODE:
       return ALL_FIELD_TYPES.string;
+    case 'HEXSTRING':
+      return ALL_FIELD_TYPES.hexstring;
     default:
       globalConsole.warn(`Unsupported analyzer type: ${aType}`);
       return ALL_FIELD_TYPES.string;
