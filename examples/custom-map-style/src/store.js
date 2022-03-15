@@ -62,6 +62,9 @@ const reducers = combineReducers({
 });
 
 const middlewares = enhanceReduxMiddleware([]);
-const enhancers = [applyMiddleware(...middlewares)];
+const enhancers = [
+  applyMiddleware(...middlewares)
+  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+];
 
 export default createStore(reducers, {}, compose(...enhancers));

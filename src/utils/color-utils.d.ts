@@ -7,3 +7,4 @@ export const rgbToHex: (colors: [number, number, number]) => string;
 
 export const getColorGroupByName: (ColorRange) => ColorRange;
 export function isRgbColor(color: unknown): color is RGBColor;
+export function hexColorScale(): () => Function;

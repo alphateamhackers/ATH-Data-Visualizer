@@ -121,3 +121,29 @@ export function isRgbColor(color) {
   }
   return false;
 }
+
+export function hexColorScale() {
+  function scale(value = '') {
+    return hexToRgb(value);
+  }
+
+  scale._domain = [];
+  scale.domain = d => {
+    if (Array.isArray(d)) {
+      scale._domain = d;
+      return scale;
+    }
+    return scale._domain;
+  };
+
+  scale._range = [];
+  scale.range = r => {
+    if (Array.isArray(r)) {
+      scale._range = r;
+      return scale;
+    }
+    return scale._range;
+  };
+
+  return scale;
+}

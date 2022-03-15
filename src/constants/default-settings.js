@@ -44,6 +44,7 @@ import {
 import {getHTMLMapModeTileUrl} from 'utils/utils';
 import {TOOLTIP_FORMAT_TYPES} from './tooltip';
 import {LAYER_TYPES} from 'layers/types';
+import {hexColorScale} from 'utils/color-utils';
 
 export const ACTION_PREFIX = '@@kepler.gl/';
 export const CLOUDFRONT = 'https://d1a3f4spazzrp4.cloudfront.net/kepler.gl';
@@ -312,7 +313,8 @@ export const SCALE_TYPES = keyMirror({
   log: null,
 
   // ordinal domain to linear range
-  point: null
+  point: null,
+  hexcolor: null
 });
 
 export const SCALE_FUNC = {
@@ -322,7 +324,8 @@ export const SCALE_FUNC = {
   [SCALE_TYPES.ordinal]: scaleOrdinal,
   [SCALE_TYPES.sqrt]: scaleSqrt,
   [SCALE_TYPES.log]: scaleLog,
-  [SCALE_TYPES.point]: scalePoint
+  [SCALE_TYPES.point]: scalePoint,
+  [SCALE_TYPES.hexcolor]: hexColorScale
 };
 
 export const ALL_FIELD_TYPES = keyMirror({
@@ -332,6 +335,7 @@ export const ALL_FIELD_TYPES = keyMirror({
   integer: null,
   real: null,
   string: null,
+  hexstring: null,
   timestamp: null,
   point: null
 });
@@ -384,6 +388,7 @@ export const TABLE_OPTION_LIST = [
 const ORANGE = '248, 194, 28';
 const PINK = '231, 189, 194';
 const PURPLE = '160, 106, 206';
+const PURPLE2 = '148, 8, 150';
 const BLUE = '140, 210, 205';
 const BLUE2 = '106, 160, 206';
 const BLUE3 = '0, 172, 237';
@@ -414,6 +419,10 @@ export const FILED_TYPE_DISPLAY = {
   [ALL_FIELD_TYPES.string]: {
     label: 'string',
     color: BLUE
+  },
+  [ALL_FIELD_TYPES.hexstring]: {
+    label: 'hex',
+    color: PURPLE2
   },
   [ALL_FIELD_TYPES.timestamp]: {
     label: 'time',
@@ -482,6 +491,12 @@ export const linearFieldAggrScaleFunctions = {
   }
 };
 
+export const hexColorFieldScaleFunctions = {
+  [CHANNEL_SCALES.color]: [SCALE_TYPES.hexcolor],
+  [CHANNEL_SCALES.radius]: [SCALE_TYPES.point],
+  [CHANNEL_SCALES.size]: [SCALE_TYPES.point]
+};
+
 export const ordinalFieldScaleFunctions = {
   [CHANNEL_SCALES.color]: [SCALE_TYPES.ordinal],
   [CHANNEL_SCALES.radius]: [SCALE_TYPES.point],
@@ -531,6 +546,17 @@ export const FIELD_OPTS = {
     scale: {
       ...ordinalFieldScaleFunctions,
       ...ordinalFieldAggrScaleFunctions
+    },
+    format: {
+      legend: d => d,
+      tooltip: []
+    }
+  },
+  hexstring: {
+    type: 'numerical',
+    scale: {
+      ...hexColorFieldScaleFunctions,
+      ...notSupportAggrOpts
     },
     format: {
       legend: d => d,
@@ -634,7 +660,7 @@ export const DEFAULT_LAYER_COLOR = {
 // let user pass in default tooltip fields
 export const DEFAULT_TOOLTIP_FIELDS = [];
 
-export const NO_VALUE_COLOR = [0, 0, 0, 0];
+export const NO_VALUE_COLOR = [0, 0, 0, 255];
 
 export const LAYER_BLENDINGS = {
   additive: {

@@ -7,6 +7,7 @@ export const ALL_FIELD_TYPES: {
   integer: 'integer';
   real: 'real';
   string: 'string';
+  hexstring: 'hexstring';
   timestamp: 'timestamp';
   point: 'point';
 };
@@ -42,6 +43,7 @@ export type SCALE_TYPES_DEF = {
   sqrt: 'sqrt',
   log: 'log';
   point: 'point';
+  hexcolor: 'hexcolor';
 }
 
 export const SCALE_TYPES: SCALE_TYPES_DEF;

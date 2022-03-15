@@ -174,6 +174,8 @@ export default {
   },
   layerConfiguration: {
     defaultDescription: 'Calculate {property} based on selected field',
+    color: `Calculate color based on selected field. If the field is hexadecimal 
+    it will use its hex values for the color. Defaults to black when no color is found`,
     howTo: 'How to'
   },
   filterManager: {
