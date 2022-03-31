@@ -298,12 +298,16 @@ export function getFieldsFromData(data, fieldOrder) {
   );
 
   const {fieldByIndex} = renameDuplicateFields(fieldOrder);
+  const defaultFieldMeta = {
+    type: AnalyzerDATA_TYPES.STRING,
+    format: ''
+  };
 
   const result = fieldOrder.map((field, index) => {
     const name = fieldByIndex[index];
 
     const fieldMeta = metadata.find(m => m.key === field);
-    const {type, format} = fieldMeta || {};
+    const {type, format} = fieldMeta || defaultFieldMeta;
 
     return {
       name,
