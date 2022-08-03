@@ -82,6 +82,14 @@ export function openDeleteModal(
   datasetId: string
 ): Merge<OpenDeleteModalUpdaterAction, {type: ActionTypes.OPEN_DELETE_MODAL}>;
 
+/** OPEN_REFRESH_MODAL */
+export type OpenRefreshModalUpdaterAction = {
+  payload: string;
+};
+export function openRefreshModal(
+  datasetId: string
+): Merge<OpenRefreshModalUpdaterAction, {type: ActionTypes.OPEN_REFRESH_MODAL}>;
+
 /** ADD_NOTIFICATION */
 export type AddNotificationUpdaterAction = {
   payload: object;

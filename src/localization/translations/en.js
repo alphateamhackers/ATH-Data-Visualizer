@@ -183,6 +183,7 @@ export default {
   },
   datasetTitle: {
     showDataTable: 'Show data table',
+    refreshDataset: 'Refresh dataset',
     removeDataset: 'Remove dataset'
   },
   datasetInfo: {
@@ -240,6 +241,7 @@ export default {
   modal: {
     title: {
       deleteDataset: 'Delete Dataset',
+      refreshDataset: 'Refresh Dataset',
       addDataToMap: 'Add Data To Map',
       exportImage: 'Export Image',
       exportData: 'Export Data',
@@ -250,6 +252,7 @@ export default {
     },
     button: {
       delete: 'Delete',
+      refresh: 'Refresh',
       download: 'Download',
       export: 'Export',
       addStyle: 'Add Style',
@@ -284,6 +287,9 @@ export default {
     },
     deleteData: {
       warning: 'you are going to delete this dataset. It will affect {length} layers'
+    },
+    refreshData: {
+      warning: 'you are going to refresh this dataset. It will affect {length} layers'
     },
     addStyle: {
       publishTitle:

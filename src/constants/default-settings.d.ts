@@ -382,6 +382,7 @@ export const DEFAULT_UUID_COUNT: number;
 export const DATA_TABLE_ID: string;
 export const ADD_DATA_ID: string;
 export const DELETE_DATA_ID: string;
+export const REFRESH_DATA_ID: string;
 export const EXPORT_IMAGE_ID: string;
 export const EXPORT_DATA_ID: string;
 export const ADD_MAP_STYLE_ID: string;

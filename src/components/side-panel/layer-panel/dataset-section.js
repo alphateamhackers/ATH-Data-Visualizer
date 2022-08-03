@@ -51,6 +51,7 @@ function DatasetSectionFactory(SourceDataCatalog, AddDataButton) {
       updateTableColor,
       showDeleteDataset,
       removeDataset,
+      refreshDataset,
       showDatasetList,
       showAddDataModal,
       defaultDataset
@@ -68,6 +69,7 @@ function DatasetSectionFactory(SourceDataCatalog, AddDataButton) {
             showDatasetTable={showDatasetTable}
             updateTableColor={updateTableColor}
             removeDataset={removeDataset}
+            refreshDataset={refreshDataset}
             showDeleteDataset={showDeleteDataset}
           />
         )}

@@ -51,6 +51,10 @@ const mapStyles = {
   }
 };
 const customizedKeplerGlReducer = keplerGlReducer.initialState({
+  mapState: {
+    latitude: 50.094074,
+    longitude: 8.628993
+  },
   mapStyle: {
     mapStyles,
     styleType: 'infra'

@@ -24,6 +24,7 @@ import {
   DATA_TABLE_ID,
   DEFAULT_NOTIFICATION_TOPICS,
   DELETE_DATA_ID,
+  REFRESH_DATA_ID,
   EXPORT_DATA_TYPE,
   EXPORT_HTML_MAP_MODES,
   EXPORT_IMG_RATIOS,
@@ -395,6 +396,22 @@ export const openDeleteModalUpdater = (state, {payload: datasetKeyToRemove}) => 
   ...state,
   currentModal: DELETE_DATA_ID,
   datasetKeyToRemove
+});
+
+/**
+ * Toggle active map control panel
+ * @memberof uiStateUpdaters
+ * @param state `uiState`
+ * @param action
+ * @param action.payload dataset id
+ * @returns nextState
+ * @type {typeof import('./ui-state-updaters').openRefreshModalUpdater}
+ * @public
+ */
+export const openRefreshModalUpdater = (state, {payload: datasetKey}) => ({
+  ...state,
+  currentModal: REFRESH_DATA_ID,
+  datasetKey
 });
 
 /**

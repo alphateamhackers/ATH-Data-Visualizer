@@ -99,6 +99,18 @@ export const setMapControlVisibility = createAction(
 export const openDeleteModal = createAction(ActionTypes.OPEN_DELETE_MODAL, datasetId => datasetId);
 
 /**
+ * Toggle refresh dataset modal
+ * @memberof uiStateActions
+ * @param datasetId - `id` of the dataset to be refreshed
+ * @type {typeof import('./ui-state-actions').openRefreshModal}
+ * @public
+ */
+export const openRefreshModal = createAction(
+  ActionTypes.OPEN_REFRESH_MODAL,
+  datasetId => datasetId
+);
+
+/**
  * Add a notification to be displayed.
  * Existing notification will be updated in case of matching id.
  * @memberof uiStateActions

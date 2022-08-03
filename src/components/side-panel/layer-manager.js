@@ -69,6 +69,7 @@ function LayerManagerFactory(
       visStateActions: PropTypes.object.isRequired,
       // functions
       removeDataset: PropTypes.func.isRequired,
+      refreshDataset: PropTypes.func.isRequired,
       showDatasetTable: PropTypes.func.isRequired,
       updateTableColor: PropTypes.func.isRequired
     };
@@ -93,6 +94,7 @@ function LayerManagerFactory(
         updateTableColor,
         showDatasetTable,
         removeDataset,
+        refreshDataset,
         uiStateActions,
         visStateActions,
         layerPanelListView,
@@ -115,6 +117,7 @@ function LayerManagerFactory(
             showDatasetTable={showDatasetTable}
             updateTableColor={updateTableColor}
             removeDataset={removeDataset}
+            refreshDataset={refreshDataset}
             showDeleteDataset
             showDatasetList={!isSortByDatasetMode}
             showAddDataModal={showAddDataModal}
