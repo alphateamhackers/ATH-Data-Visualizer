@@ -115,6 +115,7 @@ export {default as MapControlToolbarFactory} from './map/map-control-toolbar';
 // // modal factories
 export {default as ModalDialogFactory} from './modals/modal-dialog';
 export {default as DeleteDatasetModalFactory} from './modals/delete-data-modal';
+export {default as RefreshDatasetModalFactory} from './modals/refresh-data-modal';
 export {default as DataTableModalFactory} from './modals/data-table-modal';
 export {default as LoadDataModalFactory} from './modals/load-data-modal';
 export {default as ExportImageModalFactory} from './modals/export-image-modal';

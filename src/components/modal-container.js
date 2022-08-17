@@ -336,14 +336,7 @@ export default function ModalContainerFactory(
             modalProps = {
               title: 'modal.title.refreshDataset',
               cssStyle: smallModalCss,
-              footer: true,
-              onConfirm: () => this._deleteDataset(datasetKeyToRemove),
-              onCancel: this._closeModal,
-              confirmButton: {
-                // negative: true,
-                large: true,
-                children: 'modal.button.refresh'
-              }
+              footer: false
             };
             break;
           case ADD_DATA_ID:

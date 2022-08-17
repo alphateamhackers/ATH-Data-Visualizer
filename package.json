@@ -4,7 +4,7 @@
   "contributors": [
     "Cesar Sanchez <cesar.sanchezibr@gmail.com>"
   ],
-  "version": "2.5.8",
+  "version": "2.5.9",
   "description": "kepler.gl is a webgl based application to visualize large scale location data in the browser",
   "license": "MIT",
   "main": "dist/index.js",
