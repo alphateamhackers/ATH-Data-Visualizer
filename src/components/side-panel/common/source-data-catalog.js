@@ -29,6 +29,13 @@ const SourceDataCatalogWrapper = styled.div`
   transition: ${props => props.theme.transition};
 `;
 
+function nope(_) {}
+
+function shouldRefreshDataset(dataset = {}) {
+  const {metadata = {}} = dataset;
+  return Boolean(metadata.refreshDataset);
+}
+
 SourceDataCatalogFactory.deps = [DatasetTitleFactory, DatasetInfoFactory];
 
 function SourceDataCatalogFactory(DatasetTitle, DatasetInfo) {
@@ -36,6 +43,7 @@ function SourceDataCatalogFactory(DatasetTitle, DatasetInfo) {
     datasets,
     showDatasetTable,
     removeDataset,
+    refreshDataset,
     onTitleClick,
     updateTableColor,
     showDeleteDataset = false
@@ -46,7 +54,9 @@ function SourceDataCatalogFactory(DatasetTitle, DatasetInfo) {
           <DatasetTitle
             showDatasetTable={showDatasetTable}
             showDeleteDataset={showDeleteDataset}
+            showRefreshDataset={shouldRefreshDataset(dataset)}
             removeDataset={removeDataset}
+            refreshDataset={shouldRefreshDataset(dataset) ? refreshDataset : nope}
             dataset={dataset}
             onTitleClick={onTitleClick}
             updateTableColor={updateTableColor}

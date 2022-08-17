@@ -33,6 +33,7 @@ import {isValidMapInfo} from 'utils/map-info-utils';
 
 // modals
 import DeleteDatasetModalFactory from './modals/delete-data-modal';
+import RefreshDatasetModalFactory from './modals/refresh-data-modal';
 import OverWriteMapModalFactory from './modals/overwrite-map-modal';
 import DataTableModalFactory from './modals/data-table-modal';
 import LoadDataModalFactory from './modals/load-data-modal';
@@ -51,6 +52,7 @@ import {
   ADD_DATA_ID,
   DATA_TABLE_ID,
   DELETE_DATA_ID,
+  REFRESH_DATA_ID,
   EXPORT_DATA_ID,
   EXPORT_IMAGE_ID,
   EXPORT_MAP_ID,
@@ -91,6 +93,7 @@ const DefaultStyle = css`
 
 ModalContainerFactory.deps = [
   DeleteDatasetModalFactory,
+  RefreshDatasetModalFactory,
   OverWriteMapModalFactory,
   DataTableModalFactory,
   LoadDataModalFactory,
@@ -105,6 +108,7 @@ ModalContainerFactory.deps = [
 
 export default function ModalContainerFactory(
   DeleteDatasetModal,
+  RefreshDatasetModal,
   OverWriteMapModal,
   DataTableModal,
   LoadDataModal,
@@ -264,7 +268,7 @@ export default function ModalContainerFactory(
         uiStateActions,
         providerState
       } = this.props;
-      const {currentModal, datasetKeyToRemove} = uiState;
+      const {currentModal, datasetKeyToRemove, datasetKey} = uiState;
       const {datasets, layers, editingDataset} = visState;
 
       let template = null;
@@ -324,6 +328,17 @@ export default function ModalContainerFactory(
               };
             }
             break; // in case we add a new case after this one
+          case REFRESH_DATA_ID:
+            if (!datasetKey || !datasets || !datasets[datasetKey]) {
+              return;
+            }
+            template = <RefreshDatasetModal dataset={datasets[datasetKey]} layers={layers} />;
+            modalProps = {
+              title: 'modal.title.refreshDataset',
+              cssStyle: smallModalCss,
+              footer: false
+            };
+            break;
           case ADD_DATA_ID:
             template = (
               <LoadDataModal

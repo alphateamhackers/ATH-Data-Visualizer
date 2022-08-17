@@ -23,7 +23,7 @@ import styled from 'styled-components';
 import {FormattedMessage} from 'localization';
 
 import {CenterFlexbox, Tooltip} from 'components/common/styled-components';
-import {ArrowRight, Table, Trash} from 'components/common/icons';
+import {ArrowRight, Table, Trash, Refresh} from 'components/common/icons';
 import DatasetTagFactory from 'components/side-panel/common/dataset-tag';
 import CustomPicker from '../layer-panel/custom-picker';
 import {Portaled} from 'components';
@@ -39,21 +39,20 @@ const StyledDatasetTitle = styled.div`
   .source-data-arrow {
     height: 16px;
   }
-  :hover {
-    cursor: ${props => (props.clickable ? 'pointer' : 'auto')};
 
-    .dataset-name {
-      color: ${props => (props.clickable ? props.theme.textColorHl : props.theme.textColor)};
-    }
+  cursor: ${props => (props.clickable ? 'pointer' : 'auto')};
 
-    .dataset-action {
-      color: ${props => props.theme.textColor};
-      opacity: 1;
-    }
+  .dataset-name {
+    color: ${props => (props.clickable ? props.theme.textColorHl : props.theme.textColor)};
+  }
 
-    .dataset-action:hover {
-      color: ${props => props.theme.textColorHl};
-    }
+  .dataset-action {
+    color: ${props => props.theme.textColor};
+    opacity: 1;
+  }
+
+  .dataset-action:hover {
+    color: ${props => props.theme.textColorHl};
   }
 `;
 
@@ -75,6 +74,27 @@ const ShowDataTable = ({id, showDatasetTable = nop}) => (
     <Tooltip id={`data-table-${id}`} effect="solid">
       <span>
         <FormattedMessage id={'datasetTitle.showDataTable'} />
+      </span>
+    </Tooltip>
+  </DataTagAction>
+);
+
+const RefreshDataset = ({datasetKey, refreshDataset = nop}) => (
+  <DataTagAction
+    className="dataset-action refresh-dataset"
+    data-tip
+    data-for={`refresh-${datasetKey}`}
+  >
+    <Refresh
+      height="16px"
+      onClick={e => {
+        e.stopPropagation();
+        refreshDataset(datasetKey);
+      }}
+    />
+    <Tooltip id={`refresh-${datasetKey}`} effect="solid">
+      <span>
+        <FormattedMessage id={'datasetTitle.refreshDataset'} />
       </span>
     </Tooltip>
   </DataTagAction>
@@ -132,8 +152,10 @@ export default function DatasetTitleFactory(DatasetTag) {
       const {
         showDatasetTable,
         showDeleteDataset,
+        showRefreshDataset,
         onTitleClick,
         removeDataset,
+        refreshDataset,
         dataset,
         updateTableColor
       } = this.props;
@@ -169,6 +191,9 @@ export default function DatasetTitleFactory(DatasetTag) {
             ) : null}
             {showDeleteDataset ? (
               <RemoveDataset datasetKey={dataset.id} removeDataset={removeDataset} />
+            ) : null}
+            {showRefreshDataset ? (
+              <RefreshDataset datasetKey={dataset.id} refreshDataset={refreshDataset} />
             ) : null}
           </StyledDatasetTitle>
         </div>

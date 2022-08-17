@@ -78,6 +78,7 @@ export type UiState = {
   activeSidePanel: string;
   currentModal: string | null;
   datasetKeyToRemove: string | null;
+  datasetKey: string | null;
   visibleDropdown: string | null;
   // export image modal ui
   exportImage: ExportImage;
@@ -123,6 +124,10 @@ export function toggleMapControlUpdater(
 export function setMapControlVisibilityUpdater(
   state: UiState,
   action: UiStateActions.setMapControlVisibilityUpdaterAction
+): UiState;
+export function openRefreshModalUpdater(
+  state: UiState,
+  action: UiStateActions.OpenRefreshModalUpdaterAction
 ): UiState;
 export function openDeleteModalUpdater(
   state: UiState,

@@ -54,6 +54,7 @@ export const Picture: React.ElementType;
 export const Pin: React.ElementType;
 export const Play: React.ElementType;
 export const Reduce: React.ElementType;
+export const Refresh: React.ElementType;
 export const Reset: React.ElementType;
 export const Rocket: React.ElementType;
 export const Save: React.ElementType;
