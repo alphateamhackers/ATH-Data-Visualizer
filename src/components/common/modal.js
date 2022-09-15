@@ -64,8 +64,8 @@ const ModalContent = styled.div`
 
 export const ModalTitle = styled.div`
   font-size: ${props => props.theme.modalTitleFontSize};
+  font-weight: ${props => props.theme.modalTitleFontWeight};
   color: ${props => props.theme.modalTitleColor};
-  margin-bottom: 10px;
   position: relative;
   z-index: ${props => props.theme.modalTitleZ};
 `;

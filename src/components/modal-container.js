@@ -335,7 +335,7 @@ export default function ModalContainerFactory(
             template = <RefreshDatasetModal dataset={datasets[datasetKey]} layers={layers} />;
             modalProps = {
               title: 'modal.title.refreshDataset',
-              cssStyle: smallModalCss,
+              cssStyle: LoadDataModalStyle,
               footer: false
             };
             break;
