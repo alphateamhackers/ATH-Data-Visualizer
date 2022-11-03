@@ -68,7 +68,7 @@ function MapManagerFactory(MapStyleSelector, MapLayerLegend, LayerGroupSelector)
       const {mapStyles, styleType} = mapStyle;
       const mapLegends = mapStyles[styleType].legends || [];
       const currentStyle = mapStyles[mapStyle.styleType] || {};
-      const editableLayers = (currentStyle.layerGroups || []).map(lg => lg.slug);
+      const editableLayers = (currentStyle.layerGroups || []).map(({slug, data}) => ({slug, data}));
       // const hasBuildingLayer = mapStyle.visibleLayerGroups['3d building'];
       // const colorSetSelector = createSelector(
       //   this.buildingColorSelector,
@@ -100,6 +100,7 @@ function MapManagerFactory(MapStyleSelector, MapLayerLegend, LayerGroupSelector)
                 editableLayers={editableLayers}
                 topLayers={mapStyle.topLayerGroups}
                 onChange={mapStyleActions.mapConfigChange}
+                onLayerClick={mapStyleActions.toggleMapLayerModal}
               />
             ) : null}
             {mapLegends.length > 0 && <MapLayerLegend legendList={mapLegends} />}

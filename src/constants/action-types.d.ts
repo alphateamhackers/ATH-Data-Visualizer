@@ -80,6 +80,7 @@ export type ActionType = {
   ADD_CUSTOM_MAP_STYLE: string;
   REQUEST_MAP_STYLES: string;
   SET_3D_BUILDING_COLOR: string;
+  TOGGLE_MAP_LAYER_MODAL: string;
 
   // uiState
   TOGGLE_SIDE_PANEL: string;

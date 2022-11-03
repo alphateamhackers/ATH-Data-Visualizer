@@ -64,6 +64,8 @@ export function loadMapStyleErrUpdater(state: MapStyle, action: MapStyleActions.
 export function mapStyleChangeUpdater(state: MapStyle, action: MapStyleActions.MapStyleChangeUpdaterAction): MapStyle;
 export function loadCustomMapStyleUpdater(state: MapStyle, action: MapStyleActions.LoadCustomMapStyleUpdaterAction): MapStyle;
 export function set3dBuildingColorUpdater(state: MapStyle, action: MapStyleActions.Set3dBuildingColorUpdaterAction): MapStyle;
+export function toggleMapLayerModalUpdater(state: MapStyle, action: MapStyleActions.ToggleMapLayerModalUpdaterAction): MapStyle;
+
 
 export function receiveMapConfigUpdater(state: MapStyle, action: {
   type?: ActionTypes.RECEIVE_MAP_CONFIG;

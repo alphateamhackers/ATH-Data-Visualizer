@@ -21,7 +21,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PanelHeaderActionFactory from 'components/side-panel/panel-header-action';
-import {EyeSeen, EyeUnseen, Upload} from 'components/common/icons';
+import {EyeSeen, EyeUnseen, Table} from 'components/common/icons';
 
 import {
   PanelLabel,
@@ -70,6 +70,7 @@ function LayerGroupSelectorFactory(PanelHeaderAction) {
     layers,
     editableLayers,
     onChange,
+    onLayerClick,
     topLayers,
     actionIcons = defaultActionIcons
   }) => (
@@ -80,7 +81,7 @@ function LayerGroupSelectorFactory(PanelHeaderAction) {
         </PanelLabel>
       </div>
       <StyledLayerPanel className="map-style__layer-group">
-        {editableLayers.map(slug => (
+        {editableLayers.map(({slug, data}) => (
           <StyledLayerGroupItem className="layer-group__select" key={slug}>
             <PanelLabelWrapper>
               <PanelHeaderAction
@@ -104,7 +105,17 @@ function LayerGroupSelectorFactory(PanelHeaderAction) {
               </LayerLabel>
             </PanelLabelWrapper>
             <CenterFlexbox className="layer-group__bring-top">
-              <PanelHeaderAction
+              {data && (
+                <PanelHeaderAction
+                  id={`${slug}-data`}
+                  tooltip="tooltip.showData"
+                  disabled={!layers[slug]}
+                  IconComponent={Table}
+                  active={topLayers[slug]}
+                  onClick={() => onLayerClick({slug, data})}
+                />
+              )}
+              {/* <PanelHeaderAction
                 id={`${slug}-top`}
                 tooltip="tooltip.moveToTop"
                 disabled={!layers[slug]}
@@ -118,7 +129,7 @@ function LayerGroupSelectorFactory(PanelHeaderAction) {
                     }
                   })
                 }
-              />
+              /> */}
             </CenterFlexbox>
           </StyledLayerGroupItem>
         ))}

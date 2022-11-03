@@ -208,6 +208,7 @@ export default {
     hideLayerPanel: 'Hide layer panel',
     showLayerPanel: 'Show layer panel',
     moveToTop: 'Move to top of data layers',
+    showData: `Show layer's data`,
     selectBaseMapStyle: 'Select Base Map Style',
     delete: 'Delete',
     timePlayback: 'Time Playback',

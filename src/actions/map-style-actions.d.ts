@@ -24,7 +24,6 @@ import {
   InputStyle,
   MapStyles,
   VisibleLayerGroups,
-  MapStyles
 } from '../reducers/map-style-updaters';
 import {MapState} from '../reducers/map-state-updaters';
 
@@ -54,6 +53,16 @@ export type MapConfigChangeUpdaterAction = {
 export function mapConfigChange(
   mapStyle: MapConfigChangeUpdaterAction['payload']
 ): Merge<MapConfigChangeUpdaterAction, {type: ActionTypes.MAP_CONFIG_CHANGE}>;
+
+/** TOGGLE_MAP_LAYER_MODAL */
+export type ToggleMapLayerModalUpdaterAction = {
+  payload: {
+    slug: string;
+    data: string;
+  }
+};
+
+export function toggleMapLayerModal()
 
 /** REQUEST_MAP_STYLES */
 export type RequestMapStylesUpdaterAction = {

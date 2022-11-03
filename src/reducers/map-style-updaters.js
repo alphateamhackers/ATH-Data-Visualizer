@@ -231,7 +231,20 @@ export const initMapStyleUpdater = (state, {payload = {}}) => ({
   mapStyles: !payload.mapStylesReplaceDefault ? state.mapStyles : {},
   mapStylesReplaceDefault: payload.mapStylesReplaceDefault || false
 });
-// });
+
+/**
+ * Update the state with the map layer's data
+ * @memberof mapStyleUpdaters
+ * @type {typeof import('./map-style-updaters').toggleMapLayerModalUpdater}
+ * @public
+ */
+export const toggleMapLayerModalUpdater = (state, {payload = {}}) => {
+  const {slug, data} = payload;
+  return {
+    ...state,
+    mapLayerModal: {slug, data}
+  };
+};
 
 /**
  * Update `visibleLayerGroups`to change layer group visibility

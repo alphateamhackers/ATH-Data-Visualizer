@@ -60,6 +60,8 @@ export const inputMapStyle = createAction(ActionTypes.INPUT_MAP_STYLE, (inputSty
  */
 export const mapConfigChange = createAction(ActionTypes.MAP_CONFIG_CHANGE, mapStyle => mapStyle);
 
+export const toggleMapLayerModal = createAction(ActionTypes.TOGGLE_MAP_LAYER_MODAL, layer => layer);
+
 /**
  * Request map style style object based on style.url.
  * @memberof mapStyleActions
