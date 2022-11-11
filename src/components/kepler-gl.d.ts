@@ -1,4 +1,5 @@
 import {ComponentClass} from 'react';
+import { MapRef } from 'react-map-gl';
 import {OnErrorCallBack, OnSuccessCallBack} from 'actions/provider-actions';
 import {MapState} from 'reducers/map-state-updaters';
 import {MapStyle} from 'reducers/map-style-updaters';
@@ -20,7 +21,7 @@ export type KeplerGlProps = {
   onKeplerGlInitialized?: () => void;
   mapboxApiAccessToken: string;
   mapboxApiUrl: string;
-  getMapboxRef: () => React.RefType<any>;
+  getMapboxRef: (mapbox: MapRef, index: number) => void;
   mapStyles: {id: string; style?: object}[];
   mapStylesReplaceDefault: boolean;
   mapboxApiUrl: string;
