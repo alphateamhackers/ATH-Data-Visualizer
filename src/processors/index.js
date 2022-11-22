@@ -37,6 +37,8 @@ export {
   processFileData,
   filesToDataPayload,
   isKeplerGlMap,
+  isRowObject,
+  isGeoJson,
   readBatch
 } from './file-handler';
 

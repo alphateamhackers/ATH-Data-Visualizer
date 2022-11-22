@@ -44,3 +44,5 @@ export function filesToDataPayload(fileCache: FileCacheItem[]): AddDataToMapPayl
 
 export function readBatch(asyncIterator, fileName): AsyncIterable<any>;
 export function isKeplerGlMap(obj: any): Boolean;
+export function isRowObject(obj: any): Boolean;
+export function isGeoJson(obj: any): Boolean;
