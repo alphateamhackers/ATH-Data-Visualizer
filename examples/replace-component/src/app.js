@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,10 @@
 
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {addDataToMap, wrapTo} from 'kepler.gl/actions';
+import {addDataToMap, wrapTo} from '@kepler.gl/actions';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import styled from 'styled-components';
-import {theme} from 'kepler.gl/styles';
+import {theme} from '@kepler.gl/styles';
 
 import sampleData, {config} from './data/sample-data';
 
@@ -36,7 +36,7 @@ import {
   CustomPanelsFactory,
   MapPopoverFactory,
   injectComponents
-} from 'kepler.gl/components';
+} from '@kepler.gl/components';
 
 import CustomPanelHeaderFactory from './components/panel-header';
 import CustomSidebarFactory from './components/side-bar';

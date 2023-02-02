@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,7 +19,7 @@
 // THE SOFTWARE.
 
 import React, {Component} from 'react';
-import {Icons} from 'kepler.gl/components';
+import {Icons} from '@kepler.gl/components';
 import PropTypes from 'prop-types';
 
 class DropboxIcon extends Component {

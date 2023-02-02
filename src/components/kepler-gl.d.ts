@@ -1,5 +1,5 @@
 import {ComponentClass} from 'react';
-import { MapRef } from 'react-map-gl';
+import {MapRef} from 'react-map-gl';
 import {OnErrorCallBack, OnSuccessCallBack} from 'actions/provider-actions';
 import {MapState} from 'reducers/map-state-updaters';
 import {MapStyle} from 'reducers/map-style-updaters';

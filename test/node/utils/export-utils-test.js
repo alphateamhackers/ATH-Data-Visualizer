@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,16 @@
 
 import test from 'tape';
 
-import {registerEntry} from 'actions/identity-actions';
-import keplerGlReducer from 'reducers';
+import {registerEntry} from '@kepler.gl/actions';
+import keplerGlReducer from '@kepler.gl/reducers';
 import {
   getMapJSON,
   exportToJsonString,
   getScaleFromImageSize,
   isMSEdge,
   calculateExportImageSize
-  // dataURItoBlob
-} from 'utils/export-utils';
-import {EXPORT_IMG_RATIOS, RESOLUTIONS} from '../../../src/constants';
+} from '@kepler.gl/utils';
+import {EXPORT_IMG_RATIOS, RESOLUTIONS} from '@kepler.gl/constants';
 
 test('exportUtils -> ExportJson', t => {
   const state = keplerGlReducer(undefined, registerEntry({id: 'test'})).test;

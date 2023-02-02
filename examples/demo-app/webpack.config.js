@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,12 +37,16 @@ const CONFIG = {
     publicPath: '/'
   },
 
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js']
+  },
+
   devtool: 'source-map',
 
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts|tsx)$/,
         loader: 'babel-loader',
         include: [join(__dirname, 'src')],
         exclude: [/node_modules/]
@@ -70,7 +74,7 @@ const CONFIG = {
   ]
 };
 
-// This line enables bundling against src in this repo rather than installed deck.gl module
+// This line enables bundling against src in this repo rather than installed kepler.gl module
 module.exports = env => {
   return env ? require('../webpack.config.local')(CONFIG, __dirname)(env) : CONFIG;
 };

@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,18 +28,16 @@ import {
   DatasetSectionFactory,
   PanelViewListToggleFactory,
   PanelTitleFactory,
-  AddLayerButtonFactory
-} from 'components';
+  AddLayerButtonFactory,
+  appInjector,
+  Layers
+} from '@kepler.gl/components';
 
-import {appInjector} from 'components/container';
 import {mountWithTheme, IntlWrapper} from 'test/helpers/component-utils';
 
-import * as VisStateActions from 'actions/vis-state-actions';
-import * as UIStateActions from 'actions/ui-state-actions';
+import {VisStateActions, UIStateActions} from '@kepler.gl/actions';
 
 import {StateWMultiH3Layers} from 'test/helpers/mock-state';
-
-import {Layers} from 'components/common/icons';
 
 const LayerManager = appInjector.get(LayerManagerFactory);
 const LayerList = appInjector.get(LayerListFactory);
@@ -71,7 +69,8 @@ const defaultProps = {
   layerPanelListView: 'list',
   uiStateActions: UIStateActions,
   visStateActions: VisStateActions,
-  layerBlending: 'normal'
+  layerBlending: 'normal',
+  overlayBlending: 'normal'
 };
 
 test('Components -> LayerManager -> render -> list view', t => {

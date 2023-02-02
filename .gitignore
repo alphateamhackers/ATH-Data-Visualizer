@@ -17,9 +17,20 @@ package-lock.json
 .DS_Store
 .idea
 .vscode/
+todo
+*.todo
 
 /bundle*.js
 /favicon.png
 /index.html
 
 npm-debug.log
+.history/
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

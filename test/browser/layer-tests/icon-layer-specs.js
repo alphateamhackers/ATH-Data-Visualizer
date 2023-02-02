@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,9 @@ import {mount} from 'enzyme';
 import sinon from 'sinon';
 import sinonStubPromise from 'sinon-stub-promise';
 import {getDistanceScales} from 'viewport-mercator-project';
-import {DEFAULT_TEXT_LABEL} from 'layers/layer-factory';
+import {copyTableAndUpdate} from '@kepler.gl/table';
+import {KeplerGlLayers} from '@kepler.gl/layers';
+import {DEFAULT_TEXT_LABEL, PROJECTED_PIXEL_SIZE_MULTIPLIER} from '@kepler.gl/constants';
 
 sinonStubPromise(sinon);
 
@@ -38,10 +40,8 @@ import {
   pointLayerMeta,
   iconGeometry
 } from 'test/helpers/layer-utils';
-import {KeplerGlLayers} from 'layers';
-import {INITIAL_MAP_STATE} from 'reducers/map-state-updaters';
+import {INITIAL_MAP_STATE} from '@kepler.gl/reducers';
 import {IntlWrapper} from '../../helpers/component-utils';
-import {copyTableAndUpdate} from 'utils/table-utils/kepler-table';
 
 const {IconLayer} = KeplerGlLayers;
 const columns = {
@@ -474,7 +474,7 @@ test('#IconLayer -> renderLayer', t => {
           'Should calculate correct getPosition'
         );
         t.deepEqual(getColor, DEFAULT_TEXT_LABEL.color, 'Should calculate correct getColor');
-        t.deepEqual(getSize, 1, 'Should calculate correct getSize');
+        t.deepEqual(getSize, PROJECTED_PIXEL_SIZE_MULTIPLIER, 'Should calculate correct getSize');
         t.deepEqual(
           getPixelOffset,
           expectedPixelOffset0,

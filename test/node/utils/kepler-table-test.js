@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,12 @@ import test from 'tape';
 import moment from 'moment';
 import testData, {numericRangesCsv, testFields} from 'test/fixtures/test-csv-data';
 
-import {getFilterFunction} from 'utils/filter-utils';
-import {preciseRound} from 'utils/data-utils';
-import {createNewDataEntry} from 'utils/dataset-utils';
+import {preciseRound, getFilterFunction} from '@kepler.gl/utils';
+import {createNewDataEntry, findPointFieldPairs} from '@kepler.gl/table';
 
-import {processCsvData} from 'processors/data-processor';
+import {processCsvData} from '@kepler.gl/processors';
 import {cmpFields} from '../../helpers/comparison-utils';
-import {FILTER_TYPES} from 'constants/default-settings';
+import {FILTER_TYPES} from '@kepler.gl/constants';
 
 function testGetTimeFieldDomain(table, t) {
   const test_cases = [
@@ -258,6 +257,131 @@ test('KeplerTable -> getColumnFilterDomain -> numeric', async t => {
   const dataset = newDataEntry.test;
 
   testGetNumericFieldStep(dataset, t);
+
+  t.end();
+});
+
+test('KeplerTable -> findPointFieldPairs', t => {
+  const TASE_CASE = [
+    {
+      fields: [
+        'point-lat',
+        'point-lng',
+        'long',
+        'lat',
+        'poi_latitude',
+        'poi_longitude',
+        'latino',
+        'lngtino',
+        'lat.1',
+        'lng.1'
+      ],
+      expected: [
+        {
+          defaultName: 'point',
+          pair: {
+            lat: {
+              fieldIdx: 0,
+              value: 'point-lat'
+            },
+            lng: {
+              fieldIdx: 1,
+              value: 'point-lng'
+            }
+          },
+          suffix: ['lat', 'lng']
+        },
+        {
+          defaultName: 'point',
+          pair: {
+            lat: {
+              fieldIdx: 3,
+              value: 'lat'
+            },
+            lng: {
+              fieldIdx: 2,
+              value: 'long'
+            }
+          },
+          suffix: ['lat', 'long']
+        },
+        {
+          defaultName: 'poi',
+          pair: {
+            lat: {
+              fieldIdx: 4,
+              value: 'poi_latitude'
+            },
+            lng: {
+              fieldIdx: 5,
+              value: 'poi_longitude'
+            }
+          },
+          suffix: ['latitude', 'longitude']
+        },
+        {
+          defaultName: '1',
+          pair: {
+            lat: {
+              fieldIdx: 8,
+              value: 'lat.1'
+            },
+            lng: {
+              fieldIdx: 9,
+              value: 'lng.1'
+            }
+          },
+          suffix: ['lat', 'lng']
+        }
+      ]
+    },
+    {
+      fields: ['point.lat', 'point.long', 'point.altitude', 'latitude', 'longitude'],
+      expected: [
+        {
+          defaultName: 'point',
+          pair: {
+            lat: {
+              fieldIdx: 0,
+              value: 'point.lat'
+            },
+            lng: {
+              fieldIdx: 1,
+              value: 'point.long'
+            },
+            alt: {
+              fieldIdx: 2,
+              value: 'point.altitude'
+            }
+          },
+          suffix: ['lat', 'long']
+        },
+        {
+          defaultName: 'point',
+          pair: {
+            lat: {
+              fieldIdx: 3,
+              value: 'latitude'
+            },
+            lng: {
+              fieldIdx: 4,
+              value: 'longitude'
+            }
+          },
+          suffix: ['latitude', 'longitude']
+        }
+      ]
+    }
+  ];
+
+  TASE_CASE.forEach(({fields, expected}) => {
+    const found = findPointFieldPairs(fields.map(f => ({name: f})));
+
+    t.equal(expected.length, found.length, `should found ${expected.length} pairs`);
+    expected.forEach((pair, index) => {
+      t.deepEqual(found[index], pair, 'should found correct point pair');
+    });
+  });
 
   t.end();
 });

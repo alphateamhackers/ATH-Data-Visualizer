@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,8 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {Icons} from 'kepler.gl/components';
-import {media} from 'kepler.gl/styles';
+import {Icons} from '@kepler.gl/components';
+import {media} from '@kepler.gl/styles';
 import {FormattedMessage} from 'react-intl';
 
 import {ASSETS_URL} from '../../constants/default-settings';

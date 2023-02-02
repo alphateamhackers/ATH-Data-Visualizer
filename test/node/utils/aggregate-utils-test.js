@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,8 +19,8 @@
 // THE SOFTWARE.
 
 import test from 'tape';
-import {getFrequency, getMode, aggregate} from 'utils/aggregate-utils';
-import {AGGREGATION_TYPES} from 'constants/default-settings';
+import {getFrequency, getMode, aggregate} from '@kepler.gl/utils';
+import {AGGREGATION_TYPES} from '@kepler.gl/constants';
 
 test('AggregateUtils - GetFrequency', t => {
   t.deepEqual(

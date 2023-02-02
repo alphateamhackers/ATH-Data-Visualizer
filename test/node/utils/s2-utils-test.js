@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,7 +19,7 @@
 // THE SOFTWARE.
 
 import test from 'tape';
-import {getS2Center} from 'layers/s2-geometry-layer/s2-utils';
+import {getS2Center} from '@kepler.gl/layers';
 
 test('Utils -> getS2Center', t => {
   const s2Toekn = '8085873c';

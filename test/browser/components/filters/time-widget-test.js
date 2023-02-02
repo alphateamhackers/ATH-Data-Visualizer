@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,8 @@ import sinon from 'sinon';
 import moment from 'moment';
 
 import {IntlWrapper, mountWithTheme, mockHTMLElementClientSize} from 'test/helpers/component-utils';
-import {setFilterAnimationTimeConfig} from 'actions/vis-state-actions';
-import reducer from 'reducers/vis-state';
+import {setFilterAnimationTimeConfig} from '@kepler.gl/actions';
+import {visStateReducer as reducer} from '@kepler.gl/reducers';
 
 import {
   TimeWidgetFactory,
@@ -38,16 +38,12 @@ import {
   AnimationSpeedSliderFactory,
   Icons,
   TimeSliderMarkerFactory,
-  TimeRangeSliderTimeTitleFactory
-} from 'components';
-import {
-  AnimationWindowControl,
-  IconButton
-} from 'components/common/animation-control/playback-controls';
-import SliderHandle from 'components/common/slider/slider-handle';
-import Typeahead from 'components/common/item-selector/typeahead';
-
-import {appInjector} from 'components/container';
+  TimeRangeSliderTimeTitleFactory,
+  IconButton,
+  SliderHandle,
+  Typeahead,
+  appInjector
+} from '@kepler.gl/components';
 
 const TimeWidget = appInjector.get(TimeWidgetFactory);
 const TimeRangeSlider = appInjector.get(TimeRangeSliderFactory);
@@ -112,7 +108,7 @@ test('Components -> TimeWidget.mount -> with time filter', t => {
     .props().fields;
   t.deepEqual(
     yAxisFields.map(f => f.name),
-    ['gps_data.lat', 'gps_data.lng', 'id'],
+    ['gps_data.lat', 'gps_data.lng', 'uid'],
     'should only pass real / integer fields to yAxis'
   );
 
@@ -120,7 +116,7 @@ test('Components -> TimeWidget.mount -> with time filter', t => {
 });
 
 test('Components -> TimeWidget.mount -> test actions', t => {
-  const enlargeFilter = sinon.spy();
+  const onClose = sinon.spy();
   const toggleAnimation = sinon.spy();
   const updateAnimationSpeed = sinon.spy();
   const setFilterAnimationWindow = sinon.spy();
@@ -135,7 +131,7 @@ test('Components -> TimeWidget.mount -> test actions', t => {
       <IntlWrapper>
         <TimeWidget
           {...defaultProps}
-          enlargeFilter={enlargeFilter}
+          onClose={onClose}
           toggleAnimation={toggleAnimation}
           updateAnimationSpeed={updateAnimationSpeed}
           setFilterAnimationWindow={setFilterAnimationWindow}
@@ -159,9 +155,9 @@ test('Components -> TimeWidget.mount -> test actions', t => {
     'should  not render AnimationSpeedSlider iniitally'
   );
   t.equal(
-    wrapper.find(AnimationWindowControl).length,
+    wrapper.find('.animation-window-control').length,
     0,
-    'should not render AnimationWindowControl iniitally'
+    'should not render AnimationWindowControl initially'
   );
 
   // hit play
@@ -207,26 +203,27 @@ test('Components -> TimeWidget.mount -> test actions', t => {
     .at(0)
     .simulate('click');
   t.equal(
-    wrapper.find(AnimationWindowControl).length,
+    wrapper.find('.animation-window-control').length,
     1,
-    'should render AnimationWindowControl iniitally'
+    'should render AnimationWindowControl initially'
   );
   t.equal(
     wrapper
-      .find(AnimationWindowControl)
+      .find('.animation-window-control')
       .at(0)
       .find(IconButton).length,
     1,
     'should render 1 animate window options'
   );
 
-  // select an animtion option
+  // select an animation option
   wrapper
-    .find(AnimationWindowControl)
+    .find('.animation-window-control')
     .at(0)
     .find(IconButton)
     .at(0)
     .simulate('click');
+
   t.deepEqual(
     setFilterAnimationWindow.args[0],
     [{id: StateWFilters.visState.filters[0].id, animationWindow: 'incremental'}],
@@ -258,7 +255,7 @@ test('Components -> TimeWidget.mount -> test actions', t => {
     .at(0)
     .simulate('click');
 
-  t.deepEqual(enlargeFilter.args[0], [0], 'should call enlarged fitler to close');
+  t.deepEqual(onClose.calledOnce, true, 'should call enlarged filter to close');
 
   wrapper.detach();
   clientSizeStub.restore();

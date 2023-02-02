@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,11 +22,18 @@ import test from 'tape';
 import {drainTasksForTesting, succeedTaskInTest, errorTaskInTest} from 'react-palm/tasks';
 import sinon from 'sinon';
 import {default as Console} from 'global/console';
-import ActionTypes from 'constants/action-types';
 
-import {exportFileToCloud, resetProviderStatus, setCloudProvider} from 'actions/provider-actions';
-import reducer, {providerStateReducerFactory} from 'reducers/provider-state';
-import {INITIAL_PROVIDER_STATE} from 'reducers/provider-state-updaters';
+import {
+  ActionTypes,
+  exportFileToCloud,
+  resetProviderStatus,
+  setCloudProvider
+} from '@kepler.gl/actions';
+import {
+  providerReducer as reducer,
+  providerStateReducerFactory,
+  INITIAL_PROVIDER_STATE
+} from '@kepler.gl/reducers';
 import MockProvider from 'test/helpers/mock-provider';
 
 test('#providerStateReducer', t => {

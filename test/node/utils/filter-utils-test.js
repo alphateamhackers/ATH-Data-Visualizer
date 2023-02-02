@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,25 +21,24 @@
 import test from 'tape';
 import moment from 'moment';
 
+import {getDatasetFieldIndexForFilter} from '@kepler.gl/table';
+
 import {
+  isValidFilterValue,
   adjustValueToFilterDomain,
   getFilterFunction,
   getDefaultFilter,
   validatePolygonFilter,
   generatePolygonFilter,
-  isValidFilterValue,
   isInPolygon,
   diffFilters,
   getHistogram,
-  getTimestampFieldDomain
-} from 'utils/filter-utils';
+  getTimestampFieldDomain,
+  createDataContainer
+} from '@kepler.gl/utils';
 
-import {getDatasetFieldIndexForFilter} from 'utils/gpu-filter-utils';
-
-import {FILTER_TYPES} from 'constants/default-settings';
+import {FILTER_TYPES} from '@kepler.gl/constants';
 import {mockPolygonFeature, mockPolygonData} from '../../fixtures/polygon';
-
-import {createDataContainer} from 'utils/table-utils';
 
 /* eslint-disable max-statements */
 test('filterUtils -> adjustValueToFilterDomain', t => {
@@ -479,7 +478,7 @@ test('filterUtils -> getTimestampFieldDomain', t => {
     zero: {
       input: ['2016-10-01 09:45:39', '2016-10-01 09:45:39'],
       expect: {
-        domain: [1475315139000, 1475315139000],
+        domain: [1475315139000, 1475315140000],
         mappedValue: [1475315139000, 1475315139000],
         histogram: [{count: 2, x0: 1475315139000, x1: 1475315139000}],
         enlargedHistogram: [{count: 2, x0: 1475315139000, x1: 1475315139000}],

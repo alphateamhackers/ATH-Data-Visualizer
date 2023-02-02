@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,11 @@
 import React from 'react';
 import sinon from 'sinon';
 import {mount} from 'enzyme';
-import {theme} from 'styles/base';
+import {theme} from '@kepler.gl/styles';
 import {ThemeProvider} from 'styled-components';
 import {IntlProvider} from 'react-intl';
-import {messages} from 'localization';
+import {messages} from '@kepler.gl/localization';
+import {Typeahead} from '@kepler.gl/components';
 
 export function mountWithTheme(node, options) {
   return mount(node, {
@@ -42,4 +43,30 @@ export const IntlWrapper = ({children, locale = 'en'}) => (
 
 export function mockHTMLElementClientSize(prop, value) {
   return sinon.stub(HTMLElement.prototype, prop).get(() => value);
+}
+
+export function clickItemSelector(itemSelector) {
+  itemSelector
+    .find('.item-selector__dropdown')
+    .at(0)
+    .simulate('click');
+}
+
+export function clickItemSelectList(itemSelector, itemIndex) {
+  itemSelector
+    .find(Typeahead)
+    .at(0)
+    .find('.list__item')
+    .at(itemIndex)
+    .simulate('click');
+}
+
+export function getItemSelectorListText(itemSelector, itemIndex) {
+  return itemSelector
+    .find(Typeahead)
+    .at(0)
+    .find('.list__item')
+    .at(itemIndex)
+    .find('.list__item__anchor')
+    .text();
 }

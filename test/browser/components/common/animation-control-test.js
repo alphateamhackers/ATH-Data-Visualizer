@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,19 @@ import React from 'react';
 import test from 'tape';
 import sinon from 'sinon';
 import moment from 'moment';
-import {setLayerAnimationTimeConfig} from 'actions/vis-state-actions';
+import {setLayerAnimationTimeConfig} from '@kepler.gl/actions';
 
 import {mountWithTheme} from 'test/helpers/component-utils';
 import {
   AnimationControlFactory,
   PlaybackControlsFactory,
-  FloatingTimeDisplayFactory
-} from 'components';
-import {appInjector} from 'components/container';
-import {StateWTripGeojson} from 'test/helpers/mock-state';
-import {
-  AnimationWindowControl,
+  FloatingTimeDisplayFactory,
+  appInjector,
   IconButton
-} from 'components/common/animation-control/playback-controls';
-import reducer from 'reducers/vis-state';
+} from '@kepler.gl/components';
+import {StateWTripGeojson} from 'test/helpers/mock-state';
+
+import {visStateReducer as reducer} from '@kepler.gl/reducers';
 
 const AnimationControl = appInjector.get(AnimationControlFactory);
 const PlaybackControls = appInjector.get(PlaybackControlsFactory);
@@ -67,7 +65,7 @@ test('Components -> AnimationControl -> render with props', t => {
   }, 'Show not fail with trip layer props');
 
   t.equal(
-    wrapper.find(AnimationWindowControl).length,
+    wrapper.find('.animation-window-control').length,
     0,
     'should not render AnimationWindowControl'
   );
@@ -76,7 +74,7 @@ test('Components -> AnimationControl -> render with props', t => {
 
   wrapper
     .find(IconButton)
-    .at(2)
+    .at(0)
     .simulate('click');
   t.ok(toggleAnimation.calledOnce, 'should call toggleAnimation');
   t.end();

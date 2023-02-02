@@ -55,24 +55,59 @@ export type MapStyle = {
 
 export const INITIAL_MAP_STYLE: MapStyle;
 
-export function addCustomMapStyleUpdater(state: MapStyle, action: MapStyleActions.AddCustomMapStyleUpdaterAction): MapStyle;
-export function inputMapStyleUpdater(state: MapStyle, action: MapStyleActions.InputMapStyleUpdaterAction): MapStyle;
-export function mapConfigChangeUpdater(state: MapStyle, action: MapStyleActions.MapConfigChangeUpdaterAction): MapStyle;
-export function requestMapStylesUpdater(state: MapStyle, action: MapStyleActions.RequestMapStylesUpdaterAction): MapStyle;
-export function loadMapStylesUpdater(state: MapStyle, action: MapStyleActions.LoadMapStylesUpdaterAction): MapStyle;
-export function loadMapStyleErrUpdater(state: MapStyle, action: MapStyleActions.LoadMapStyleErrUpdaterAction): MapStyle;
-export function mapStyleChangeUpdater(state: MapStyle, action: MapStyleActions.MapStyleChangeUpdaterAction): MapStyle;
-export function loadCustomMapStyleUpdater(state: MapStyle, action: MapStyleActions.LoadCustomMapStyleUpdaterAction): MapStyle;
-export function set3dBuildingColorUpdater(state: MapStyle, action: MapStyleActions.Set3dBuildingColorUpdaterAction): MapStyle;
-export function toggleMapLayerModalUpdater(state: MapStyle, action: MapStyleActions.ToggleMapLayerModalUpdaterAction): MapStyle;
+export function addCustomMapStyleUpdater(
+  state: MapStyle,
+  action: MapStyleActions.AddCustomMapStyleUpdaterAction
+): MapStyle;
+export function inputMapStyleUpdater(
+  state: MapStyle,
+  action: MapStyleActions.InputMapStyleUpdaterAction
+): MapStyle;
+export function mapConfigChangeUpdater(
+  state: MapStyle,
+  action: MapStyleActions.MapConfigChangeUpdaterAction
+): MapStyle;
+export function requestMapStylesUpdater(
+  state: MapStyle,
+  action: MapStyleActions.RequestMapStylesUpdaterAction
+): MapStyle;
+export function loadMapStylesUpdater(
+  state: MapStyle,
+  action: MapStyleActions.LoadMapStylesUpdaterAction
+): MapStyle;
+export function loadMapStyleErrUpdater(
+  state: MapStyle,
+  action: MapStyleActions.LoadMapStyleErrUpdaterAction
+): MapStyle;
+export function mapStyleChangeUpdater(
+  state: MapStyle,
+  action: MapStyleActions.MapStyleChangeUpdaterAction
+): MapStyle;
+export function loadCustomMapStyleUpdater(
+  state: MapStyle,
+  action: MapStyleActions.LoadCustomMapStyleUpdaterAction
+): MapStyle;
+export function set3dBuildingColorUpdater(
+  state: MapStyle,
+  action: MapStyleActions.Set3dBuildingColorUpdaterAction
+): MapStyle;
+export function toggleMapLayerModalUpdater(
+  state: MapStyle,
+  action: MapStyleActions.ToggleMapLayerModalUpdaterAction
+): MapStyle;
 
-
-export function receiveMapConfigUpdater(state: MapStyle, action: {
-  type?: ActionTypes.RECEIVE_MAP_CONFIG;
-  payload: ReceiveMapConfigPayload;
-}): MapStyle;
-export function initMapStyleUpdater(state: MapStyle, action: {
-  type?: ActionTypes.INIT;
-  payload: KeplerGlInitPayload;
-}): MapStyle;
+export function receiveMapConfigUpdater(
+  state: MapStyle,
+  action: {
+    type?: ActionTypes.RECEIVE_MAP_CONFIG;
+    payload: ReceiveMapConfigPayload;
+  }
+): MapStyle;
+export function initMapStyleUpdater(
+  state: MapStyle,
+  action: {
+    type?: ActionTypes.INIT;
+    payload: KeplerGlInitPayload;
+  }
+): MapStyle;
 export function resetMapConfigMapStyleUpdater(state: MapStyle): MapStyle;

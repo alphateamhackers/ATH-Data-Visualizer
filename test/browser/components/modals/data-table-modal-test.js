@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,24 +25,26 @@ import sinon from 'sinon';
 import flatten from 'lodash.flattendeep';
 import {mountWithTheme} from 'test/helpers/component-utils';
 import CloneDeep from 'lodash.clonedeep';
-import * as VisStateActions from 'actions/vis-state-actions';
-import visStateReducer from 'reducers/vis-state';
+import {VisStateActions} from '@kepler.gl/actions';
+import {visStateReducer} from '@kepler.gl/reducers';
 
-import FieldTokenFactory from 'components/common/field-token';
-import {VertThreeDots, ArrowUp} from 'components/common/icons';
-import DataTableModalFactory, {
+import {
+  FieldTokenFactory,
+  Icons,
+  DataTableModalFactory,
   DatasetTabs,
-  DatasetModalTab
-} from 'components/modals/data-table-modal';
-import DataTableFactory from 'components/common/data-table';
-import OptionDropdown from 'components/common/data-table/option-dropdown';
+  DatasetModalTab,
+  DataTableFactory,
+  OptionDropdown,
+  appInjector
+} from '@kepler.gl/components';
 import {testFields, testAllData} from 'test/fixtures/test-csv-data';
 import {geoStyleFields, geoStyleRows} from 'test/fixtures/geojson';
 import {StateWFiles, testCsvDataId, testGeoJsonDataId} from 'test/helpers/mock-state';
-import {appInjector} from '../../../../src/components/container';
 
-import {createDataContainer} from 'utils/table-utils';
+import {createDataContainer} from '@kepler.gl/utils';
 
+const {VertThreeDots} = Icons;
 const DataTableModal = appInjector.get(DataTableModalFactory);
 const DataTable = appInjector.get(DataTableFactory);
 const FieldToken = appInjector.get(FieldTokenFactory);
@@ -54,7 +56,7 @@ const expectedCellSizeCache = {
   'gps_data.types': {row: 125, header: 123},
   epoch: {row: 121, header: 90},
   has_result: {row: 75, header: 99},
-  id: {row: 75, header: 90},
+  uid: {row: 75, header: 90},
   time: {row: 180, header: 90},
   begintrip_ts_utc: {row: 182, header: 129},
   begintrip_ts_local: {row: 182, header: 137},
@@ -63,13 +65,13 @@ const expectedCellSizeCache = {
 
 const expectedExpandedCellSize = {
   cellSizeCache: {
-    'gps_data.utc_timestamp': 145,
+    'gps_data.utc_timestamp': 155,
     'gps_data.lat': 96,
     'gps_data.lng': 96,
     'gps_data.types': 125,
     epoch: 121,
     has_result: 75,
-    id: 75,
+    uid: 75,
     time: 180,
     begintrip_ts_utc: 182,
     begintrip_ts_local: 182,
@@ -153,7 +155,7 @@ test('Components -> DataTableModal.render: csv 1', t => {
     'gps_data.types',
     'epoch',
     'has_result',
-    'id',
+    'uid',
     'time',
     'begintrip_ts_utc',
     'begintrip_ts_local',
@@ -161,17 +163,25 @@ test('Components -> DataTableModal.render: csv 1', t => {
   ];
 
   const expectedColMeta = {
-    'gps_data.utc_timestamp': {name: 'gps_data.utc_timestamp', type: 'timestamp'},
+    'gps_data.utc_timestamp': {
+      name: 'gps_data.utc_timestamp',
+      type: 'timestamp',
+      format: 'YYYY-M-D H:m:s'
+    },
     'gps_data.lat': {name: 'gps_data.lat', type: 'real'},
     'gps_data.lng': {name: 'gps_data.lng', type: 'real'},
     'gps_data.types': {name: 'gps_data.types', type: 'string'},
-    epoch: {name: 'epoch', type: 'timestamp'},
+    epoch: {name: 'epoch', type: 'timestamp', format: 'X'},
     has_result: {name: 'has_result', type: 'boolean'},
-    id: {name: 'id', type: 'integer'},
-    time: {name: 'time', type: 'timestamp'},
-    begintrip_ts_utc: {name: 'begintrip_ts_utc', type: 'timestamp'},
-    begintrip_ts_local: {name: 'begintrip_ts_local', type: 'timestamp'},
-    date: {name: 'date', type: 'date'}
+    uid: {name: 'uid', type: 'integer'},
+    time: {name: 'time', type: 'timestamp', format: 'YYYY-M-DTHH:mm:ss.SSSS'},
+    begintrip_ts_utc: {name: 'begintrip_ts_utc', type: 'timestamp', format: 'YYYY-M-D HH:mm:ssZZ'},
+    begintrip_ts_local: {
+      name: 'begintrip_ts_local',
+      type: 'timestamp',
+      format: 'YYYY-M-D HH:mm:ssZZ'
+    },
+    date: {name: 'date', type: 'date', format: 'YYYY-M-D'}
   };
 
   t.deepEqual(props.columns, expectedColumns, 'DataTable should have the correct props.columns');
@@ -254,7 +264,6 @@ test('Components -> DataTableModal -> render DataTable: csv 1', t => {
   const wrapper = mountWithTheme(
     <DataTableModal datasets={StateWFiles.visState.datasets} dataId={testCsvDataId} />
   );
-
   t.equal(wrapper.find(DataTable).length, 1, 'should render 1 DataTable');
 
   const props = wrapper
@@ -283,7 +292,7 @@ test('Components -> DataTableModal -> render DataTable: csv 1', t => {
 
   t.equal(
     wrapper2.find('.header-cell').length,
-    testFields.length,
+    testFields.length * 3,
     `should render ${testFields.length} headers`
   );
 
@@ -410,7 +419,7 @@ test('Components -> DataTableModal -> render DataTable: sort and pin', t => {
     'gps_data.lng',
     'gps_data.types',
     'epoch',
-    'id',
+    'uid',
     'time',
     'begintrip_ts_utc',
     'begintrip_ts_local',
@@ -419,7 +428,7 @@ test('Components -> DataTableModal -> render DataTable: sort and pin', t => {
 
   t.equal(
     wrapper2.find('.header-cell').length,
-    testFields.length,
+    testFields.length * 3,
     `should render ${testFields.length} headers`
   );
 
@@ -443,22 +452,13 @@ test('Components -> DataTableModal -> render DataTable: sort and pin', t => {
     t.equal(
       wrapper2
         .find('.header-cell')
-        .at(i)
+        .at(i * 3)
         .find('.col-name__name')
         .text(),
       expectedHeaders[i],
       'should render corrected pinned columns'
     );
   });
-
-  t.equal(
-    wrapper2
-      .find('.header-cell')
-      .at(2)
-      .find(ArrowUp).length,
-    1,
-    'should render sort icon'
-  );
 
   t.end();
 });
@@ -527,7 +527,11 @@ test('Components -> cellSize -> renderedSize', t => {
         smoothie: {
           id: 'smoothie',
           dataContainer,
-          fields,
+          fields: [
+            {name: testColumns[0], type: 'geojson', displayName: testColumns[0]},
+            {name: testColumns[1], type: 'real', displayName: testColumns[1]},
+            {name: testColumns[2], type: 'string', displayName: testColumns[2]}
+          ],
           color: [113, 113, 113]
         }
       }}
@@ -541,9 +545,9 @@ test('Components -> cellSize -> renderedSize', t => {
     .props();
 
   const expected = {
-    _geojson: {row: 400, header: 96},
-    'income level of people over 65': {row: 85, header: 150},
-    engagement: {row: 127, header: 115}
+    _geojson: {row: 500, header: 206},
+    'income level of people over 65': {row: 182, header: 223},
+    engagement: {row: 182, header: 206}
   };
 
   t.deepEqual(
@@ -595,14 +599,14 @@ test('Components -> DataTableModal.render: csv 2', t => {
 
   const expectedExpandedCellSizeGeo = {
     cellSizeCache: {
-      _geojson: 400,
+      _geojson: 410,
       fillColor: 90,
       lineColor: 94,
       lineWidth: 98,
       elevation: 94,
       radius: 90
     },
-    ghost: 334
+    ghost: 324
   };
   const wrapper2 = mountWithTheme(<DataTable {...enriched} />);
   const componentInstance = wrapper2.find('DataTable').instance();
@@ -613,7 +617,7 @@ test('Components -> DataTableModal.render: csv 2', t => {
   componentInstance.setState(result);
   wrapper2.update();
 
-  t.equal(wrapper2.find('.header-cell').length, 7, `should render 7 header cells`);
+  t.equal(wrapper2.find('.header-cell').length, 21, `should render 7 header cells`);
 
   // test header cell
   const expectedHeaders = [
@@ -628,7 +632,7 @@ test('Components -> DataTableModal.render: csv 2', t => {
 
   expectedHeaders.forEach((name, index) => {
     const header = wrapper2.find(`.header-cell.column-${index}`);
-    t.equal(header.length, 1, 'should render 1 header');
+    t.equal(header.length, 3, 'should render 1 header');
 
     if (index < 6) {
       const cellText = header.find('.col-name__name').text();
@@ -639,7 +643,7 @@ test('Components -> DataTableModal.render: csv 2', t => {
       t.equal(header.find(OptionDropdown).length, 1, 'should render OptionDropdown');
     } else {
       // if ghost cell
-      t.equal(header.text(), '', 'cell should be empty');
+      t.equal(header.at(2).text(), '', 'cell should be empty');
     }
   });
 

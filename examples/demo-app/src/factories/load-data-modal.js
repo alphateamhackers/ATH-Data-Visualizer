@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import {LoadDataModalFactory, withState} from 'kepler.gl/components';
+import {LoadDataModalFactory, withState} from '@kepler.gl/components';
 import {LOADING_METHODS} from '../constants/default-settings';
 
 import SampleMapGallery from '../components/load-data-modal/sample-data-viewer';

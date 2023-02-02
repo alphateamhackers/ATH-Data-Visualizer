@@ -61,7 +61,6 @@ export function toggleMapControl(
   index: number
 ): Merge<ToggleMapControlUpdaterAction, {type: ActionTypes.TOGGLE_MAP_CONTROL}>;
 
-
 /** SET_MAP_CONTROL_VISIBILITY */
 export type setMapControlVisibilityUpdaterAction = {
   payload: {
@@ -210,7 +209,7 @@ export function setLocale(
 /** TOGGLE_LAYER_PANEL_LIST_VIEW */
 export type ToggleLayerPanelListViewAction = {
   payload: string;
-}
+};
 export function toggleLayerPanelListView(
   listView: string
 ): Merge<ToggleLayerPanelListViewAction, {type: ActionTypes.TOGGLE_LAYER_PANEL_LIST_VIEW}>;

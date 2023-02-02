@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,17 +27,15 @@ import {
   FilterPanelFactory,
   FieldSelectorFactory,
   Button,
-  FilterPanelHeaderFactory
-} from 'components';
-
-import NewFilterPanelFactory from 'components/side-panel/filter-panel/filter-panel';
-
-import {appInjector} from 'components/container';
+  FilterPanelHeaderFactory,
+  NewFilterPanelFactory,
+  appInjector
+} from '@kepler.gl/components';
 import {mountWithTheme, IntlWrapper} from 'test/helpers/component-utils';
-import keplerGlReducer from 'reducers/core';
-import * as VisStateActions from 'actions/vis-state-actions';
+import {keplerGlReducerCore as keplerGlReducer} from '@kepler.gl/reducers';
+import {VisStateActions} from '@kepler.gl/actions';
 import {testFields, testAllData} from 'test/fixtures/test-csv-data';
-import {ALL_FIELD_TYPES} from 'constants/default-settings';
+import {ALL_FIELD_TYPES} from '@kepler.gl/constants';
 import {assertDatasetIsTable} from '../../../helpers/comparison-utils';
 
 // components
@@ -222,7 +220,7 @@ test('Components -> FilterManager.mount -> with supportedFilterTypes', t => {
 
   t.deepEqual(
     fieldOptions.map(f => f.name),
-    ['gps_data.lat', 'gps_data.lng', 'id'],
+    ['gps_data.lat', 'gps_data.lng', 'uid'],
     'should only pass real / integer fields'
   );
 

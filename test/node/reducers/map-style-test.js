@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,15 +21,15 @@
 import test from 'tape';
 import {drainTasksForTesting, succeedTaskWithValues} from 'react-palm/tasks';
 
-import reducer from 'reducers/map-style';
 import {
+  mapStyleReducer as reducer,
   INITIAL_MAP_STYLE,
   loadMapStylesUpdater,
   getInitialInputStyle
-} from 'reducers/map-style-updaters';
-import {keplerGlInit, receiveMapConfig} from 'actions/actions';
-import SchemaManager from 'schemas';
-import {DEFAULT_MAP_STYLES, DEFAULT_MAPBOX_API_URL} from 'constants/default-settings';
+} from '@kepler.gl/reducers';
+import {keplerGlInit, receiveMapConfig} from '@kepler.gl/actions';
+import SchemaManager from '@kepler.gl/schemas';
+import {DEFAULT_MAP_STYLES, DEFAULT_MAPBOX_API_URL} from '@kepler.gl/constants';
 
 // helpers
 import {StateWCustomMapStyle} from 'test/helpers/mock-state';
@@ -173,6 +173,8 @@ test('#mapStyleReducer -> RECEIVE_MAP_CONFIG', t => {
     inputStyle: getInitialInputStyle(),
     threeDBuildingColor: [1, 2, 3],
     custom3DBuildingColor: true,
+    bottomMapStyle: undefined,
+    topMapStyle: undefined,
     initialState: {}
   };
 

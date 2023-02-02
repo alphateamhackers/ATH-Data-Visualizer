@@ -19,6 +19,7 @@ export * from './side-panel/common/dataset-tag';
 export * from './common/checkbox';
 export * from './common/styled-components';
 export * from './common/tippy-tooltip'
+// eslint-disable-next-line prettier/prettier
 export * as Icons from './common/icons';
 export * from './common/file-uploader/file-drop';
 export * from './common/file-uploader/upload-button';

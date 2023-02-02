@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,10 @@ import test from 'tape';
 
 import {StateWMultiH3Layers} from 'test/helpers/mock-state';
 
-import * as VisStateActions from 'actions/vis-state-actions';
-import * as UIStateActions from 'actions/ui-state-actions';
+import {VisStateActions, UIStateActions} from '@kepler.gl/actions';
 
-import {appInjector} from 'components/container';
+import {appInjector, LayerListFactory} from '@kepler.gl/components';
 import {IntlWrapper, mountWithTheme} from 'test/helpers/component-utils';
-
-import LayerListFactory from 'components/side-panel/layer-panel/layer-list';
 
 const LayerList = appInjector.get(LayerListFactory);
 

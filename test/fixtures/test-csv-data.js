@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-/* eslint-disable max-lens */
-const data = `gps_data.utc_timestamp,gps_data.lat,gps_data.lng,gps_data.types,epoch,has_result,id,time,begintrip_ts_utc,begintrip_ts_local,date
+/* eslint-disable max-len */
+const data = `gps_data.utc_timestamp,gps_data.lat,gps_data.lng,gps_data.types,epoch,has_result,uid,time,begintrip_ts_utc,begintrip_ts_local,date
 2016-09-17 00:09:55,29.9900937,31.2590542,driver_analytics_0,1472688000000,False,1,2016-09-23T00:00:00.000Z,2016-10-01 09:41:39+00:00,2016-10-01 09:41:39+00:00,2016-09-23
 2016-09-17 00:10:56,29.9927699,31.2461142,driver_analytics,1472688000000,False,2,2016-09-23T00:00:00.000Z,2016-10-01 09:46:37+00:00,2016-10-01 16:46:37+00:00,2016-09-23
 2016-09-17 00:11:56,29.9907261,31.2312742,driver_analytics,1472688000000,False,3,2016-09-23T00:00:00.000Z,,,2016-09-23
@@ -255,7 +255,7 @@ export const sampleConfig = {
   config
 };
 
-export const dataWithNulls = `gps_data.utc_timestamp,gps_data.lat,gps_data.lng,gps_data.types,epoch,has_result,id,time,begintrip_ts_utc,begintrip_ts_local,date
+export const dataWithNulls = `gps_data.utc_timestamp,gps_data.lat,gps_data.lng,gps_data.types,epoch,has_result,uid,time,begintrip_ts_utc,begintrip_ts_local,date
 Null,29.9900937,31.2590542,driver_analytics_0,1472688000000,False,1,2016-09-23T00:00:00.000Z,2016-10-01 09:41:39+00:00,2016-10-01 09:41:39+00:00,2016-09-23
 2016-09-17 00:10:56,29.9927699,31.2461142,null,1472688000000,False,null,2016-09-23T00:00:00.000Z,2016-10-01 09:46:37+00:00,2016-10-01 16:46:37+00:00,2016-09-23
 2016-09-17 00:11:56,29.9907261,NaN,driver_analytics,1472688000000,False,3,2016-09-23T00:00:00.000Z,,,2016-09-23
@@ -529,9 +529,9 @@ export const testFields = [
   {
     type: 'integer',
     fieldIdx: 6,
-    name: 'id',
-    id: 'id',
-    displayName: 'id',
+    name: 'uid',
+    id: 'uid',
+    displayName: 'uid',
     format: '',
     analyzerType: 'INT',
     valueAccessor: dc => d => {
@@ -588,6 +588,22 @@ export const testFields = [
   }
 ];
 
+export const testCsvFieldPairs = [
+  {
+    defaultName: 'gps_data',
+    pair: {
+      lat: {
+        value: 'gps_data.lat',
+        fieldIdx: 1
+      },
+      lng: {
+        value: 'gps_data.lng',
+        fieldIdx: 2
+      }
+    },
+    suffix: ['lat', 'lng']
+  }
+];
 export const timeMappedValue = [
   1474588800000,
   1474588800000,
@@ -831,7 +847,7 @@ export const timeFilterProps = {
   enlargedHistogram: enlargedTimeHistogram,
   fieldType: 'timestamp',
   type: 'timeRange',
-  enlarged: true,
+  view: 'enlarged',
   fixedDomain: true,
   gpu: true,
   value: [1474588800000, 1474617600000],
@@ -844,8 +860,9 @@ export const mergedTimeFilter = {
   dataId: [dataId],
   freeze: true,
   id: 'time-0',
+  enabled: true,
   fixedDomain: true,
-  enlarged: true,
+  view: 'enlarged',
   isAnimating: false,
   speed: 4,
   name: ['time'],
@@ -866,7 +883,7 @@ export const epochFilterProps = {
   enlargedHistogram: 'dont test me',
   fieldType: 'timestamp',
   type: 'timeRange',
-  enlarged: true,
+  view: 'enlarged',
   fixedDomain: true,
   gpu: true,
   value: [1472688000000, 1472774400000],
@@ -880,8 +897,9 @@ export const mergedEpochFilter = {
   dataId: [dataId],
   freeze: true,
   id: 'epoch-1',
+  enabled: true,
   fixedDomain: true,
-  enlarged: false,
+  view: 'side',
   isAnimating: false,
   speed: 1,
   name: ['epoch'],
@@ -900,7 +918,8 @@ export const dateFilterProps = {
   fieldType: 'date',
   type: 'multiSelect',
   gpu: false,
-  value: []
+  value: [],
+  view: 'side'
 };
 
 export const mergedDateFilter = {
@@ -909,8 +928,9 @@ export const mergedDateFilter = {
   dataId: [dataId],
   freeze: true,
   id: 'date-2',
+  enabled: true,
   fixedDomain: false,
-  enlarged: false,
+  view: 'side',
   isAnimating: false,
   speed: 1,
   name: ['date'],
@@ -1478,7 +1498,7 @@ export const updatedLayerV2 = {
     fixedRadius: false
   }
 };
-/* eslint-enable max-lens */
+/* eslint-enable max-len */
 
 export const numericRangesCsv = `smallest,small,negative,medium,large
 0.00000,0,-10,10,0

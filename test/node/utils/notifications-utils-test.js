@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,7 +19,7 @@
 // THE SOFTWARE.
 
 import test from 'tape';
-import {errorNotification, successNotification} from 'utils/notifications-utils';
+import {errorNotification, successNotification} from '@kepler.gl/utils';
 
 test('#notificationsUtils -> errorNotification', t => {
   const notification = errorNotification({message: 'test', id: 'test-1'});
@@ -30,7 +30,8 @@ test('#notificationsUtils -> errorNotification', t => {
       id: 'test-1',
       message: 'test',
       type: 'error',
-      topic: 'global'
+      topic: 'global',
+      count: 1
     },
     'ErrorNotification creates an error notification'
   );
@@ -47,7 +48,8 @@ test('#notificationsUtils -> successNotification', t => {
       id: 'test-1',
       message: 'test',
       type: 'success',
-      topic: 'global'
+      topic: 'global',
+      count: 1
     },
     'SuccessNotification creates an error notification'
   );

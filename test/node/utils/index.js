@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,12 @@ import './layer-utils-test';
 import './data-scale-utils-test';
 import './interaction-utils-test';
 import './mapbox-gl-style-editor-test';
+import './mapbox-utils-test';
 import './notifications-utils-test';
 import './aggregate-utils-test';
 import './color-util-test';
 import './util-test';
 import './export-utils-test';
 import './s2-utils-test';
+import './editor-utils-test';
 import './kepler-gl-utils-test';

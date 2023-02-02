@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,34 +19,31 @@
 // THE SOFTWARE.
 
 // Reducers
-export * from 'reducers';
+export * from '@kepler.gl/reducers';
 
 // Schemas
-export * from './schemas';
+export * from '@kepler.gl/schemas';
 
 // Actions
-export * from './actions';
+export * from '@kepler.gl/actions';
 
 // Constants
-export * from './constants';
+export * from '@kepler.gl/constants';
 
 // Processors
-export * from './processors';
+export * from '@kepler.gl/processors';
 
 // Components
-export * from './components';
+export * from '@kepler.gl/components';
 
 // Layers
-export * from './layers';
+export * from '@kepler.gl/layers';
 
 // Styles
-export * from './styles';
-
-// Middleware
-export * from './middleware';
+export * from '@kepler.gl/styles';
 
 // Utils
-export * from './utils';
+export * from '@kepler.gl/utils';
 
 // Default export
-export {default} from './components';
+export {default} from '@kepler.gl/components';

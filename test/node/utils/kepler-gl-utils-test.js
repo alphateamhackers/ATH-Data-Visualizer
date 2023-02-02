@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,8 +19,8 @@
 // THE SOFTWARE.
 
 import test from 'tape';
-import {GEOCODER_DATASET_NAME} from 'constants/default-settings';
-import {getVisibleDatasets} from 'components/kepler-gl';
+import {GEOCODER_DATASET_NAME} from '@kepler.gl/constants';
+import {getVisibleDatasets} from '@kepler.gl/components';
 
 test('kepler-gl utils -> getVisibleDatasets', t => {
   // Geocoder dataset mock can be an empty object since the filter function only cares about the key
@@ -46,3 +46,8 @@ test('kepler-gl utils -> getVisibleDatasets', t => {
 
   t.end();
 });
+
+export function readBatch(asyncIterator, fileName): AsyncIterable<any>;
+export function isKeplerGlMap(obj: any): Boolean;
+export function isRowObject(obj: any): Boolean;
+export function isGeoJson(obj: any): Boolean;

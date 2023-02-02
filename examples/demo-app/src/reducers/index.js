@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,10 @@
 import {combineReducers} from 'redux';
 import {handleActions} from 'redux-actions';
 
-import keplerGlReducer, {combinedUpdaters, uiStateUpdaters} from 'kepler.gl/reducers';
-import {processGeojson, processCsvData} from 'kepler.gl/processors';
-import KeplerGlSchema from 'kepler.gl/schemas';
-import {EXPORT_MAP_FORMATS} from 'kepler.gl/constants';
+import keplerGlReducer, {combinedUpdaters, uiStateUpdaters} from '@kepler.gl/reducers';
+import {processGeojson, processCsvData} from '@kepler.gl/processors';
+import KeplerGlSchema from '@kepler.gl/schemas';
+import {EXPORT_MAP_FORMATS} from '@kepler.gl/constants';
 
 import {
   INIT,
@@ -34,7 +34,7 @@ import {
   SET_SAMPLE_LOADING_STATUS
 } from '../actions';
 
-import {AUTH_TOKENS, DEFAULT_FEATURE_FLAGS} from '../constants/default-settings';
+import {AUTH_TOKENS} from '../constants/default-settings';
 import {generateHashId} from '../utils/strings';
 
 // INITIAL_APP_STATE
@@ -43,13 +43,11 @@ const initialAppState = {
   loaded: false,
   sampleMaps: [], // this is used to store sample maps fetch from a remote json file
   isMapLoading: false, // determine whether we are loading a sample map,
-  error: null, // contains error when loading/retrieving data/configuration
+  error: null // contains error when loading/retrieving data/configuration
   // {
   //   status: null,
   //   message: null
   // }
-  // eventually we may have an async process to fetch these from a remote location
-  featureFlags: DEFAULT_FEATURE_FLAGS
 };
 
 // App reducer

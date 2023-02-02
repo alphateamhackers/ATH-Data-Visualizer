@@ -71,7 +71,7 @@ export type Notifications = {
 
 export type Locale = string;
 
-export type LayerPanelListView = 'list' | 'sortByDataset'
+export type LayerPanelListView = 'list' | 'sortByDataset';
 
 export type UiState = {
   readOnly: boolean;

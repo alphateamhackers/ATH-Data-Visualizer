@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,11 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import {KeplerGlLayers} from 'layers';
+import {KeplerGlLayers} from '@kepler.gl/layers';
+import {createDataContainer} from '@kepler.gl/utils';
+import {DEFAULT_COLOR_UI} from '@kepler.gl/constants';
 const {H3Layer} = KeplerGlLayers;
-import {DEFAULT_COLOR_UI} from 'layers/layer-factory';
-
-import {createDataContainer} from 'utils/table-utils';
 
 export default `hex_id,value
 89283082c2fffff,64
@@ -159,10 +158,11 @@ export const mergedFilters = [
   {
     dataId: [dataId],
     id: 'value',
+    enabled: true,
     name: ['value'],
     type: 'range',
     value: [11.2, 28],
-    enlarged: false,
+    view: 'side',
     freeze: true,
     plotType: 'histogram',
     yAxis: null,
@@ -329,7 +329,8 @@ const mergedFields = [
       value: [1, 76],
       type: 'range',
       typeOptions: ['range'],
-      gpu: true
+      gpu: true,
+      view: 'side'
     }
   }
 ];
@@ -438,8 +439,12 @@ export const expectedMergedDataset = {
   color: 'dont test me',
   metadata: {
     id: 'h3-hex-id',
-    label: 'new dataset'
+    label: 'new dataset',
+    format: ''
   },
+  type: '',
+  supportedFilterTypes: null,
+  disableDataOperation: false,
   dataContainer,
   allIndexes: indices,
   filteredIndex: indices,

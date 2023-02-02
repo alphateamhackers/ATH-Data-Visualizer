@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +21,9 @@
 import {OAuthApp} from '@carto/toolkit';
 import Console from 'global/console';
 import CartoIcon from './carto-icon';
-import {formatCsv} from 'kepler.gl/processors';
-import {Provider} from 'kepler.gl/cloud-providers';
-import {createDataContainer} from 'kepler.gl/utils';
+import {Provider} from '@kepler.gl/cloud-providers';
+import {createDataContainer} from '@kepler.gl/utils';
+import {formatCsv} from '@kepler.gl/reducers';
 
 const NAME = 'carto';
 const DISPLAY_NAME = 'CARTO';

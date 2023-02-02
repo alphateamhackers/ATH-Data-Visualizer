@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,10 @@ import {
   preparedFilterDomain0,
   hexagonIdLayerMeta
 } from 'test/helpers/layer-utils';
-import {KeplerGlLayers} from 'layers';
-import {getCentroid} from 'layers/h3-hexagon-layer/h3-utils';
-import {defaultElevation} from 'layers/h3-hexagon-layer/h3-hexagon-layer';
-import {copyTableAndUpdate} from 'utils/table-utils/kepler-table';
+import {KeplerGlLayers, h3DefaultElevation as defaultElevation} from '@kepler.gl/layers';
+import {getCentroid} from '@kepler.gl/utils';
+
+import {copyTableAndUpdate} from '@kepler.gl/table';
 
 const {H3Layer} = KeplerGlLayers;
 const columns = {

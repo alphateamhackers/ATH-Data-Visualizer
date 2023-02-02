@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,9 +18,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import GeojsonLayer from 'layers/geojson-layer/geojson-layer';
-import {DEFAULT_TEXT_LABEL, DEFAULT_COLOR_UI} from 'layers/layer-factory';
-import {getDefaultInteraction} from 'utils/interaction-utils';
+import {KeplerGlLayers} from '@kepler.gl/layers';
+import {DEFAULT_TEXT_LABEL, DEFAULT_COLOR_UI} from '@kepler.gl/constants';
+
+const {GeojsonLayer} = KeplerGlLayers;
+import {defaultInteractionConfig} from '@kepler.gl/reducers';
 
 export const savedStateV1 = {
   datasets: [
@@ -837,7 +839,8 @@ export const mergedFilters = [
     dataId: ['a5ybmwl2d'],
     freeze: true,
     id: '9ca0l7p2a',
-    enlarged: false,
+    enabled: true,
+    view: 'side',
     isAnimating: false,
     animationWindow: 'free',
     name: ['zip_area'],
@@ -2777,11 +2780,10 @@ mergedLayer1.dataToFeature = mergedLayer0.dataToFeature;
 
 export const mergedLayers = [mergedLayer0, mergedLayer1];
 
-const defaultInteraction = getDefaultInteraction();
 export const mergedInteraction = {
-  ...defaultInteraction,
+  ...defaultInteractionConfig,
   tooltip: {
-    ...defaultInteraction.tooltip,
+    ...defaultInteractionConfig.tooltip,
     enabled: false,
     config: {
       compareMode: false,
@@ -2805,7 +2807,7 @@ export const mergedInteraction = {
     }
   },
   brush: {
-    ...defaultInteraction.brush,
+    ...defaultInteractionConfig.brush,
     enabled: false,
     config: {
       size: 1

@@ -20,11 +20,7 @@
 
 import ActionTypes from 'constants/action-types';
 import {Merge, RGBColor} from '../reducers/types';
-import {
-  InputStyle,
-  MapStyles,
-  VisibleLayerGroups,
-} from '../reducers/map-style-updaters';
+import {InputStyle, MapStyles, VisibleLayerGroups} from '../reducers/map-style-updaters';
 import {MapState} from '../reducers/map-state-updaters';
 
 export function addCustomMapStyle(): {type: ActionTypes.ADD_CUSTOM_MAP_STYLE};
@@ -33,8 +29,8 @@ export function addCustomMapStyle(): {type: ActionTypes.ADD_CUSTOM_MAP_STYLE};
 export type InputMapStyleUpdaterAction = {
   payload: {
     inputStyle: Partial<InputStyle>;
-    mapState?: MapState
-  }
+    mapState?: MapState;
+  };
 };
 
 export function inputMapStyle(
@@ -59,10 +55,10 @@ export type ToggleMapLayerModalUpdaterAction = {
   payload: {
     slug: string;
     data: string;
-  }
+  };
 };
 
-export function toggleMapLayerModal()
+export function toggleMapLayerModal();
 
 /** REQUEST_MAP_STYLES */
 export type RequestMapStylesUpdaterAction = {

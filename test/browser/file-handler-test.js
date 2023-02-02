@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,7 @@
 
 /* eslint-disable max-statements */
 import test from 'tape';
-import {processFileData, readFileInBatches} from 'processors/file-handler';
-import {csvWithNull} from '../node/processors/file-handler-fixtures';
+import {processFileData, readFileInBatches, csvWithNull} from '@kepler.gl/processors';
 import {dataWithNulls, testFields, parsedDataWithNulls} from 'test/fixtures/test-csv-data';
 import geojsonString, {
   featureString,
@@ -37,13 +36,11 @@ import {
   parsedFields as parsedKeplerMapFields
 } from 'test/fixtures/state-saved-v1-7';
 
-import global from 'global';
 import {cmpField} from '../helpers/comparison-utils';
 
-/** loaders.gl uses these from global */
-global.File = global.window.File;
-global.FileReader = global.window.FileReader;
-global.Blob = global.window.Blob;
+// Install polyfills required for loaders.gl
+import {installFilePolyfills} from '@loaders.gl/polyfills';
+installFilePolyfills();
 
 test('#file-handler -> readFileInBatches.csv -> processFileData', async t => {
   const csvFile = new File([dataWithNulls], 'text-data.csv', {type: 'text/csv'});
@@ -91,6 +88,7 @@ test('#file-handler -> readFileInBatches.csv -> processFileData', async t => {
 
   const expected2 = {
     value: {
+      batchType: 'metadata',
       bytesUsed: undefined,
       count: 0,
       cursor: 0,
@@ -103,7 +101,7 @@ test('#file-handler -> readFileInBatches.csv -> processFileData', async t => {
         'gps_data.types',
         'epoch',
         'has_result',
-        'id',
+        'uid',
         'time',
         'begintrip_ts_utc',
         'begintrip_ts_local',
@@ -111,7 +109,8 @@ test('#file-handler -> readFileInBatches.csv -> processFileData', async t => {
       ],
       length: 13,
       progress: {rowCount: 13, rowCountInBatch: 13},
-      schema: {}
+      schema: {},
+      shape: 'object-row-table'
     },
     done: false
   };
@@ -204,11 +203,12 @@ test('#file-handler -> readFileInBatches.GeoJSON FeatureCollection -> processFil
 
   const expected2 = {
     value: {
+      shape: 'object-row-table',
       batchType: 'partial-result',
       container: {type: 'FeatureCollection', features: []},
       data: [],
+      length: 0,
       bytesUsed: 0,
-      schema: null,
       jsonpath: '$.features',
       progress: {rowCount: 0, rowCountInBatch: 0, percent: 0},
       fileName: 'text-data-1.geojson'
@@ -571,7 +571,6 @@ test('#file-handler -> readFileInBatches.keplerMap -> processFileData', async t 
       container: {}, // do not test
       data: [],
       bytesUsed: 0,
-      schema: null,
       jsonpath: '$.datasets',
       progress: {rowCount: 0, rowCountInBatch: 0, percent: 0},
       fileName
@@ -587,7 +586,6 @@ test('#file-handler -> readFileInBatches.keplerMap -> processFileData', async t 
   const expected3 = {
     value: {
       data: [],
-      schema: null,
       length: 1,
       cursor: 0,
       count: 0,
@@ -610,7 +608,6 @@ test('#file-handler -> readFileInBatches.keplerMap -> processFileData', async t 
       container: {}, // do not test
       jsonpath: '$.datasets',
       data: [], // do not test
-      schema: null,
       progress: {rowCount: 1, rowCountInBatch: 0},
       fileName
     },

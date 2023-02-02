@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +21,9 @@
 import React from 'react';
 import test from 'tape';
 import {shallow} from 'enzyme';
-import NotificationItemFactory from 'components/notification-panel/notification-item';
-import {createNotification} from 'utils/notifications-utils';
-import {theme} from 'styles/base';
+import {NotificationItemFactory} from '@kepler.gl/components';
+import {createNotification} from '@kepler.gl/utils';
+import {theme} from '@kepler.gl/styles';
 
 const NotificationItem = NotificationItemFactory();
 

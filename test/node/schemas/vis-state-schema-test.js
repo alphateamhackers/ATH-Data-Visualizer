@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
 import test from 'tape';
 import cloneDeep from 'lodash.clonedeep';
 import {cmpFilters, cmpSavedLayers} from 'test/helpers/comparison-utils';
-import SchemaManager from 'schemas';
+import SchemaManager from '@kepler.gl/schemas';
 
 import {
   StateWFilesFiltersLayerColor,
@@ -37,6 +37,19 @@ import {
   testCsvDataId,
   testGeoJsonDataId
 } from 'test/helpers/mock-state';
+import {keplerGlReducerCore as keplerGlReducer} from '@kepler.gl/reducers';
+import {VisStateActions} from '@kepler.gl/actions';
+
+const expectedVisStateEntries = [
+  'filters',
+  'layers',
+  'interactionConfig',
+  'layerBlending',
+  'overlayBlending',
+  'splitMaps',
+  'animationConfig',
+  'editor'
+];
 
 test('#visStateSchema -> v1 -> save layers', t => {
   const initialState = cloneDeep(StateWFilesFiltersLayerColor);
@@ -46,8 +59,8 @@ test('#visStateSchema -> v1 -> save layers', t => {
 
   t.deepEqual(
     Object.keys(vsToSave),
-    ['filters', 'layers', 'interactionConfig', 'layerBlending', 'splitMaps', 'animationConfig'],
-    'visState should have all 5 entries'
+    expectedVisStateEntries,
+    `visState should have all ${expectedVisStateEntries.length} entries`
   );
 
   const exptectedSavedLayers = [expectedSavedLayer0, expectedSavedLayer1, expectedSavedLayer2];
@@ -67,8 +80,8 @@ test('#visStateSchema -> v1 -> load layers', t => {
 
   t.deepEqual(
     Object.keys(vsLoaded),
-    ['filters', 'layers', 'interactionConfig', 'layerBlending', 'splitMaps', 'animationConfig'],
-    'visState should have all 5 entries'
+    expectedVisStateEntries,
+    `visState should have all ${expectedVisStateEntries.length} entries`
   );
 
   const loadedLayers = vsLoaded.layers;
@@ -95,10 +108,11 @@ test('#visStateSchema -> v1 -> save load filters', t => {
     {
       dataId: [testCsvDataId],
       id: 'hjpn8frza',
+      enabled: true,
       name: ['time'],
       type: 'timeRange',
       value: [1474606800000, 1474617600000],
-      enlarged: true,
+      view: 'enlarged',
       plotType: 'histogram',
       yAxis: null,
       animationWindow: 'free',
@@ -107,10 +121,11 @@ test('#visStateSchema -> v1 -> save load filters', t => {
     {
       dataId: [testGeoJsonDataId],
       id: 'vpk2466o',
+      enabled: true,
       name: ['RATE'],
       type: 'multiSelect',
       value: ['a'],
-      enlarged: false,
+      view: 'side',
       plotType: 'histogram',
       yAxis: null,
       animationWindow: 'free',
@@ -120,6 +135,19 @@ test('#visStateSchema -> v1 -> save load filters', t => {
 
   cmpFilters(t, expectedSavedFilters, filtersToSave);
   cmpFilters(t, expectedSavedFilters, loadedFilters);
+
+  t.end();
+});
+
+test('#visStateSchema -> v1 -> save and validate filters', t => {
+  const initialState = cloneDeep(StateWFilesFiltersLayerColor);
+
+  // add empty filter
+  const nextStte = keplerGlReducer(initialState, VisStateActions.addFilter(testCsvDataId));
+  const savedState = SchemaManager.getConfigToSave(nextStte);
+
+  t.equal(nextStte.visState.filters.length, 3, 'should have 3 filters');
+  t.equal(savedState.config.visState.filters.length, 2, 'should only save 2 filters');
 
   t.end();
 });
@@ -156,7 +184,7 @@ test('#visStateSchema -> v1 -> save load interaction', t => {
             format: null
           },
           {
-            name: 'id',
+            name: 'uid',
             format: null
           }
         ],
@@ -283,8 +311,8 @@ test('#visStateSchema -> v1 -> save animation', t => {
 
   t.deepEqual(
     Object.keys(vsToSave),
-    ['filters', 'layers', 'interactionConfig', 'layerBlending', 'splitMaps', 'animationConfig'],
-    'visState should have all 5 entries'
+    expectedVisStateEntries,
+    `visState should have all ${expectedVisStateEntries.length} entries`
   );
 
   const expectedSavedLayers = [expectedSavedTripLayer];

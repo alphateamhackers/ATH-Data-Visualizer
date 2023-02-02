@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -43,21 +43,24 @@ import {
 } from 'test/fixtures/geojson';
 
 import {
-  ACCEPTED_ANALYZER_TYPES,
-  analyzerTypeToFieldType,
-  formatCsv,
-  getFieldsFromData,
-  getSampleForTypeAnalyze,
   parseCsvRowsByFieldType,
   processCsvData,
   processGeojson,
-  processRowObject,
-  validateInputData
-} from 'processors/data-processor';
+  processRowObject
+} from '@kepler.gl/processors';
 
-import {createDataContainer} from 'utils/table-utils';
+import {
+  ACCEPTED_ANALYZER_TYPES,
+  analyzerTypeToFieldType,
+  getSampleForTypeAnalyze,
+  validateInputData,
+  getFieldsFromData,
+  createDataContainer
+} from '@kepler.gl/utils';
 
-import {ALL_FIELD_TYPES} from 'constants/default-settings';
+import {formatCsv} from '@kepler.gl/reducers';
+
+import {ALL_FIELD_TYPES} from '@kepler.gl/constants';
 import {cmpFields} from '../../helpers/comparison-utils';
 
 test('Processor -> getFieldsFromData', t => {

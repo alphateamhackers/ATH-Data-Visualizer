@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,8 +19,9 @@
 // THE SOFTWARE.
 
 import React, {useState} from 'react';
+import classnames from 'classnames';
 import styled from 'styled-components';
-import {Icons, IconRoundSmall, MapControlButton} from 'kepler.gl/components';
+import {Icons, IconRoundSmall, MapControlButton} from '@kepler.gl/components';
 
 import ReactMarkdown from 'react-markdown';
 
@@ -156,6 +157,7 @@ export function SampleMapPanel(props) {
         </StyledProjectPanel>
       ) : (
         <MapControlButton
+          className={classnames('map-control-button', 'info-panel', {isActive})}
           onClick={e => {
             e.preventDefault();
             setActive(true);

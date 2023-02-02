@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,8 @@ import {
   arrayMove,
   getFormatter,
   defaultFormatter
-} from 'utils/data-utils';
-import {ALL_FIELD_TYPES} from 'constants';
+} from '@kepler.gl/utils';
+import {ALL_FIELD_TYPES} from '@kepler.gl/constants';
 
 test('dataUtils -> clamp', t => {
   t.equal(clamp([0, 1], 2), 1, 'should clamp 2 to 1 for [0,1]');
