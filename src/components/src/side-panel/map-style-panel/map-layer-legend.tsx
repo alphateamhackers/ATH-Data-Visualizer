@@ -1,6 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import {PanelLabel, PanelLabelBold} from 'components/common/styled-components';
+import {PanelLabel, PanelLabelBold} from '../../common/styled-components';
+import {SidePanelLegends} from '../common/types';
+
+type LayerMapLegendProps = {
+  panelLegends: SidePanelLegends;
+};
 
 const StyledInteractionPanel = styled.div`
   padding-bottom: 12px;
@@ -29,18 +34,18 @@ const LayerLabel = styled(PanelLabelBold)`
   color: ${props => props.theme.textColor};
 `;
 
-MapLayerLegendFactory.deps = [];
+MapLayerLegendFactory.deps = [null];
 
 function MapLayerLegendFactory() {
   const legendId = legend => (legend.title || legend.subheader).replace(' ', '-');
 
-  const LayerMapLegend = ({legendList = []}) => (
+  const LayerMapLegend = ({panelLegends = []}: LayerMapLegendProps) => (
     <StyledInteractionPanel>
       <div className="layer-legend__header">
         <PanelLabel>Map Legend</PanelLabel>
       </div>
       <StyledLegendPanel className="map-style__layer-legend">
-        {legendList.map(legend => (
+        {panelLegends.map(legend => (
           <StyledLegendItem className="layer-legend__select" key={legendId(legend)}>
             {legend.img && <LegendImage src={legend.img} />}
             <LayerLabel>{legend.title || legend.subheader}</LayerLabel>

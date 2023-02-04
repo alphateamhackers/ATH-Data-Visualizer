@@ -152,9 +152,6 @@ export const Attribution = ({showMapboxLogo = true}) => {
       <StyledAttrbution>
         {isPalm ? <MapboxLogo /> : null}
         <div className="attrition-link">
-          <a href="https://kepler.gl/policy/" target="_blank" rel="noopener noreferrer">
-            © kepler.gl |{' '}
-          </a>
           <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">
             © Mapbox |{' '}
           </a>
@@ -802,7 +799,7 @@ export default function MapContainerFactory(
             onToggleEditorVisibility={visStateActions.toggleEditorVisibility}
             mapHeight={mapState.height}
           />
-          {/* 
+          {/*
           // @ts-ignore */}
           <MapComponent
             key="bottom"
@@ -817,7 +814,7 @@ export default function MapContainerFactory(
           </MapComponent>
           {mapStyle.topMapStyle || hasGeocoderLayer ? (
             <div style={MAP_STYLE.top}>
-              {/* 
+              {/*
               // @ts-ignore */}
               <MapComponent
                 key="top"

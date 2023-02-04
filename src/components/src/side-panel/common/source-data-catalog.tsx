@@ -25,16 +25,14 @@ import {SidePanelSection} from '../../common/styled-components';
 import DatasetTitleFactory from './dataset-title';
 import DatasetInfoFactory from './dataset-info';
 import {SourceDataCatalogProps} from './types';
+import KeplerTable from '@kepler.gl/table';
 
 const SourceDataCatalogWrapper = styled.div`
   transition: ${props => props.theme.transition};
 `;
 
-function nope(_) {}
-
-function shouldRefreshDataset(dataset = {}) {
-  const {metadata = {}} = dataset;
-  return Boolean(metadata.refreshDataset);
+function shouldRefreshDataset(dataset: KeplerTable) {
+  return Boolean(dataset?.metadata?.refreshDataset);
 }
 
 SourceDataCatalogFactory.deps = [DatasetTitleFactory, DatasetInfoFactory];
@@ -60,7 +58,7 @@ function SourceDataCatalogFactory(
             showDeleteDataset={showDeleteDataset}
             showRefreshDataset={shouldRefreshDataset(dataset)}
             removeDataset={removeDataset}
-            refreshDataset={shouldRefreshDataset(dataset) ? refreshDataset : nope}
+            refreshDataset={refreshDataset}
             dataset={dataset}
             onTitleClick={onTitleClick}
             updateTableColor={updateTableColor}

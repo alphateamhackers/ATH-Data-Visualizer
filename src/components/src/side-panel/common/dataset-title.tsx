@@ -23,8 +23,8 @@ import styled from 'styled-components';
 import {FormattedMessage} from '@kepler.gl/localization';
 
 import {Table} from '@kepler.gl/layers';
-import {CenterFlexbox, Tooltip} from '@kepler.gl/components/common/styled-components';
-// import {ArrowRight, Table, Trash, Refresh} from 'components/common/icons';
+import {CenterFlexbox, Tooltip} from '../../common/styled-components';
+import {ArrowRight, Trash, Refresh} from '../../common/icons';
 import DatasetTagFactory from './dataset-tag';
 import CustomPicker from '../layer-panel/custom-picker';
 import {Portaled} from '../..';
@@ -33,6 +33,7 @@ import {
   StyledDatasetTitleProps,
   DatasetTitleProps,
   RemoveDatasetProps,
+  RefreshDatasetProps,
   ShowDataTableProps
 } from './types';
 
@@ -84,7 +85,7 @@ const ShowDataTable = ({id, showDatasetTable}: ShowDataTableProps) => (
   </DataTagAction>
 );
 
-const RefreshDataset = ({datasetKey, refreshDataset = nop}) => (
+const RefreshDataset = ({datasetKey, refreshDataset}: RefreshDatasetProps) => (
   <DataTagAction
     className="dataset-action refresh-dataset"
     data-tip
@@ -94,7 +95,7 @@ const RefreshDataset = ({datasetKey, refreshDataset = nop}) => (
       height="16px"
       onClick={e => {
         e.stopPropagation();
-        refreshDataset(datasetKey);
+        refreshDataset?.(datasetKey);
       }}
     />
     <Tooltip id={`refresh-${datasetKey}`} effect="solid">

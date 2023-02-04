@@ -35,12 +35,12 @@ const LogoName = styled.div`
     letter-spacing: 1.17px;
   }
 `;
-const LogoVersion = styled.div`
-  font-size: 10px;
-  color: ${props => props.theme.subtextColor};
-  letter-spacing: 0.83px;
-  line-height: 14px;
-`;
+// const LogoVersion = styled.div`
+//   font-size: 10px;
+//   color: ${props => props.theme.subtextColor};
+//   letter-spacing: 0.83px;
+//   line-height: 14px;
+// `;
 
 const LogoWrapper = styled.div`
   display: flex;

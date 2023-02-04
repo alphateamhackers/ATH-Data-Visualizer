@@ -68,6 +68,10 @@ export type MapStyle = {
   bottomMapStyle: any;
   topMapStyle: any;
   initialState?: MapStyle;
+  mapLayerModal?: {
+    slug: string;
+    data: string;
+  };
 };
 
 const DEFAULT_BLDG_COLOR = '#D1CEC7';
@@ -279,10 +283,12 @@ export const initMapStyleUpdater = (
 /**
  * Update the state with the map layer's data
  * @memberof mapStyleUpdaters
- * @type {typeof import('./map-style-updaters').toggleMapLayerModalUpdater}
  * @public
  */
-export const toggleMapLayerModalUpdater = (state, {payload = {}}) => {
+export const toggleMapLayerModalUpdater = (
+  state: MapStyle,
+  {payload}: MapStyleActions.ToggleMapLayerModalUpdaterAction
+): MapStyle => {
   const {slug, data} = payload;
   return {
     ...state,

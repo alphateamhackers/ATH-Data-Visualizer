@@ -28,7 +28,7 @@ import FileDrop from './file-drop';
 import {FileLoading, FileLoadingProgress} from '@kepler.gl/types';
 
 import {isChrome} from '@kepler.gl/utils';
-import {GUIDES_FILE_FORMAT_DOC} from '@kepler.gl/constants';
+// import {GUIDES_FILE_FORMAT_DOC} from '@kepler.gl/constants';
 import ReactMarkdown from 'react-markdown';
 // Breakpoints
 import {FormattedMessage} from '@kepler.gl/localization';

@@ -24,19 +24,83 @@ import classnames from 'classnames';
 import {createSelector} from 'reselect';
 import {Tooltip} from '../common/styled-components';
 import ATHLogo from '../common/logo';
-import {DataTable, Save2, Picture, Map as MapIcon, Share} from '../common/icons';
+import {DataTable, Save2, Picture, Map as MapIcon, Share, BaseProps} from '../common/icons';
 import ClickOutsideCloseDropdown from '../side-panel/panel-dropdown';
 import Toolbar from '../common/toolbar';
-import ToolbarItem from '../common/toolbar-item';
+import ToolbarItem, {ToolbarItemProps} from '../common/toolbar-item';
 import {FormattedMessage} from '@kepler.gl/localization';
+import {UiState} from '@kepler.gl/types';
 
 type StyledPanelActionProps = {
   active?: boolean;
 };
 
-const StyledPanelHeader = styled.div.attrs({
-  className: 'side-side-panel__header'
-})`
+type ActionItem = {
+  id: string;
+  label?: string;
+  blank?: boolean;
+  href?: string;
+  tooltip?: string;
+  iconComponent: React.ComponentType<Partial<BaseProps>>;
+  iconComponentProps?: BaseProps;
+  dropdownComponent?: React.ComponentType<DropdownComponentProps>;
+  onClick?: () => void;
+};
+
+type PanelActionProps = {
+  item: ActionItem;
+  showExportDropdown: (string) => void;
+};
+
+type PanelHeaderDropdownProps = {
+  id: string;
+  items: ToolbarItemProps[];
+  show?: boolean;
+  onClose: () => void;
+};
+
+type DropdownCallbacks = {
+  logoComponent?: React.ComponentType<{
+    appName: string;
+    appWebsite: string;
+    version: string;
+  }>;
+  onExportImage: () => void;
+  onExportData: () => void;
+  onExportConfig?: () => void;
+  onExportMap: () => void;
+  onSaveToStorage: (() => void) | null;
+  onSaveAsToStorage: (() => void) | null;
+  onSaveMap?: () => void;
+  onShareMap: (() => void) | null;
+};
+
+type Item = {
+  label: string;
+  icon: React.ComponentType<Partial<BaseProps>>;
+  key: string;
+  onClick: (p: DropdownComponentProps) => (() => void) | null;
+};
+
+type DropdownComponentProps = {
+  show: boolean;
+  onClose: () => void;
+  items?: Item[];
+} & DropdownCallbacks;
+
+type PanelHeaderProps = {
+  appName: string;
+  appWebsite: string;
+  version: string;
+  visibleDropdown: UiState['visibleDropdown'];
+  actionItems?: ActionItem[];
+  showExportDropdown: (i: string) => void;
+  hideExportDropdown: () => void;
+} & DropdownCallbacks;
+
+const StyledPanelHeader = styled.div.attrs(props => ({
+  className: classnames('side-side-panel__header', props.className)
+}))`
   background-color: ${props => props.theme.sidePanelHeaderBg};
   padding: 12px 16px 0 16px;
 `;
@@ -248,10 +312,17 @@ function PanelHeaderFactory(
     };
 
     render() {
+      const {appName, appWebsite, version} = this.props;
       return (
         <StyledPanelHeader className="side-panel__panel-header">
           <StyledPanelHeaderTop className="side-panel__panel-header__top">
-            <this.props.logoComponent />
+            {this.props.logoComponent && (
+              <this.props.logoComponent
+                appName={appName}
+                version={version}
+                appWebsite={appWebsite}
+              />
+            )}
           </StyledPanelHeaderTop>
         </StyledPanelHeader>
       );

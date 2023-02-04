@@ -23,6 +23,7 @@ import React, {Component} from 'react';
 // import {Button, SidePanelSection} from '../common/styled-components';
 import MapStyleSelectorFactory from './map-style-panel/map-style-selector';
 import LayerGroupSelectorFactory from './map-style-panel/map-layer-selector';
+import MapLayerLegendFactory from './map-style-panel/map-layer-legend';
 
 // import {Add} from '../common/icons';
 // import ColorSelector from './layer-panel/color-selector';
@@ -42,7 +43,8 @@ MapManagerFactory.deps = [MapStyleSelectorFactory, LayerGroupSelectorFactory];
 
 function MapManagerFactory(
   MapStyleSelector: ReturnType<typeof MapStyleSelectorFactory>,
-  LayerGroupSelector: ReturnType<typeof LayerGroupSelectorFactory>
+  LayerGroupSelector: ReturnType<typeof LayerGroupSelectorFactory>,
+  MapLayerLegend: ReturnType<typeof MapLayerLegendFactory>
 ) {
   class MapManager extends Component<MapManagerProps> {
     state = {
@@ -103,7 +105,7 @@ function MapManagerFactory(
                 onLayerClick={mapStyleActions.toggleMapLayerModal}
               />
             ) : null}
-            {mapLegends.length > 0 && <MapLayerLegend legendList={mapLegends} />}
+            {mapLegends.length > 0 && <MapLayerLegend panelLegends={mapLegends} />}
             {/* Enable Custom Map Manager
             <SidePanelSection>
               <ColorSelector colorSets={colorSets} disabled={!hasBuildingLayer} />

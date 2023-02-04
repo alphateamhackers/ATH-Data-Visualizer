@@ -178,6 +178,26 @@ export const openDeleteModal: (
   (datasetId: OpenDeleteModalUpdaterAction['payload']) => ({payload: datasetId})
 );
 
+/** OPEN_REFRESH_MODAL */
+export type OpenRefreshModalUpdaterAction = {
+  payload: string;
+};
+/**
+ * Toggle active map control panel
+ * @memberof uiStateActions
+ * @param datasetId - `id` of the dataset to be deleted
+ * @public
+ */
+export const openRefreshModal: (
+  datasetId: OpenRefreshModalUpdaterAction['payload']
+) => Merge<
+  OpenRefreshModalUpdaterAction,
+  {type: typeof ActionTypes.OPEN_REFRESH_MODAL}
+> = createAction(
+  ActionTypes.OPEN_REFRESH_MODAL,
+  (datasetId: OpenRefreshModalUpdaterAction['payload']) => ({payload: datasetId})
+);
+
 /** ADD_NOTIFICATION */
 export type AddNotificationUpdaterAction = {
   payload: object;

@@ -101,6 +101,29 @@ export const mapConfigChange: (
   (mapStyle: MapConfigChangeUpdaterAction['payload']) => ({payload: mapStyle})
 );
 
+/** TOGGLE_MAP_LAYER_MODAL */
+export type ToggleMapLayerModalUpdaterAction = {
+  payload: {
+    slug: string;
+    data: string;
+  };
+};
+/**
+ * Open/Close Modal with the Layer's Data projected on a table
+ * @memberof mapStyleActions
+ * @param layer layer's slug and data
+ * @public
+ */
+export const toggleMapLayerModal: (
+  layer: ToggleMapLayerModalUpdaterAction['payload']
+) => Merge<
+  ToggleMapLayerModalUpdaterAction,
+  {type: typeof ActionTypes.TOGGLE_MAP_LAYER_MODAL}
+> = createAction(
+  ActionTypes.TOGGLE_MAP_LAYER_MODAL,
+  (layer: ToggleMapLayerModalUpdaterAction['payload']) => ({payload: layer})
+);
+
 /** REQUEST_MAP_STYLES */
 export type RequestMapStylesUpdaterAction = {
   payload: {

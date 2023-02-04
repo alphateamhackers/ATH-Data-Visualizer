@@ -21,7 +21,7 @@
 import React, {ComponentType} from 'react';
 import styled from 'styled-components';
 import PanelHeaderActionFactory from '../panel-header-action';
-import {EyeSeen, EyeUnseen} from '../../common/icons';
+import {EyeSeen, EyeUnseen, DataTable} from '../../common/icons';
 
 import {
   CenterFlexbox,
@@ -33,7 +33,7 @@ import {FormattedMessage} from '@kepler.gl/localization';
 import {camelize} from '@kepler.gl/utils';
 import {VisibleLayerGroups} from '@kepler.gl/types';
 import {BaseProps} from '../../common/icons';
-import {Upload} from '@kepler.gl/cloud-providers';
+// import {Upload} from '@kepler.gl/cloud-providers';
 
 const StyledInteractionPanel = styled.div`
   padding-bottom: 12px;
@@ -68,11 +68,15 @@ const LayerLabel = styled(PanelLabelBold)<LayerLabelProps>`
 
 type LayerGroupSelectorProps = {
   layers: VisibleLayerGroups;
-  editableLayers: string[];
+  editableLayers: {
+    slug: string;
+    data: string;
+  }[];
   onChange: (payload: {
     visibleLayerGroups?: VisibleLayerGroups;
     topLayerGroups?: VisibleLayerGroups;
   }) => void;
+  onLayerClick: (args: {slug: string; data: string}) => void;
   topLayers: VisibleLayerGroups;
   actionIcons?: Record<string, ComponentType<Partial<BaseProps>>>;
 };
@@ -128,7 +132,7 @@ function LayerGroupSelectorFactory(PanelHeaderAction: ReturnType<typeof PanelHea
                   id={`${slug}-data`}
                   tooltip="tooltip.showData"
                   disabled={!layers[slug]}
-                  IconComponent={Table}
+                  IconComponent={DataTable}
                   active={topLayers[slug]}
                   onClick={() => onLayerClick({slug, data})}
                 />

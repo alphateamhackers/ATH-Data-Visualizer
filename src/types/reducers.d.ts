@@ -257,6 +257,7 @@ export type FileLoadingProgress = {
 
 export type LayerGroup = {
   slug: string;
+  data: string;
   filter(layer: {id: string}): boolean;
   defaultVisibility: boolean;
 };
@@ -270,6 +271,7 @@ export type BaseMapStyle = {
   layerGroups: LayerGroup[];
   accessToken?: string;
   custom?: boolean;
+  legends?: [];
 };
 
 export declare type ExportImage = {
@@ -348,6 +350,7 @@ export type UiState = {
   activeSidePanel: string;
   currentModal: string | null;
   datasetKeyToRemove: string | null;
+  datasetKeyToRefresh: string | null;
   visibleDropdown: string | null;
   // export image modal ui
   exportImage: ExportImage;

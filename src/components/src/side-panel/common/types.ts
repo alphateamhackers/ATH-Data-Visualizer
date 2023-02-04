@@ -1,5 +1,10 @@
 import React, {MouseEvent} from 'react';
-import {openDeleteModal, VisStateActions, ActionHandler} from '@kepler.gl/actions';
+import {
+  openDeleteModal,
+  openRefreshModal,
+  VisStateActions,
+  ActionHandler
+} from '@kepler.gl/actions';
 import {RGBColor} from '@kepler.gl/types';
 import KeplerTable, {Datasets} from '@kepler.gl/table';
 
@@ -30,6 +35,11 @@ export type RemoveDatasetProps = {
   removeDataset?: ActionHandler<typeof openDeleteModal>;
 };
 
+export type RefreshDatasetProps = {
+  datasetKey: string;
+  refreshDataset?: ActionHandler<typeof openRefreshModal>;
+};
+
 export type StyledDatasetTitleProps = {
   clickable: boolean;
 };
@@ -37,10 +47,12 @@ export type StyledDatasetTitleProps = {
 export type DatasetTitleProps = {
   dataset: KeplerTable;
   showDeleteDataset: boolean;
+  showRefreshDataset: boolean;
   onTitleClick?: () => void;
   showDatasetTable?: ActionHandler<typeof VisStateActions.showDatasetTable>;
   updateTableColor: ActionHandler<typeof VisStateActions.updateTableColor>;
   removeDataset?: ActionHandler<typeof openDeleteModal>;
+  refreshDataset?: ActionHandler<typeof openRefreshModal>;
 };
 
 export type SourceDataCatalogProps = {
@@ -50,6 +62,7 @@ export type SourceDataCatalogProps = {
   showDatasetTable?: ActionHandler<typeof VisStateActions.showDatasetTable>;
   updateTableColor: ActionHandler<typeof VisStateActions.updateTableColor>;
   removeDataset?: ActionHandler<typeof openDeleteModal>;
+  refreshDataset?: ActionHandler<typeof openRefreshModal>;
 };
 
 export type DatasetItemProps = {
@@ -78,3 +91,11 @@ export type SourceDataSelectorProps = {
       | null
   ) => void;
 };
+
+export type SidePanelLegend = {
+  img?: string;
+  title: string;
+  subheader: string;
+};
+
+export type SidePanelLegends = Array<SidePanelLegend>;

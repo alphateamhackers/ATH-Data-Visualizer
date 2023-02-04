@@ -18,7 +18,7 @@ export interface RefreshDatasetModalProps {
 export const RefreshDatasetModal: React.FC<RefreshDatasetModalProps> = ({dataset, layers = []}) => {
   // retrieve only layers related to the current dataset
   const currDatasetLayers = layers.filter(layer => layer.config.dataId === (dataset && dataset.id));
-  const connection = dataset.metadata ? dataset.metadata.connection : {};
+  const connection = dataset.metadata?.connection;
 
   return (
     <div className="delete-dataset-modal">
@@ -29,7 +29,7 @@ export const RefreshDatasetModal: React.FC<RefreshDatasetModalProps> = ({dataset
           values={{length: currDatasetLayers.length}}
         />
         <p>Database Connection:</p>
-        <p>{connection.connectionName}</p>
+        <p>{connection?.connectionName ?? 'No database'}</p>
       </StyledMsg>
     </div>
   );

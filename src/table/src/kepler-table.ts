@@ -124,7 +124,12 @@ class KeplerTable {
   disableDataOperation?: boolean;
 
   // table-injected metadata
-  metadata: object;
+  metadata: {
+    refreshDataset?: boolean;
+    connection?: {
+      connectionName: string;
+    };
+  };
 
   constructor({
     info,

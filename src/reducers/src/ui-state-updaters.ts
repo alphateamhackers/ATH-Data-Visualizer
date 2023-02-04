@@ -248,6 +248,7 @@ export const INITIAL_UI_STATE: UiState = {
   activeSidePanel: DEFAULT_ACTIVE_SIDE_PANEL,
   currentModal: DEFAULT_MODAL,
   datasetKeyToRemove: null,
+  datasetKeyToRefresh: null,
   visibleDropdown: null,
   // export image modal ui
   exportImage: DEFAULT_EXPORT_IMAGE,
@@ -432,13 +433,15 @@ export const openDeleteModalUpdater = (
  * @param action
  * @param action.payload dataset id
  * @returns nextState
- * @type {typeof import('./ui-state-updaters').openRefreshModalUpdater}
  * @public
  */
-export const openRefreshModalUpdater = (state, {payload: datasetKey}) => ({
+export const openRefreshModalUpdater = (
+  state: UiState,
+  {payload: datasetKeyToRefresh}: UIStateActions.OpenRefreshModalUpdaterAction
+): UiState => ({
   ...state,
   currentModal: REFRESH_DATA_ID,
-  datasetKey
+  datasetKeyToRefresh
 });
 
 /**
@@ -849,6 +852,7 @@ export const toggleLayerPanelListViewUpdater = (
   state: UiState,
   {payload: listView}: UIStateActions.ToggleLayerPanelListViewAction
 ): UiState => {
+  // @ts-expect-error
   return listView === state.layerPanelListView
     ? state
     : {

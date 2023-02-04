@@ -291,7 +291,7 @@ export default function ModalContainerFactory(
         uiStateActions,
         providerState
       } = this.props;
-      const {currentModal, datasetKeyToRemove, datasetKey} = uiState;
+      const {currentModal, datasetKeyToRemove, datasetKeyToRefresh} = uiState;
       const {datasets, layers, editingDataset} = visState;
 
       let template: JSX.Element | null = null;
@@ -351,10 +351,12 @@ export default function ModalContainerFactory(
             }
             break; // in case we add a new case after this one
           case REFRESH_DATA_ID:
-            if (!datasetKey || !datasets || !datasets[datasetKey]) {
+            if (!datasetKeyToRefresh || !datasets || !datasets[datasetKeyToRefresh]) {
               return;
             }
-            template = <RefreshDatasetModal dataset={datasets[datasetKey]} layers={layers} />;
+            template = (
+              <RefreshDatasetModal dataset={datasets[datasetKeyToRefresh]} layers={layers} />
+            );
             modalProps = {
               title: 'modal.title.refreshDataset',
               cssStyle: LoadDataModalStyle,
