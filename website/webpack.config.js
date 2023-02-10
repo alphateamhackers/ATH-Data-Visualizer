@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,20 +29,12 @@ const libSources = join(rootDir, 'src');
 const console = require('global/console');
 
 const BABEL_CONFIG = {
-  presets: ['@babel/preset-env', '@babel/preset-react'],
+  presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
   plugins: [
+    ['@babel/plugin-transform-typescript', {isTSX: true, allowDeclareFields: true}],
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-export-namespace-from',
     '@babel/plugin-proposal-optional-chaining',
-    [
-      'module-resolver',
-      {
-        root: ['../src'],
-        alias: {
-          test: '../test'
-        }
-      }
-    ],
     [
       'search-and-replace',
       {
@@ -66,6 +58,8 @@ const COMMON_CONFIG = {
   },
 
   resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    modules: ['node_modules', libSources],
     alias: {
       'kepler.gl/dist': libSources,
       // Imports the kepler.gl library from the src directory in this repo
@@ -82,7 +76,7 @@ const COMMON_CONFIG = {
     rules: [
       {
         // Compile ES2015 using bable
-        test: /\.js$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         loader: 'babel-loader',
         options: BABEL_CONFIG,
         exclude: [/node_modules/]

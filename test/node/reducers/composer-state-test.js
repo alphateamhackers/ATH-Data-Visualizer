@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,9 @@
 /* eslint-disable max-statements */
 
 import test from 'tape';
-import keplerGlReducer from 'reducers';
-import {addDataToMapUpdater} from 'reducers/combined-updaters';
-import {registerEntry} from 'actions/identity-actions';
-import {processCsvData} from 'processors/data-processor';
+import keplerGlReducer, {addDataToMapUpdater, INITIAL_UI_STATE} from '@kepler.gl/reducers';
+import {processCsvData} from '@kepler.gl/processors';
+import {registerEntry} from '@kepler.gl/actions';
 
 import testCsvData, {sampleConfig} from 'test/fixtures/test-csv-data';
 import testHexIdData, {
@@ -34,8 +33,6 @@ import testHexIdData, {
   expectedMergedDataset
 } from 'test/fixtures/test-hex-id-data';
 import {cmpLayers, cmpFilters, cmpDataset, cmpInteraction} from 'test/helpers/comparison-utils';
-import {INITIAL_UI_STATE} from 'reducers/ui-state-updaters';
-
 const mockRawData = {
   fields: [
     {

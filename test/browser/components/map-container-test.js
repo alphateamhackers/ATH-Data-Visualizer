@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,7 @@ import {IntlWrapper, mountWithTheme} from 'test/helpers/component-utils';
 
 import sinon from 'sinon';
 import test from 'tape';
-import {appInjector, MapContainerFactory} from 'components';
-import {mapFieldsSelector} from 'components/kepler-gl';
+import {appInjector, MapContainerFactory, mapFieldsSelector} from '@kepler.gl/components';
 import {mockKeplerProps} from '../../helpers/mock-state';
 
 const MapContainer = appInjector.get(MapContainerFactory);

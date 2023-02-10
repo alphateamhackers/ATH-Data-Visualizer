@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,6 +21,7 @@
 /* setup.js */
 import {JSDOM, VirtualConsole} from 'jsdom';
 import global from 'global';
+const {gl} = require('@deck.gl/test-utils');
 
 const virtualConsole = new VirtualConsole();
 virtualConsole.sendTo(console);
@@ -47,6 +48,24 @@ Object.defineProperty(window, 'prompt', {
   value: () => {},
   writable: true
 });
+
+// TODO: This should be the right wat to mock matchMedia but matchMedia was still undefined so I moved to another way to mock it
+
+// Object.defineProperty(window, 'matchMedia', {
+//   value: () => ({
+//       matches: false,
+//       addListener: function() {},
+//       removeListener: function() {}
+//   }),
+//   writable: true
+// });
+window.matchMedia = () => {
+  return {
+    matches: false,
+    addListener: () => {},
+    removeListener: () => {}
+  };
+};
 
 function mockClipboardData() {
   let data = null;
@@ -122,6 +141,12 @@ global.HTMLElement = window.HTMLElement;
 global.Element = window.Element;
 global.fetch = window.fetch;
 
+// Create a dummy canvas for the headless gl context
+const canvas = global.document.createElement('canvas');
+canvas.width = gl.drawingBufferWidth;
+canvas.height = gl.drawingBufferHeight;
+gl.canvas = canvas;
+
 Object.keys(global.window).forEach(property => {
   if (typeof global[property] === 'undefined') {
     global[property] = global.window[property];
@@ -132,4 +157,24 @@ global.navigator = {
   userAgent: 'node.js',
   platform: 'mac',
   appName: 'kepler.gl'
+};
+
+global.IntersectionObserver = class IntersectionObserver {
+  constructor() {}
+
+  disconnect() {
+    return null;
+  }
+
+  observe() {
+    return null;
+  }
+
+  takeRecords() {
+    return null;
+  }
+
+  unobserve() {
+    return null;
+  }
 };

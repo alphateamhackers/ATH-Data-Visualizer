@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,18 +32,22 @@ import {
   setExportFiltered,
   startExportingImage,
   addNotification,
-  removeNotification
-} from 'actions/ui-state-actions';
-import {loadFiles, loadFilesErr} from 'actions/vis-state-actions';
-import {keplerGlInit} from 'actions/actions';
-import reducer, {uiStateReducerFactory} from 'reducers/ui-state';
-import {INITIAL_UI_STATE} from 'reducers/ui-state-updaters';
+  removeNotification,
+  loadFiles,
+  loadFilesErr,
+  keplerGlInit
+} from '@kepler.gl/actions';
+import {
+  uiStateReducer as reducer,
+  uiStateReducerFactory,
+  INITIAL_UI_STATE
+} from '@kepler.gl/reducers';
 import {
   EXPORT_DATA_TYPE,
   RESOLUTIONS,
   DEFAULT_NOTIFICATION_TOPICS,
   DEFAULT_NOTIFICATION_TYPES
-} from 'constants/default-settings';
+} from '@kepler.gl/constants';
 
 test('#uiStateReducer', t => {
   t.deepEqual(
@@ -267,7 +271,8 @@ test('#uiStateReducer -> ADD_NOTIFICATION', t => {
     type: DEFAULT_NOTIFICATION_TYPES.error,
     message: 'TEST',
     topic: DEFAULT_NOTIFICATION_TOPICS.global,
-    id: 'test-1'
+    id: 'test-1',
+    count: 1
   };
   const state0 = reducer(INITIAL_UI_STATE, addNotification(notification1));
   t.equal(state0.notifications.length, 1, 'AddNotification should add one new notification');
@@ -281,7 +286,8 @@ test('#uiStateReducer -> ADD_NOTIFICATION', t => {
     type: DEFAULT_NOTIFICATION_TYPES.info,
     message: 'TEST',
     topic: DEFAULT_NOTIFICATION_TOPICS.file,
-    id: sharedNotificationId
+    id: sharedNotificationId,
+    count: 1
   };
   const state1 = reducer(state0, addNotification(notification2));
   t.equal(state1.notifications.length, 2, 'AddNotification should add second notification');
@@ -295,7 +301,8 @@ test('#uiStateReducer -> ADD_NOTIFICATION', t => {
     type: DEFAULT_NOTIFICATION_TYPES.error,
     message: 'TEST-updated-message',
     topic: DEFAULT_NOTIFICATION_TOPICS.global,
-    id: sharedNotificationId
+    id: sharedNotificationId,
+    count: 2
   };
   const state2 = reducer(state1, addNotification(updatedNotification));
   t.equal(
@@ -330,7 +337,8 @@ test('#uiStateReducer -> REMOVE_NOTIFICATION', t => {
       type: DEFAULT_NOTIFICATION_TYPES.error,
       message: 'TEST',
       topic: DEFAULT_NOTIFICATION_TOPICS.global,
-      id: 'test-1'
+      id: 'test-1',
+      count: 1
     },
     'AddNotification should have propagated data correctly '
   );
@@ -360,7 +368,8 @@ test('#uiStateReducer -> LOAD_FILES_ERR', t => {
         type: 'error',
         topic: 'global',
         message: 'this is an error',
-        id: expectedId
+        id: expectedId,
+        count: 1
       }
     ],
     'should add an error notification'

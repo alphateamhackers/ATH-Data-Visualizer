@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 
 import {push} from 'react-router-redux';
 import {request, text as requestText, json as requestJson} from 'd3-request';
-import {loadFiles, toggleModal} from 'kepler.gl/actions';
+import {loadFiles, toggleModal} from '@kepler.gl/actions';
 
 import {
   LOADING_SAMPLE_ERROR_MESSAGE,

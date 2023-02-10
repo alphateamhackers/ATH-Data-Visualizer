@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,10 @@ import {
   testRows,
   preparedFilterDomain0
 } from 'test/helpers/layer-utils';
-import S2GeometryLayer, {defaultElevation} from 'layers/s2-geometry-layer/s2-geometry-layer';
-import {copyTableAndUpdate} from 'utils/table-utils/kepler-table';
+import {s2DefaultElevation as defaultElevation, KeplerGlLayers} from '@kepler.gl/layers';
+import {copyTableAndUpdate} from '@kepler.gl/table';
+
+const {S2GeometryLayer} = KeplerGlLayers;
 
 test('#S2Geometry -> constructor', t => {
   const TEST_CASES = [

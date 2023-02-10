@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,28 +32,33 @@ const COMMON_CONFIG = {
     },
     clientLogLevel: 'debug'
   },
-  entry: resolve(__dirname, './browser.js'),
   output: {
     filename: 'bundle.js'
   },
   devtool: 'inline-source-maps',
 
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+    modules: [SRC_DIR, 'node_modules']
+  },
+
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts|tsx)$/,
         use: ['source-map-loader'],
         enforce: 'pre'
       },
       {
-        test: /\.js$/,
+        test: /\.(js|ts|tsx)$/,
         loader: 'babel-loader',
         include: [SRC_DIR, TEST_DIR],
         exclude: [/node_modules/],
         options: {
           rootMode: 'upward',
-          presets: ['@babel/preset-env', '@babel/preset-react'],
+          presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
           plugins: [
+            ['@babel/plugin-transform-typescript', {isTSX: true, allowDeclareFields: true}],
             '@babel/plugin-proposal-class-properties',
             '@babel/plugin-proposal-export-namespace-from',
             [

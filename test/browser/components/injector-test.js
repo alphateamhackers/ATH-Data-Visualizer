@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,11 +26,16 @@ import {Provider} from 'react-redux';
 import sinon from 'sinon';
 import {console as Console} from 'global/window';
 
-import {withState, injectComponents, PanelHeaderFactory} from 'components';
+import {withState, injectComponents, PanelHeaderFactory} from '@kepler.gl/components';
 
-import coreReducer from 'reducers/core';
-import {keplerGlInit} from 'actions/actions';
-import {visStateLens, uiStateLens, mapStateLens, mapStyleLens} from 'reducers';
+import {keplerGlInit} from '@kepler.gl/actions';
+import {
+  keplerGlReducerCore as coreReducer,
+  visStateLens,
+  uiStateLens,
+  mapStateLens,
+  mapStyleLens
+} from '@kepler.gl/reducers';
 
 const mockStore = configureStore();
 const initialCoreState = coreReducer(undefined, keplerGlInit({}));

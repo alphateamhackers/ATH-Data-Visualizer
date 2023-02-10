@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,12 +27,14 @@ import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 import sinon from 'sinon';
 import {console as Console} from 'global/window';
-import rootReducer from 'reducers/root';
-import coreReducer from 'reducers/core';
-import {keplerGlInit} from 'actions/actions';
+import {
+  keplerGlReducer as rootReducer,
+  keplerGlReducerCore as coreReducer
+} from '@kepler.gl/reducers';
+import {keplerGlInit} from '@kepler.gl/actions';
 
-import Container, {ERROR_MSG} from 'components/container';
-import {DEFAULT_MAPBOX_API_URL} from 'constants/default-settings';
+import Container, {ERROR_MSG} from '@kepler.gl/components';
+import {DEFAULT_MAPBOX_API_URL} from '@kepler.gl/constants';
 const initialCoreState = coreReducer(undefined, keplerGlInit());
 const initialState = {
   keplerGl: {}

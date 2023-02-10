@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,9 @@
 
 const KeplerPackage = require('./package');
 
-const PRESETS = ['@babel/preset-env', '@babel/preset-react'];
+const PRESETS = ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'];
 const PLUGINS = [
+  ['@babel/plugin-transform-typescript', {isTSX: true, allowDeclareFields: true}],
   '@babel/plugin-transform-modules-commonjs',
   '@babel/plugin-proposal-class-properties',
   '@babel/plugin-proposal-export-namespace-from',
@@ -38,7 +39,8 @@ const PLUGINS = [
       root: ['./src'],
       alias: {
         test: './test'
-      }
+      },
+      extensions: ['.js', '.ts', '.tsx', '.json']
     }
   ],
   [

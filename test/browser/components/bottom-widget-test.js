@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +21,13 @@
 import React from 'react';
 import test from 'tape';
 import {IntlWrapper, mountWithTheme} from 'test/helpers/component-utils';
-import {BottomWidgetFactory, TimeWidgetFactory, AnimationControlFactory} from 'components';
-import {appInjector} from 'components/container';
-import * as VisStateActions from 'actions/vis-state-actions';
+import {
+  BottomWidgetFactory,
+  TimeWidgetFactory,
+  AnimationControlFactory,
+  appInjector
+} from '@kepler.gl/components';
+import {VisStateActions} from '@kepler.gl/actions';
 
 const BottomWidget = appInjector.get(BottomWidgetFactory);
 const TimeWidget = appInjector.get(TimeWidgetFactory);

@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@ import {drainTasksForTesting, succeedTaskWithValues} from 'react-palm/tasks';
 import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
-import coreReducer from 'reducers/core';
-import {keplerGlInit} from 'actions/actions';
+import {keplerGlReducerCore as coreReducer} from '@kepler.gl/reducers';
+import {keplerGlInit, ActionTypes} from '@kepler.gl/actions';
 import {
   appInjector,
   KeplerGlFactory,
@@ -36,12 +36,10 @@ import {
   BottomWidgetFactory,
   ModalContainerFactory,
   PlotContainerFactory,
-  GeocoderPanelFactory
-} from 'components';
-import NotificationPanelFactory from 'components/notification-panel';
-import {ActionTypes} from 'actions';
-import {DEFAULT_MAP_STYLES, EXPORT_IMAGE_ID} from 'constants';
-import {GEOCODER_DATASET_NAME} from 'constants/default-settings';
+  GeocoderPanelFactory,
+  NotificationPanelFactory
+} from '@kepler.gl/components';
+import {DEFAULT_MAP_STYLES, EXPORT_IMAGE_ID, GEOCODER_DATASET_NAME} from '@kepler.gl/constants';
 // mock state
 import {StateWithGeocoderDataset} from 'test/helpers/mock-state';
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,14 @@
 import test from 'tape';
 import cloneDeep from 'lodash.clonedeep';
 
-import TripLayer, {defaultLineWidth} from 'layers/trip-layer/trip-layer';
+import {
+  tripDefaultLineWidth as defaultLineWidth,
+  parseTripGeoJsonTimestamp,
+  KeplerGlLayers
+} from '@kepler.gl/layers';
+
+import {copyTableAndUpdate} from '@kepler.gl/table';
+const {TripLayer} = KeplerGlLayers;
 
 import {
   dataId,
@@ -33,9 +40,7 @@ import {
   valueFilterDomain0,
   animationConfig
 } from 'test/helpers/layer-utils';
-import {parseTripGeoJsonTimestamp} from 'layers/trip-layer/trip-utils';
 import {TripLayerMeta, dataToFeature, dataToTimeStamp} from 'test/fixtures/trip-geojson';
-import {copyTableAndUpdate} from 'utils/table-utils/kepler-table';
 
 test('#TripLayer -> constructor', t => {
   const TEST_CASES = {
@@ -296,7 +301,8 @@ test('#TripLayer -> renderLayer', t => {
         const deckTripLayer = deckLayers[0];
         const expectedProps = {
           trailLength: 2000,
-          rounded: true,
+          capRounded: true,
+          jointRounded: true,
           widthScale: 128,
           currentTime: 0,
           parameters: {depthTest: false, depthMask: false},

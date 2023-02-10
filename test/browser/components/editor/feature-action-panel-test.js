@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
 import React from 'react';
 import test from 'tape';
 import sinon from 'sinon';
-import {PureFeatureActionPanelFactory} from 'components/editor/feature-action-panel';
+import {PureFeatureActionPanelFactory} from '@kepler.gl/components';
 import {IntlWrapper, mountWithTheme} from 'test/helpers/component-utils';
 
 const FeatureActionPanel = PureFeatureActionPanelFactory();
@@ -62,6 +62,7 @@ test('FeatureActionPanel -> display layers', t => {
           datasets={datasets}
           onToggleLayer={onToggleLayer}
           onDeleteFeature={onDeleteFeature}
+          position={{x: 0, y: 0}}
         />
       </IntlWrapper>
     );

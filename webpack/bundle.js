@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -42,12 +42,15 @@ const LIBRARY_BUNDLE_CONFIG = env => ({
     filename: 'bundle.js',
     publicPath: '/'
   },
-
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+    modules: ['node_modules', SRC_DIR]
+  },
   // let's put everything in
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|ts|tsx)$/,
         loader: 'babel-loader',
         include: [SRC_DIR]
       }

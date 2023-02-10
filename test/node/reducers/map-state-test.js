@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,19 @@
 
 import test from 'tape';
 
-import {updateMap, togglePerspective, fitBounds, toggleSplitMap} from 'actions/map-state-actions';
+import {
+  updateMap,
+  togglePerspective,
+  fitBounds,
+  toggleSplitMap,
+  receiveMapConfig
+} from '@kepler.gl/actions';
 
-import {receiveMapConfig} from 'actions/actions';
-
-import reducer, {mapStateReducerFactory} from 'reducers/map-state';
-import {INITIAL_MAP_STATE} from 'reducers/map-state-updaters';
+import {
+  mapStateReducer as reducer,
+  mapStateReducerFactory,
+  INITIAL_MAP_STATE
+} from '@kepler.gl/reducers';
 
 const InitialMapState = reducer(undefined, {});
 test('#mapStateReducer', t => {

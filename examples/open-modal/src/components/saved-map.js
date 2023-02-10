@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,7 @@
 
 import React, {Component} from 'react';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import KeplerGl from 'kepler.gl';
+import KeplerGl from '@kepler.gl/components';
 
 export default class SavedMap extends Component {
   render() {

@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,10 @@
 
 import test from 'tape';
 import cloneDeep from 'lodash.clonedeep';
-import {findDefaultLayer, getLayerHoverProp} from 'utils/layer-utils';
-import {createNewDataEntry} from 'utils/dataset-utils';
-import KeplerTable, {findPointFieldPairs} from 'utils/table-utils/kepler-table';
-import {processCsvData, processGeojson} from 'processors/data-processor';
-import {GEOJSON_FIELDS} from 'constants/default-settings';
-import {LayerClasses, KeplerGlLayers} from 'layers';
+import {processCsvData, processGeojson} from '@kepler.gl/processors';
+import {LayerClasses, KeplerGlLayers} from '@kepler.gl/layers';
+import {GEOJSON_FIELDS} from '@kepler.gl/constants';
+import {findDefaultLayer, getLayerHoverProp} from '@kepler.gl/reducers';
 import {StateWTripGeojson, StateWFiles} from 'test/helpers/mock-state';
 
 const {PointLayer, ArcLayer, GeojsonLayer, LineLayer} = KeplerGlLayers;
@@ -35,8 +33,8 @@ import {cmpLayers} from 'test/helpers/comparison-utils';
 import {getNextColorMakerValue} from 'test/helpers/layer-utils';
 import tripGeojson, {timeStampDomain, tripBounds} from 'test/fixtures/trip-geojson';
 import {geoJsonWithStyle} from 'test/fixtures/geojson';
-
-import {createDataContainer} from 'utils/table-utils';
+import {KeplerTable, findPointFieldPairs, createNewDataEntry} from '@kepler.gl/table';
+import {createDataContainer} from '@kepler.gl/utils';
 
 test('layerUtils -> findDefaultLayer.1', t => {
   const inputFields = [
@@ -87,6 +85,7 @@ test('layerUtils -> findDefaultLayer.1', t => {
     },
     // non layer
     //
+
     {
       name: 'non_layer_longitude.alt',
       fieldIdx: 10
@@ -94,6 +93,10 @@ test('layerUtils -> findDefaultLayer.1', t => {
     {
       name: 'non_layer_latitude.alt',
       fieldIdx: 11
+    },
+    {
+      name: 'non_layer_altitude.alt',
+      fieldIdx: 12
     }
   ];
 
@@ -121,7 +124,7 @@ test('layerUtils -> findDefaultLayer.1', t => {
       }
     }),
     new PointLayer({
-      label: 'two two',
+      label: 'two_two',
       dataId,
       columns: {
         lat: {
@@ -159,7 +162,7 @@ test('layerUtils -> findDefaultLayer.1', t => {
       }
     }),
     new PointLayer({
-      label: 'four',
+      label: 'four._',
       dataId,
       columns: {
         lat: {
@@ -178,7 +181,7 @@ test('layerUtils -> findDefaultLayer.1', t => {
       }
     }),
     new PointLayer({
-      label: 'Point',
+      label: 'point',
       dataId,
       columns: {
         lat: {
@@ -196,8 +199,27 @@ test('layerUtils -> findDefaultLayer.1', t => {
         }
       }
     }),
+    new PointLayer({
+      label: 'non_layeralt',
+      dataId,
+      columns: {
+        lat: {
+          value: 'non_layer_latitude.alt',
+          fieldIdx: 11
+        },
+        lng: {
+          value: 'non_layer_longitude.alt',
+          fieldIdx: 10
+        },
+        altitude: {
+          value: 'non_layer_altitude.alt',
+          fieldIdx: 12,
+          optional: true
+        }
+      }
+    }),
     new ArcLayer({
-      label: 'one -> two two arc',
+      label: 'one -> two_two arc',
       dataId,
       columns: {
         lat0: {
@@ -219,7 +241,7 @@ test('layerUtils -> findDefaultLayer.1', t => {
       }
     }),
     new LineLayer({
-      label: 'one -> two two line',
+      label: 'one -> two_two line',
       dataId,
       columns: {
         lat0: {

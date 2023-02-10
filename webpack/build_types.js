@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // Copyright (c) 2020 Uber Technologies, Inc.
+=======
+// Copyright (c) 2023 Uber Technologies, Inc.
+>>>>>>> 7d9d54b88e7e0d3c9092efe8d837aa06bbdd4eab
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,11 +34,23 @@ const LIBRARY_BUNDLE_CONFIG = env => ({
     warnings: false
   },
 
+<<<<<<< HEAD
+=======
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+    modules: ['node_modules', SRC_DIR]
+  },
+
+>>>>>>> 7d9d54b88e7e0d3c9092efe8d837aa06bbdd4eab
   // let's put everything in
   module: {
     rules: [
       {
+<<<<<<< HEAD
         test: /\.js$/,
+=======
+        test: /\.(js|ts|tsx)$/,
+>>>>>>> 7d9d54b88e7e0d3c9092efe8d837aa06bbdd4eab
         loader: 'babel-loader',
         include: [SRC_DIR]
       }

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "allowJs": true,
-    "checkJs": true,
+    "allowJs": false,
+    "checkJs": false,
     "jsx": "react",
     "noEmit": true,
     "module": "esnext",
@@ -23,14 +23,17 @@
     "isolatedModules": true,
     "baseUrl": "./src",
     "paths": {
-      "*": ["*"]
+      "*": ["*"],
+      // Map all modules to their source
+      "@kepler.gl/*": ["src/*/src"]
     }
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
+
   "exclude": [
-    "src/deckgl-layers",
-    "src/layers"
+    "src/deckgl-layers/cluster-layer",
+
+    // build files
+    "src/**/dist/**"
   ]
 }

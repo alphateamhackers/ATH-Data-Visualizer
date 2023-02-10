@@ -40,17 +40,17 @@ export type SCALE_TYPES_DEF = {
   quantile: 'quantile';
   quantize: 'quantize';
   linear: 'linear';
-  sqrt: 'sqrt',
+  sqrt: 'sqrt';
   log: 'log';
   point: 'point';
   hexcolor: 'hexcolor';
-}
+};
 
 export const SCALE_TYPES: SCALE_TYPES_DEF;
 
 export type SCALE_FUNC_TYPE = {
-  [key: keyof SCALE_TYPES_DEF]: () => number
-}
+  [key: keyof SCALE_TYPES_DEF]: () => number;
+};
 
 export const SCALE_FUNC: SCALE_FUNC_TYPE;
 
@@ -83,7 +83,7 @@ export const TABLE_OPTION_LIST: TABLE_OPTION[];
 export type FILED_TYPE_DISPLAY_TYPE = {
   label: string;
   color: string;
-}
+};
 export const FILED_TYPE_DISPLAY: {[key: keyof ALL_FIELD_TYPES_DEF]: FILED_TYPE_DISPLAY_TYPE};
 
 export const FIELD_COLORS: {default: string};
@@ -113,7 +113,7 @@ export type LAYER_TYPES = {
   '3D': '3D';
   trip: 'trip';
   s2: 's2';
-}
+};
 
 export type EDITOR_AVAILABLE_LAYERS_DEF = {
   point: 'point';
@@ -121,7 +121,7 @@ export type EDITOR_AVAILABLE_LAYERS_DEF = {
   line: 'line';
   hexagon: 'hexagon';
   hexagonId: 'hexagonId';
-}
+};
 
 export const EDITOR_AVAILABLE_LAYERS: (keyof EDITOR_AVAILABLE_LAYERS_DEF)[];
 
@@ -139,7 +139,7 @@ export const DIMENSIONS: {
       left: number;
       bottom: number;
       right: number;
-    },
+    };
     headerHeight: number;
   };
   mapControl: {
@@ -149,9 +149,9 @@ export const DIMENSIONS: {
       pinned: {
         bottom: number;
         right: number;
-      }
-    }
-  }
+      };
+    };
+  };
 };
 
 export const THEME: {
@@ -179,8 +179,8 @@ export const EXPORT_DATA_TYPE: {
 export type EXPORT_DATA_TYPE_OPTION = {
   id: keyof EXPORT_DATA_TYPE_DEF;
   label: string;
-  available: boolean
-}
+  available: boolean;
+};
 export const EXPORT_DATA_TYPE_OPTIONS: EXPORT_DATA_TYPE_OPTION[];
 
 export const EXPORT_MAP_FORMATS: {
@@ -198,9 +198,9 @@ export const EXPORT_IMG_RATIOS: {
 export type EXPORT_IMG_RATIO_OPTION = {
   id: keyof EXPORT_IMG_RATIOS_TYPE;
   label: string;
-  getSize: (screenW: number, screenH: number) => {width: number, height: number};
+  getSize: (screenW: number, screenH: number) => {width: number; height: number};
   hidden?: boolean;
-}
+};
 
 export const EXPORT_IMG_RATIO_OPTIONS: EXPORT_IMG_RATIO_OPTION[];
 
@@ -212,7 +212,7 @@ export const RESOLUTIONS: {
 export type EXPORT_IMG_RESOLUTION_OPTION = EXPORT_IMG_RATIO_OPTION & {
   available: boolean;
   scale: number;
-}
+};
 export const EXPORT_IMG_RESOLUTION_OPTIONS: EXPORT_IMG_RESOLUTION_OPTION[];
 
 export const EXPORT_HTML_MAP_MODES: {
@@ -229,7 +229,7 @@ export type EXPORT_HTML_MAP_MODE_OPTION = {
 export const EXPORT_HTML_MAP_MODE_OPTIONS: EXPORT_HTML_MAP_MODE_OPTION[];
 
 export type EXPORT_MAP_FORMAT_OPTION = {
-  id: keyof EXPORT_MAP_FORMATS_TYPE,
+  id: keyof EXPORT_MAP_FORMATS_TYPE;
   label: string;
   available: string;
 };
@@ -249,7 +249,7 @@ export const LOADING_METHODS: {
 export type MAP_INFO_CHARACTER_TYPE = {
   title: number;
   description: number;
-}
+};
 export const MAP_INFO_CHARACTER: MAP_INFO_CHARACTER_TYPE;
 
 export type FIELD_OPT = {
@@ -258,14 +258,14 @@ export type FIELD_OPT = {
   format: object;
 };
 export const FIELD_OPTS: {
-  string: FIELD_OPT,
-  real: FIELD_OPT,
-  timestamp: FIELD_OPT,
-  integer: FIELD_OPT,
-  boolean: FIELD_OPT,
-  date: FIELD_OPT,
-  geojson: FIELD_OPT
-}
+  string: FIELD_OPT;
+  real: FIELD_OPT;
+  timestamp: FIELD_OPT;
+  integer: FIELD_OPT;
+  boolean: FIELD_OPT;
+  date: FIELD_OPT;
+  geojson: FIELD_OPT;
+};
 
 export type DEFAULT_NOTIFICATION_TOPICS_TYPE = {
   global: string;
@@ -320,7 +320,7 @@ export type LAYER_BLENDING_TYPE = {
   label: string;
   blendFunc: string[];
   blendEquation: string | string[];
-}
+};
 export const LAYER_BLENDINGS: {
   additive: LAYER_BLENDING_TYPE;
   normal: LAYER_BLENDING_TYPE;
@@ -340,17 +340,17 @@ export const TRIP_ARC_FIELDS: {
   lng0: string;
   lat1: string;
   lng1: string;
-}
+};
 
 export const TRIP_POINT_FIELDS: [string, string][];
 
 export const GEOJSON_FIELDS: {
   geojson: string[];
-}
+};
 
 export const ICON_FIELDS: {
   icon: string[];
-}
+};
 
 export const MAP_CONTROLS: {
   visibleLayers: 'visibleLayers';
@@ -360,7 +360,7 @@ export const MAP_CONTROLS: {
   splitMap: 'splitMap';
   mapDraw: 'mapDraw';
   mapLocale: 'mapLocale';
-}
+};
 
 export const DEFAULT_LAYER_COLOR: {
   tripArc: string;
@@ -390,4 +390,3 @@ export const EXPORT_MAP_ID: string;
 export const SAVE_MAP_ID: string;
 export const OVERWRITE_MAP_ID: string;
 export const SHARE_MAP_ID: string;
-

@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,33 +24,32 @@ import {mount} from 'enzyme';
 import sinon from 'sinon';
 import cloneDeep from 'lodash.clonedeep';
 
-import ColorSelector, {
-  ColorSelectorInput,
-  ColorBlock
-} from 'components/side-panel/layer-panel/color-selector';
 import {
+  ColorSelector,
+  ColorSelectorInput,
+  ColorBlock,
   LayerColorSelector,
   LayerColorRangeSelector,
   ArcLayerColorSelector,
   getLayerConfiguratorProps,
-  getVisConfiguratorProps
-} from 'components/side-panel/layer-panel/layer-configurator';
-import SingleColorPalette from 'components/side-panel/layer-panel/single-color-palette';
-import ColorRangeSelector, {
+  getVisConfiguratorProps,
+  SingleColorPalette,
+  ColorRangeSelector,
   PaletteConfig,
   ColorPaletteGroup,
-  ALL_TYPES
-} from 'components/side-panel/layer-panel/color-range-selector';
-import ColorPalette from 'components/side-panel/layer-panel/color-palette';
-import CustomPalette from 'components/side-panel/layer-panel/custom-palette';
-import CustomPicker from 'components/side-panel/layer-panel/custom-picker';
-import {Button} from 'components/common/styled-components';
+  ALL_TYPES,
+  ColorPalette,
+  CustomPalette,
+  CustomPicker,
+  Button,
+  Portaled
+} from '@kepler.gl/components';
 
-import {COLOR_RANGES} from 'constants/color-ranges';
+import {COLOR_RANGES} from '@kepler.gl/constants';
 
 import {StateWFilesFiltersLayerColor, StateWTrips} from 'test/helpers/mock-state';
 import {IntlWrapper, mountWithTheme} from 'test/helpers/component-utils';
-import {hexToRgb} from 'utils/color-utils';
+import {hexToRgb} from '@kepler.gl/utils';
 
 test('Components -> ColorSelector.render', t => {
   t.doesNotThrow(() => {
@@ -782,6 +781,12 @@ test('Components -> LayerColorRangeSelector.render -> ColorSelector -> ColorRang
 
   const picker = cp.find(CustomPicker);
   t.equal(picker.length, 1, 'should render 1 CustomPicker');
+
+  // SecurityError (e.g. cross-origin error) should be handled in Portaled component
+  t.doesNotThrow(() => {
+    picker.simulateError({name: 'SecurityError', message: '', stack: []});
+    t.equal(wrapper.find(Portaled).length, 1);
+  }, 'Should not fail with SecurityError when close CustomPicker');
 
   t.end();
 });

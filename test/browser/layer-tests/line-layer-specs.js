@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,9 @@ import {
   arcLayerMeta
 } from 'test/helpers/layer-utils';
 
-import {KeplerGlLayers} from 'layers';
-import {copyTable, copyTableAndUpdate} from 'utils/table-utils/kepler-table';
+import {PROJECTED_PIXEL_SIZE_MULTIPLIER} from '@kepler.gl/constants';
+import {KeplerGlLayers} from '@kepler.gl/layers';
+import {copyTable, copyTableAndUpdate} from '@kepler.gl/table';
 
 const {LineLayer} = KeplerGlLayers;
 const columns = {
@@ -321,7 +322,7 @@ test('#LineLayer -> renderLayer', t => {
         t.equal(props.opacity, layer.config.visConfig.opacity, 'should calculate correct opacity');
         t.equal(
           props.widthScale,
-          layer.config.visConfig.thickness,
+          layer.config.visConfig.thickness * PROJECTED_PIXEL_SIZE_MULTIPLIER,
           'should apply correct widthScale'
         );
         t.equal(

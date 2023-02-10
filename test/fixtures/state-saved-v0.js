@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -18,10 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import {KeplerGlLayers} from 'layers';
+import {KeplerGlLayers} from '@kepler.gl/layers';
 const {PointLayer, ArcLayer, HexagonLayer, GeojsonLayer} = KeplerGlLayers;
-import {getDefaultInteraction} from 'utils/interaction-utils';
-import {DEFAULT_TEXT_LABEL, DEFAULT_COLOR_UI} from 'layers/layer-factory';
+import {DEFAULT_TEXT_LABEL, DEFAULT_COLOR_UI} from '@kepler.gl/constants';
+import {defaultInteractionConfig} from '@kepler.gl/reducers';
 
 export const savedStateV0 = {
   config: {
@@ -886,7 +886,8 @@ export const mergedFilters = [
     dataId: ['9h10t7fyb'],
     freeze: true,
     id: 'vxzfwyg2v',
-    enlarged: false,
+    enabled: true,
+    view: 'side',
     isAnimating: false,
     animationWindow: 'free',
     name: ['song_name'],
@@ -906,7 +907,8 @@ export const mergedFilters = [
     dataId: ['9h10t7fyb'],
     freeze: true,
     id: 'fo9tjm2unl',
-    enlarged: true,
+    enabled: true,
+    view: 'enlarged',
     isAnimating: false,
     animationWindow: 'free',
     name: ['timestamp_local'],
@@ -941,11 +943,12 @@ export const mergedFilters = [
   {
     dataId: ['9h10t7fyb'],
     id: 'aesy96t5',
+    enabled: true,
     name: ['type_boolean'],
     type: 'select',
     freeze: true,
     value: false,
-    enlarged: false,
+    view: 'side',
     isAnimating: false,
     animationWindow: 'free',
     fieldIdx: [10],
@@ -961,11 +964,12 @@ export const mergedFilters = [
   {
     dataId: ['9h10t7fyb'],
     id: 's1bhgjt1',
+    enabled: true,
     name: ['int_range'],
     type: 'range',
     value: [78, 309],
     freeze: true,
-    enlarged: false,
+    view: 'side',
     plotType: 'histogram',
     yAxis: null,
     interval: null,
@@ -987,7 +991,8 @@ export const mergedFilters = [
     dataId: ['v79816te8'],
     freeze: true,
     id: '5nfmxjjzl',
-    enlarged: false,
+    enabled: true,
+    view: 'side',
     isAnimating: false,
     animationWindow: 'free',
     name: ['ZIP_CODE'],
@@ -1477,11 +1482,10 @@ mergedLayer4.meta = {
 
 export const mergedLayers = [mergedLayer0, mergedLayer1, mergedLayer2, mergedLayer3, mergedLayer4];
 
-const defaultInteraction = getDefaultInteraction();
 export const mergedInteractions = {
-  ...defaultInteraction,
+  ...defaultInteractionConfig,
   tooltip: {
-    ...defaultInteraction.tooltip,
+    ...defaultInteractionConfig.tooltip,
     enabled: true,
     config: {
       compareMode: false,

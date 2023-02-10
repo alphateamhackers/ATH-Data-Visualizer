@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,18 +27,17 @@ import {
   mergeInteractions,
   mergeLayerBlending,
   mergeSplitMaps,
-  insertLayerAtRightOrder
-} from 'reducers/vis-state-merger';
+  insertLayerAtRightOrder,
+  visStateReducer,
+  keplerGlReducerCore as coreReducer,
+  defaultInteractionConfig
+} from '@kepler.gl/reducers';
 
-import SchemaManager from 'schemas';
-import visStateReducer from 'reducers/vis-state';
-import coreReducer from 'reducers/core';
-import {updateVisData} from 'actions/vis-state-actions';
-import {receiveMapConfig, addDataToMap} from 'actions/actions';
-import {getDefaultInteraction} from 'utils/interaction-utils';
-import {processKeplerglJSON} from 'processors/data-processor';
+import SchemaManager from '@kepler.gl/schemas';
+import {processKeplerglJSON} from '@kepler.gl/processors';
+import {updateVisData, receiveMapConfig, addDataToMap} from '@kepler.gl/actions';
 
-import {createDataContainer} from 'utils/table-utils';
+import {createDataContainer} from '@kepler.gl/utils';
 
 // fixtures
 import {
@@ -110,6 +109,7 @@ import {
   mergedTripFilter,
   mergedRateFilter
 } from 'test/fixtures/geojson';
+import {mockStateWithPolygonFilter} from '../../fixtures/points-with-polygon-filter-map';
 
 test('VisStateMerger.v0 -> mergeFilters -> toEmptyState', t => {
   const savedConfig = cloneDeep(savedStateV0);
@@ -244,6 +244,45 @@ test('VisStateMerger.v1 -> mergeFilters -> toWorkingState', t => {
   // test parsed filters
   cmpFilters(t, [...oldFilters, ...mergedFiltersV1], stateWData.filters);
   t.deepEqual(stateWData.filterToBeMerged, [], 'should clear up filterToBeMerged');
+
+  // should filter data
+  t.end();
+});
+
+test('VisStateMerger.v1 -> mergeFilters -> empty filter', t => {
+  const savedConfig = cloneDeep(savedStateV1);
+  // set an empty filter
+  savedConfig.config.config.visState.filters[0].name = [];
+  const oldState = cloneDeep(InitialState);
+
+  const oldVisState = oldState.visState;
+  const oldFilters = [...oldState.visState.filters];
+
+  const parsedConfig = SchemaManager.parseSavedConfig(savedConfig.config, oldState);
+  const parsedFilters = parsedConfig.visState.filters;
+
+  const mergedState = mergeFilters(oldState.visState, parsedFilters);
+
+  Object.keys(oldVisState).forEach(key => {
+    if (key === 'filterToBeMerged') {
+      t.deepEqual(
+        mergedState.filterToBeMerged,
+        parsedFilters,
+        'Should save filters to filterToBeMerged before data loaded'
+      );
+    } else {
+      t.deepEqual(mergedState[key], oldVisState[key], 'Should keep the rest of state same');
+    }
+  });
+
+  const parsedData = SchemaManager.parseSavedData(savedConfig.datasets);
+
+  // load data into reducer
+  const stateWData = visStateReducer(mergedState, updateVisData(parsedData));
+
+  // test parsed filters
+  cmpFilters(t, oldFilters, stateWData.filters);
+  t.deepEqual(stateWData.filterToBeMerged, [], 'should not pass fiter validate if tiler is empty');
 
   // should filter data
   t.end();
@@ -728,12 +767,11 @@ test('VisStateMerger.v0 -> mergeInteractions -> toWorkingState', t => {
 
   // load data into reducer
   const stateWData = visStateReducer(mergedState, updateVisData(parsedData));
-  const defaultInteraction = getDefaultInteraction();
 
   const expectedInteractions = {
-    ...defaultInteraction,
+    ...defaultInteractionConfig,
     tooltip: {
-      ...defaultInteraction.tooltip,
+      ...defaultInteractionConfig.tooltip,
       enabled: true,
       config: {
         compareMode: false,
@@ -757,7 +795,7 @@ test('VisStateMerger.v0 -> mergeInteractions -> toWorkingState', t => {
               format: null
             },
             {
-              name: 'id',
+              name: 'uid',
               format: null
             }
           ],
@@ -829,7 +867,6 @@ test('VisStateMerger.v1 -> mergeInteractions -> toEmptyState', t => {
 
   // merge interactions
   const mergedState = mergeInteractions(oldState.visState, parsedInteraction);
-  const defaultInteraction = getDefaultInteraction();
 
   Object.keys(oldVisState).forEach(key => {
     if (key === 'interactionToBeMerged') {
@@ -862,9 +899,9 @@ test('VisStateMerger.v1 -> mergeInteractions -> toEmptyState', t => {
       t.deepEqual(
         mergedState.interactionConfig,
         {
-          ...defaultInteraction,
+          ...defaultInteractionConfig,
           tooltip: {
-            ...defaultInteraction.tooltip,
+            ...defaultInteractionConfig.tooltip,
             enabled: false,
             config: {
               fieldsToShow: {},
@@ -873,7 +910,7 @@ test('VisStateMerger.v1 -> mergeInteractions -> toEmptyState', t => {
             }
           },
           brush: {
-            ...defaultInteraction.brush,
+            ...defaultInteractionConfig.brush,
             enabled: false,
             config: {
               size: 1
@@ -937,7 +974,6 @@ test('VisStateMerger.v1 -> mergeInteractions -> toWorkingState', t => {
 
   // merge interactions
   const mergedState = mergeInteractions(oldState.visState, parsedInteraction);
-  const defaultInteraction = getDefaultInteraction();
 
   const expectedInteractionToBeMerged = {
     tooltip: {
@@ -972,9 +1008,9 @@ test('VisStateMerger.v1 -> mergeInteractions -> toWorkingState', t => {
       t.deepEqual(
         mergedState.interactionConfig,
         {
-          ...defaultInteraction,
+          ...defaultInteractionConfig,
           tooltip: {
-            ...defaultInteraction.tooltip,
+            ...defaultInteractionConfig.tooltip,
             enabled: false,
             config: {
               compareMode: false,
@@ -998,7 +1034,7 @@ test('VisStateMerger.v1 -> mergeInteractions -> toWorkingState', t => {
                     format: null
                   },
                   {
-                    name: 'id',
+                    name: 'uid',
                     format: null
                   }
                 ],
@@ -1029,7 +1065,7 @@ test('VisStateMerger.v1 -> mergeInteractions -> toWorkingState', t => {
           },
 
           brush: {
-            ...defaultInteraction.brush,
+            ...defaultInteractionConfig.brush,
             enabled: false,
             config: {
               size: 1
@@ -1037,7 +1073,7 @@ test('VisStateMerger.v1 -> mergeInteractions -> toWorkingState', t => {
           },
 
           coordinate: {
-            ...defaultInteraction.coordinate,
+            ...defaultInteractionConfig.coordinate,
             enabled: false
           }
         },
@@ -1054,9 +1090,9 @@ test('VisStateMerger.v1 -> mergeInteractions -> toWorkingState', t => {
   const stateWData = visStateReducer(mergedState, updateVisData(parsedData));
 
   const expectedInteractions = {
-    ...defaultInteraction,
+    ...defaultInteractionConfig,
     tooltip: {
-      ...defaultInteraction.tooltip,
+      ...defaultInteractionConfig.tooltip,
       enabled: false,
       config: {
         compareMode: false,
@@ -1080,7 +1116,7 @@ test('VisStateMerger.v1 -> mergeInteractions -> toWorkingState', t => {
               format: null
             },
             {
-              name: 'id',
+              name: 'uid',
               format: null
             }
           ],
@@ -1124,7 +1160,7 @@ test('VisStateMerger.v1 -> mergeInteractions -> toWorkingState', t => {
       }
     },
     brush: {
-      ...defaultInteraction.brush,
+      ...defaultInteractionConfig.brush,
       enabled: false,
       config: {size: 1}
     }
@@ -1148,7 +1184,6 @@ test('VisStateMerger.v1 -> mergeInteractions -> coordinate', t => {
 
   // merge interactions
   const mergedState = mergeInteractions(oldState.visState, parsedInteraction);
-  const defaultInteraction = getDefaultInteraction();
 
   const expectedInteractionToBeMerged = {};
 
@@ -1163,22 +1198,22 @@ test('VisStateMerger.v1 -> mergeInteractions -> coordinate', t => {
       t.deepEqual(
         mergedState.interactionConfig,
         {
-          ...defaultInteraction,
+          ...defaultInteractionConfig,
 
           tooltip: {
-            ...defaultInteraction.tooltip,
+            ...defaultInteractionConfig.tooltip,
             enabled: false
           },
 
           brush: {
-            ...defaultInteraction.brush,
+            ...defaultInteractionConfig.brush,
             config: {
               size: 1
             }
           },
 
           coordinate: {
-            ...defaultInteraction.coordinate,
+            ...defaultInteractionConfig.coordinate,
             enabled: true
           }
         },
@@ -1195,9 +1230,9 @@ test('VisStateMerger.v1 -> mergeInteractions -> coordinate', t => {
   const stateWData = visStateReducer(mergedState, updateVisData(parsedData));
 
   const expectedInteractions = {
-    ...defaultInteraction,
+    ...defaultInteractionConfig,
     tooltip: {
-      ...defaultInteraction.tooltip,
+      ...defaultInteractionConfig.tooltip,
       enabled: false,
       config: {
         compareMode: false,
@@ -1229,12 +1264,12 @@ test('VisStateMerger.v1 -> mergeInteractions -> coordinate', t => {
       }
     },
     brush: {
-      ...defaultInteraction.brush,
+      ...defaultInteractionConfig.brush,
       enabled: false,
       config: {size: 1}
     },
     coordinate: {
-      ...defaultInteraction.coordinate,
+      ...defaultInteractionConfig.coordinate,
       enabled: true
     }
   };
@@ -1532,8 +1567,12 @@ test('VisStateMerger.v1 -> mergeFilters -> multiFilters', t => {
     [testCsvDataId]: {
       metadata: {
         id: testCsvDataId,
-        label: 'hello.csv'
+        label: 'hello.csv',
+        format: ''
       },
+      type: '',
+      supportedFilterTypes: null,
+      disableDataOperation: false,
       fields: tFields0,
       dataContainer: dc0,
       allIndexes: [
@@ -1606,8 +1645,12 @@ test('VisStateMerger.v1 -> mergeFilters -> multiFilters', t => {
     [testGeoJsonDataId]: {
       metadata: {
         id: testGeoJsonDataId,
-        label: 'zip.geojson'
+        label: 'zip.geojson',
+        format: ''
       },
+      type: '',
+      supportedFilterTypes: null,
+      disableDataOperation: false,
       fields: tFields1,
       filterRecord: {
         dynamicDomain: [mergedRateFilter, mergedTripFilter],
@@ -1702,39 +1745,123 @@ test('VisStateMerger -> import polygon filter map', t => {
 });
 
 test('VisStateMerger -> insertLayerAtRightOrder -> to empty config', t => {
-  const preservedOrder = ['a', 'b', 'c', 'd'];
-
-  const batches = [
-    {load: [{id: 'b'}], expectedLayers: [{id: 'b'}], expectedOrder: [0]},
+  const testCases = [
     {
-      load: [{id: 'a'}, {id: 'c'}],
-      expectedLayers: [{id: 'b'}, {id: 'a'}, {id: 'c'}],
-      expectedOrder: [1, 0, 2]
-    },
-    {
-      load: [{id: 'd'}],
+      preservedOrder: ['a', 'b', 'c', 'd'],
+      batches: [
+        {
+          load: [{id: 'b'}],
+          expectedLayers: [{id: 'b'}],
+          expectedOrder: [0]
+        },
+        {
+          load: [{id: 'a'}, {id: 'c'}],
+          expectedLayers: [{id: 'b'}, {id: 'a'}, {id: 'c'}],
+          expectedOrder: [1, 0, 2]
+        },
+        {
+          load: [{id: 'd'}],
+          expectedLayers: [{id: 'b'}, {id: 'a'}, {id: 'c'}, {id: 'd'}],
+          expectedOrder: [1, 0, 2, 3]
+        }
+      ],
       expectedLayers: [{id: 'b'}, {id: 'a'}, {id: 'c'}, {id: 'd'}],
       expectedOrder: [1, 0, 2, 3]
+    },
+    {
+      preservedOrder: ['x', 'm', 'e', 'p', 'w', '6', 'h'],
+      batches: [
+        {
+          load: [{id: '6'}],
+          expectedLayers: [{id: '6'}],
+          expectedOrder: [0]
+        },
+        {
+          load: [{id: 'e'}],
+          expectedLayers: [{id: '6'}, {id: 'e'}],
+          expectedOrder: [1, 0]
+        },
+        {
+          load: [{id: 'x'}, {id: 'p'}, {id: 'w'}, {id: 'h'}],
+          expectedLayers: [{id: '6'}, {id: 'e'}, {id: 'x'}, {id: 'p'}, {id: 'w'}, {id: 'h'}],
+          expectedOrder: [2, 1, 3, 4, 0, 5]
+        },
+        {
+          load: [{id: 'm'}],
+          expectedLayers: [
+            {id: '6'},
+            {id: 'e'},
+            {id: 'x'},
+            {id: 'p'},
+            {id: 'w'},
+            {id: 'h'},
+            {id: 'm'}
+          ],
+          expectedOrder: [2, 6, 1, 3, 4, 0, 5]
+        }
+      ],
+      expectedLayers: [{id: '6'}, {id: 'e'}, {id: 'x'}, {id: 'p'}, {id: 'w'}, {id: 'h'}, {id: 'm'}],
+      expectedOrder: [2, 6, 1, 3, 4, 0, 5]
+    },
+    {
+      preservedOrder: ['x', 'm', 'e', 'p', 'w', '6', 'h'],
+      batches: [
+        {
+          load: [{id: 'x'}, {id: 'm'}],
+          expectedLayers: [{id: 'x'}, {id: 'm'}],
+          expectedOrder: [0, 1]
+        },
+        {
+          load: [{id: 'w'}],
+          expectedLayers: [{id: 'x'}, {id: 'm'}, {id: 'w'}],
+          expectedOrder: [0, 1, 2]
+        },
+        {
+          load: [{id: 'p'}],
+          expectedLayers: [{id: 'x'}, {id: 'm'}, {id: 'w'}, {id: 'p'}],
+          expectedOrder: [0, 1, 3, 2]
+        },
+        {
+          load: [{id: 'e'}, {id: 'h'}, {id: '6'}],
+          expectedLayers: [
+            {id: 'x'},
+            {id: 'm'},
+            {id: 'w'},
+            {id: 'p'},
+            {id: 'e'},
+            {id: 'h'},
+            {id: '6'}
+          ],
+          expectedOrder: [0, 1, 4, 3, 2, 6, 5]
+        }
+      ],
+      expectedOrder: [0, 1, 4, 3, 2, 6, 5],
+      expectedLayers: [{id: 'x'}, {id: 'm'}, {id: 'w'}, {id: 'p'}, {id: 'e'}, {id: 'h'}, {id: '6'}]
     }
   ];
 
-  let currentLayers = [];
-  let currentOrder = [];
+  testCases.forEach(({preservedOrder, batches, expectedOrder, expectedLayers}) => {
+    let currentLayers = [];
+    let currentOrder = [];
 
-  // add layers in batch
-  for (const batch of batches) {
-    const {newLayerOrder, newLayers} = insertLayerAtRightOrder(
-      currentLayers,
-      batch.load,
-      currentOrder,
-      preservedOrder
-    );
-    currentLayers = newLayers;
-    currentOrder = newLayerOrder;
+    // add layers in batch
+    for (const batch of batches) {
+      const {newLayerOrder, newLayers} = insertLayerAtRightOrder(
+        currentLayers,
+        batch.load,
+        currentOrder,
+        preservedOrder
+      );
+      currentLayers = newLayers;
+      currentOrder = newLayerOrder;
 
-    t.deepEqual(currentLayers, batch.expectedLayers, 'Should insert layer at correct Order');
-    t.deepEqual(currentOrder, batch.expectedOrder, 'Should reconstruct layer order');
-  }
+      t.deepEqual(currentLayers, batch.expectedLayers, 'Should insert layer at correct Order');
+      t.deepEqual(currentOrder, batch.expectedOrder, 'Should reconstruct layer order');
+    }
+
+    t.deepEqual(currentLayers, expectedLayers, 'Should insert layer at correct Order');
+    t.deepEqual(currentOrder, expectedOrder, 'Should reconstruct layer order');
+  });
 
   t.end();
 });
@@ -1774,5 +1901,26 @@ test('VisStateMerger -> insertLayerAtRightOrder -> to empty config', t => {
     t.deepEqual(currentOrder, batch.expectedOrder, 'Should reconstruct layer order');
   }
 
+  t.end();
+});
+
+test('VisStateMerger -> load polygon filter map', t => {
+  const oldState = mockStateWithPolygonFilter();
+
+  const oldFilter = oldState.visState.filters[0];
+
+  const appStateToSave = SchemaManager.save(oldState);
+  const stateParsed = SchemaManager.load(appStateToSave);
+  const initialState = cloneDeep(InitialState);
+  const initialVisState = initialState.visState;
+
+  const visState = visStateReducer(
+    initialVisState,
+    updateVisData(stateParsed.datasets, {}, stateParsed.config)
+  );
+
+  const newFilter = visState.filters[0];
+
+  t.deepEqual(newFilter, oldFilter, 'Should have loaded the polygon filter correctly');
   t.end();
 });

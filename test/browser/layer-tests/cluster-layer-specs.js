@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,8 @@ import {
   pointLayerMeta
 } from 'test/helpers/layer-utils';
 
-import {KeplerGlLayers} from 'layers';
-import {INITIAL_MAP_STATE} from 'reducers/map-state-updaters';
+import {KeplerGlLayers} from '@kepler.gl/layers';
+import {INITIAL_MAP_STATE} from '@kepler.gl/reducers';
 
 const {ClusterLayer} = KeplerGlLayers;
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,24 +22,26 @@ import test from 'tape-catch';
 import cloneDeep from 'lodash.clonedeep';
 import {drainTasksForTesting} from 'react-palm/tasks';
 
-import {VizColorPalette} from 'constants/custom-color-ranges';
-import {getInitialInputStyle} from 'reducers/map-style-updaters';
+import {getInitialInputStyle, keplerGlReducerCore as keplerGlReducer} from '@kepler.gl/reducers';
 
-import keplerGlReducer from 'reducers/core';
-import {addDataToMap} from 'actions/actions';
 import {
+  VizColorPalette,
+  COMPARE_TYPES,
+  DEFAULT_LAYER_OPACITY,
   DEFAULT_TEXT_LABEL,
   DEFAULT_COLOR_RANGE,
-  DEFAULT_LAYER_OPACITY,
   DEFAULT_HIGHLIGHT_COLOR,
   DEFAULT_LAYER_LABEL
-} from 'layers/layer-factory';
-import {DEFAULT_KEPLER_GL_PROPS} from 'components';
-import * as VisStateActions from 'actions/vis-state-actions';
-import * as MapStateActions from 'actions/map-state-actions';
-import * as MapStyleActions from 'actions/map-style-actions';
-import * as UIStateActions from 'actions/ui-state-actions';
-import * as ProviderActions from 'actions/provider-actions';
+} from '@kepler.gl/constants';
+import {DEFAULT_KEPLER_GL_PROPS, getUpdateVisDataPayload} from '@kepler.gl/components';
+import {
+  addDataToMap,
+  VisStateActions,
+  MapStateActions,
+  MapStyleActions,
+  UIStateActions,
+  ProviderActions
+} from '@kepler.gl/actions';
 
 // fixtures
 import {dataId as csvDataId, testFields, testAllData} from 'test/fixtures/test-csv-data';
@@ -53,8 +55,7 @@ import {
   dataId as tripDataId
 } from 'test/fixtures/test-trip-data';
 import tripGeojson, {tripDataInfo} from 'test/fixtures/trip-geojson';
-import {processCsvData, processGeojson} from 'processors/data-processor';
-import {COMPARE_TYPES} from 'constants/tooltip';
+import {processCsvData, processGeojson} from '@kepler.gl/processors';
 import {MOCK_MAP_STYLE} from './mock-map-styles';
 import {getUpdateVisDataPayload} from 'components/geocoder-panel';
 
@@ -555,6 +556,33 @@ function mockStateWithGeocoderDataset() {
   return prepareState;
 }
 
+function mockStateWithLayerStyling() {
+  const initialState = mockStateWithFileUpload();
+  const layer0 = initialState.visState.layers.find(
+    l => l.config.dataId === testCsvDataId && l.type === 'point'
+  );
+  const mapCenter = {
+    longitude: 31.2369645,
+    latitude: 30.0242098,
+    zoom: 13
+  };
+
+  const prepareState = applyActions(keplerGlReducer, initialState, [
+    // make radius bigger
+    {
+      action: VisStateActions.layerVisConfigChange,
+      payload: [layer0, {radius: 100}]
+    },
+    // center map
+    {
+      action: MapStateActions.updateMap,
+      payload: [mapCenter]
+    }
+  ]);
+
+  return prepareState;
+}
+
 // saved hexagon layer
 export const expectedSavedLayer0 = {
   id: 'hexagon-2',
@@ -637,7 +665,7 @@ export const expectedSavedLayer1 = {
   type: 'point',
   config: {
     dataId: testCsvDataId,
-    label: 'gps data',
+    label: 'gps_data',
     highlightColor: DEFAULT_HIGHLIGHT_COLOR,
     color: [0, 0, 0],
     columns: {
@@ -693,7 +721,7 @@ export const expectedLoadedLayer1 = {
   type: 'point',
   config: {
     dataId: testCsvDataId,
-    label: 'gps data',
+    label: 'gps_data',
     highlightColor: DEFAULT_HIGHLIGHT_COLOR,
     color: [0, 0, 0],
     columns: {
@@ -847,6 +875,7 @@ export const StateWTooltipFormat = mockStateWithTooltipFormat();
 export const StateWH3Layer = mockStateWithH3Layer();
 export const StateWMultiH3Layers = mockStateWithMultipleH3Layers();
 export const StateWithGeocoderDataset = mockStateWithGeocoderDataset();
+export const StateWLayerStyle = mockStateWithLayerStyling();
 
 export const expectedSavedTripLayer = {
   id: 'trip-0',
@@ -913,4 +942,4 @@ export function mockKeplerPropsWithState({
   };
 }
 
-export const mockKeplerProps = mockKeplerPropsWithState({state: StateWFiles});
+export const mockKeplerProps = mockKeplerPropsWithState({state: StateWLayerStyle});

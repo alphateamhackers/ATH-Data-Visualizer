@@ -19,18 +19,16 @@
     "context": true,
     "jestPuppeteer": true
   },
-  "parser": "babel-eslint",
-  "plugins": [
-    "babel",
-    "prettier",
-    "react"
-  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["babel", "prettier", "react", "@typescript-eslint"],
   "rules": {
     "valid-jsdoc": 0,
     "no-var": 0,
     "max-len": 0,
     "react/no-did-mount-set-state": 0,
     "react/no-multi-comp": 0,
+    "react/sort-comp": 0,
+    "no-use-before-define": "off",
     "prefer-spread": 1,
     "prefer-template": 1,
     "prettier/prettier": "error",
@@ -42,10 +40,20 @@
     "no-inline-comments": 0,
     "no-invalid-this": 0,
     "no-unused-expressions": 0,
+    "no-undef": 0,
     "camelcase": 0,
     "consistent-return": 0,
     "comma-dangle": 1
   },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": 0,
+        "no-unused-vars": 0,
+      },
+    },
+  ],
   "settings": {
     "react": {
       "version": "detect"

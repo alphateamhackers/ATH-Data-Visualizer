@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,10 +22,7 @@ import React from 'react';
 import test from 'tape';
 import {mountWithTheme, IntlWrapper} from 'test/helpers/component-utils';
 import sinon from 'sinon';
-import SaveMapModalFactory from '../../../../src/components/modals/save-map-modal';
-
-import CloudTile from '../../../../src/components/modals/cloud-tile';
-import ImagePreview from '../../../../src/components/common/image-preview';
+import {SaveMapModalFactory, CloudTile, ImagePreview} from '@kepler.gl/components';
 import MockProvider from 'test/helpers/mock-provider';
 
 const mockProvider = new MockProvider();

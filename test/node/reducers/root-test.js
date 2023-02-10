@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,14 +19,14 @@
 // THE SOFTWARE.
 
 import test from 'tape';
-import keplerGlReducer from 'reducers';
+import keplerGlReducer from '@kepler.gl/reducers';
 import {
   registerEntry,
   resetMapConfig,
   receiveMapConfig,
   toggleSplitMap,
   toggleMapControl
-} from 'actions';
+} from '@kepler.gl/actions';
 import {createAction, handleActions} from 'redux-actions';
 
 test('keplerGlReducer.initialState', t => {

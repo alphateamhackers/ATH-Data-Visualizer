@@ -1,4 +1,4 @@
-// Copyright (c) 2021 Uber Technologies, Inc.
+// Copyright (c) 2023 Uber Technologies, Inc.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -19,7 +19,7 @@
 // THE SOFTWARE.
 
 import test from 'tape';
-import {mergeLayerGroupVisibility} from 'utils/map-style-utils/mapbox-gl-style-editor';
+import {mergeLayerGroupVisibility} from '@kepler.gl/utils';
 
 test('mapbox.gl Style Editor -> mergeLayerGroupVisibility', t => {
   const defaultLG = {
