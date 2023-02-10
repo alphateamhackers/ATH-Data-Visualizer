@@ -178,7 +178,7 @@ export const appInjector = allDependencies.reduce(
 );
 
 // Helper to inject custom components and return kepler.gl container
-export function injectComponents(recipes = []) {
+export function injectComponents(recipes: any[] = []) {
   return provideRecipesToInjector(recipes, appInjector).get(ContainerFactory);
 }
 

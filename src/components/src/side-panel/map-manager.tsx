@@ -23,7 +23,8 @@ import React, {Component} from 'react';
 // import {Button, SidePanelSection} from '../common/styled-components';
 import MapStyleSelectorFactory from './map-style-panel/map-style-selector';
 import LayerGroupSelectorFactory from './map-style-panel/map-layer-selector';
-import MapLayerLegendFactory from './map-style-panel/map-layer-legend';
+/* TODO: Fix the issues caused by showing this component */
+// import MapLayerLegendFactory from './map-style-panel/map-layer-legend';
 
 // import {Add} from '../common/icons';
 // import ColorSelector from './layer-panel/color-selector';
@@ -43,8 +44,8 @@ MapManagerFactory.deps = [MapStyleSelectorFactory, LayerGroupSelectorFactory];
 
 function MapManagerFactory(
   MapStyleSelector: ReturnType<typeof MapStyleSelectorFactory>,
-  LayerGroupSelector: ReturnType<typeof LayerGroupSelectorFactory>,
-  MapLayerLegend: ReturnType<typeof MapLayerLegendFactory>
+  LayerGroupSelector: ReturnType<typeof LayerGroupSelectorFactory>
+  // MapLayerLegend: ReturnType<typeof MapLayerLegendFactory>
 ) {
   class MapManager extends Component<MapManagerProps> {
     state = {
@@ -67,8 +68,9 @@ function MapManagerFactory(
 
     render() {
       const {mapStyle, mapStyleActions} = this.props;
-      const {mapStyles, styleType} = mapStyle;
-      const mapLegends = mapStyles[styleType].legends || [];
+      const {mapStyles} = mapStyle;
+      // const {mapStyles, styleType} = mapStyle;
+      // const mapLegends = mapStyles[styleType].legends || [];
       const currentStyle = mapStyles[mapStyle.styleType] || {};
       const editableLayers = (currentStyle.layerGroups || []).map(({slug, data}) => ({slug, data}));
       // const hasBuildingLayer = mapStyle.visibleLayerGroups['3d building'];
@@ -105,7 +107,7 @@ function MapManagerFactory(
                 onLayerClick={mapStyleActions.toggleMapLayerModal}
               />
             ) : null}
-            {mapLegends.length > 0 && <MapLayerLegend panelLegends={mapLegends} />}
+            {/* {mapLegends.length > 0 && <MapLayerLegend panelLegends={mapLegends} />} */}
             {/* Enable Custom Map Manager
             <SidePanelSection>
               <ColorSelector colorSets={colorSets} disabled={!hasBuildingLayer} />

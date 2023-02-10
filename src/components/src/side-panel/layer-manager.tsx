@@ -115,7 +115,7 @@ const OverlayBlendingSelector = React.memo(
     const labeledOverlayBlendings = Object.keys(OVERLAY_BLENDINGS).reduce(
       (acc, current) => ({
         ...acc,
-        [intl.formatMessage({id: OVERLAY_BLENDINGS[current].label})]: current
+        [intl.formatMessage({id: OVERLAY_BLENDINGS[current]?.label || ''})]: current
       }),
       {}
     );
@@ -131,7 +131,7 @@ const OverlayBlendingSelector = React.memo(
           <FormattedMessage id="overlayBlending.title" />
         </PanelLabel>
         <ItemSelector
-          selectedItems={intl.formatMessage({id: OVERLAY_BLENDINGS[overlayBlending].label})}
+          selectedItems={intl.formatMessage({id: OVERLAY_BLENDINGS[overlayBlending]?.label || ''})}
           options={Object.keys(labeledOverlayBlendings)}
           multiSelect={false}
           searchable={false}
